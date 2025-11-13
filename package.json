@@ -1,0 +1,44 @@
+{
+  "name": "foundation",
+  "type": "module",
+  "license": "MIT",
+  "version": "0.0.1",
+  "author": {
+    "name": "Alex Thorwaldson",
+    "email": "alex@zoobz.io",
+    "url": "https://zoobz.io"
+  },
+  "main": "./nuxt.config.ts",
+  "exports": {
+    ".": "./nuxt.config.ts",
+    "./theme": "./theme/index.ts",
+    "./theme/*": "./theme/*"
+  },
+  "scripts": {
+    "dev": "nuxi dev",
+    "lint": "eslint .",
+    "typecheck": "nuxi typecheck",
+    "prepare": "nuxi prepare"
+  },
+  "packageManager": "pnpm@9.10.0+sha512.73a29afa36a0d092ece5271de5177ecbf8318d454ecd701343131b8ebc0c1a91c487da46ab77c8e596d6acf1461e3594ced4becedf8921b074fbd8653ed7051c",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "dependencies": {
+    "@nuxt/content": "^3.8.0",
+    "@pinia/nuxt": "^0.11.3",
+    "better-sqlite3": "^12.4.1",
+    "defu": "^6.1.4",
+    "nuxt": "^4.2.0",
+    "pinia": "^3.0.4",
+    "reka-ui": "^2.6.0",
+    "shiki": "^3.15.0"
+  },
+  "devDependencies": {
+    "@iconify-json/circle-flags": "^1.2.10",
+    "@iconify-json/ic": "^1.2.4",
+    "@unocss/nuxt": "^66.5.5",
+    "typescript": "^5.9.3",
+    "unocss": "^66.5.5"
+  }
+}

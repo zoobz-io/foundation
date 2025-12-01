@@ -31,3 +31,9 @@ const styles = useTokenStyle(tokens);
     </AvatarFallback>
   </AvatarRoot>
 </template>
+
+<style>
+@import '#build/untheme/avatar-root.css';
+@import '#build/untheme/avatar-image.css';
+@import '#build/untheme/avatar-fallback.css';
+</style>

@@ -42,3 +42,7 @@ const styles = useTokenStyle(tokens);
     </TooltipPortal>
   </TooltipRoot>
 </template>
+
+<style>
+@import '#build/untheme/tooltip-content.css';
+</style>

@@ -16,25 +16,22 @@ const copyCode = async () => {
 </script>
 
 <template>
-  <Pre
-    :tokens="{
-      pre: {
-        position: 'ref-position-relative',
-      },
-    }"
-  >
-    <Button
-      :tokens="{
-        button: {
-          position: 'ref-position-absolute',
-          top: 'ref-position-zero',
-          right: 'ref-position-zero',
-        },
-      }"
-      @click="copyCode"
-    >
+  <Pre>
+    <Button class="f-prose-pre" @click="copyCode">
       <Icon :alias="copied ? 'check' : 'copy'" />
     </Button>
     <slot />
   </Pre>
 </template>
+
+<style>
+.f-pre {
+  position: relative;
+}
+
+.f-pre .f-prose-pre {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+</style>

@@ -15,3 +15,7 @@ const styles = useTokenStyle(tokens);
     <slot />
   </aside>
 </template>
+
+<style>
+@import '#build/untheme/aside.css';
+</style>

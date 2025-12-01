@@ -63,3 +63,13 @@ const formatDate = (dateString: string) => {
     </NuxtLink>
   </div>
 </template>
+
+<style>
+@import '#build/untheme/content-grid.css';
+@import '#build/untheme/content-grid-item.css';
+@import '#build/untheme/content-grid-title.css';
+@import '#build/untheme/content-grid-description.css';
+@import '#build/untheme/content-grid-meta.css';
+@import '#build/untheme/content-grid-author.css';
+@import '#build/untheme/content-grid-published.css';
+</style>

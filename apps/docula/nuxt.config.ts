@@ -6,7 +6,15 @@ import proseElements from "@foundation/prose/elements";
 export default defineNuxtConfig({
   compatibilityDate: "2025-11-17",
   extends: ["@foundation/prose"],
-  modules: ["nuxt-typed-router"],
+  modules: ["nuxt-typed-router", "nuxt-security"],
+  app: {
+    head: {
+      title: "Docula",
+      meta: [
+        { name: "description", content: "Documentation site built with Foundation" }
+      ]
+    }
+  },
   untheme: {
     elements: {
       // Interactive elements
@@ -159,7 +167,6 @@ export default defineNuxtConfig({
         text: "sys-on-surface",
         "border-color": "ref-color-transparent",
         width: "ref-full",
-        height: "ref-full",
       }),
       header: elements.header({
         background: "sys-surface",
@@ -204,6 +211,7 @@ export default defineNuxtConfig({
         "margin-left": "ref-auto",
         "margin-right": "ref-auto",
         display: "ref-display-grid",
+        "grid-template-columns": "ref-full",
         "grid-template-rows": "ref-grid-rows-header-content-footer",
       }),
       section: elements.section({

@@ -58,18 +58,22 @@ const formattedDate = computed(() => {
           </span>
         </template>
       </div>
-      <Group
+      <div
         v-if="tags?.length"
-        :tokens="{
-          group: {
-            gap: 'ref-spacing-xs',
-            'flex-wrap': 'ref-flex-wrap',
-            'justify-content': 'ref-align-end',
-          },
-        }"
+        :style="styles['attribution-tags']"
+        class="f-attribution-tags"
       >
         <Chip v-for="tag in tags" :key="tag" :label="tag" />
-      </Group>
+      </div>
     </div>
   </div>
 </template>
+
+<style>
+@import '#build/untheme/attribution-root.css';
+@import '#build/untheme/attribution-container.css';
+@import '#build/untheme/attribution-meta.css';
+@import '#build/untheme/attribution-author.css';
+@import '#build/untheme/attribution-published.css';
+@import '#build/untheme/attribution-tags.css';
+</style>

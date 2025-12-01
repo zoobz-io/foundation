@@ -35,3 +35,7 @@ const styles = useTokenStyle(tokens);
     </slot>
   </NuxtLink>
 </template>
+
+<style>
+@import '#build/untheme/a.css';
+</style>

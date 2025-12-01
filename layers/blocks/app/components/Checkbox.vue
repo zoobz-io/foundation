@@ -36,3 +36,8 @@ const styles = useTokenStyle(tokens);
     </CheckboxIndicator>
   </CheckboxRoot>
 </template>
+
+<style>
+@import '#build/untheme/checkbox-root.css';
+@import '#build/untheme/checkbox-indicator.css';
+</style>

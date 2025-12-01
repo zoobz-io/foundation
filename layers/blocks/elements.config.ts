@@ -24,6 +24,7 @@ export default {
   breadcrumbsItem: defineElement("flexbox"),
   breadcrumbsLink: defineElement("flexbox", "interactive", "disabled", "animated"),
   breadcrumbsCurrent: defineElement("flexbox"),
+  breadcrumbsSeparator: defineElement("flexbox"),
   button: defineElement("interactive", "animated", "positioned", "transform"),
   caption: defineElement("flexbox"),
   card: defineElement("overflow"),
@@ -91,6 +92,7 @@ export default {
   treeRoot: defineElement("overflow"),
   treeBranch: defineElement("flexbox", "interactive", "open", "animated"),
   treeBranchContent: defineElement("flexbox"),
+  treeBranchLabel: defineElement("flexbox"),
   treeLeaf: defineElement(
     "flexbox",
     "interactive",

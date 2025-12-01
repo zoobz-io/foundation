@@ -15,3 +15,7 @@ const styles = useTokenStyle(tokens);
     <slot />
   </ol>
 </template>
+
+<style>
+@import '#build/untheme/ol.css';
+</style>

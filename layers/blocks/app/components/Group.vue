@@ -15,3 +15,7 @@ const styles = useTokenStyle(tokens);
     <slot />
   </div>
 </template>
+
+<style>
+@import '#build/untheme/group.css';
+</style>

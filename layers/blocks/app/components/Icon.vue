@@ -24,3 +24,7 @@ const styles = useTokenStyle(tokens);
     v-html="icon"
   />
 </template>
+
+<style>
+@import '#build/untheme/icon.css';
+</style>

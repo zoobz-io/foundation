@@ -40,6 +40,7 @@ if (shortcut) {
     ref="button"
     :disabled="disabled"
     :type="type"
+    :aria-label="label"
     :style="styles.button"
     class="f-button"
   >
@@ -50,3 +51,7 @@ if (shortcut) {
     <slot name="append" />
   </button>
 </template>
+
+<style>
+@import "#build/untheme/button.css";
+</style>

@@ -15,3 +15,7 @@ const styles = useTokenStyle(tokens);
     <slot />
   </nav>
 </template>
+
+<style>
+@import '#build/untheme/nav.css';
+</style>

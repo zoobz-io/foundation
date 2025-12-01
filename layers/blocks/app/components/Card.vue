@@ -13,3 +13,7 @@ const styles = useTokenStyle(tokens);
     <slot />
   </div>
 </template>
+
+<style>
+@import '#build/untheme/card.css';
+</style>

@@ -16,3 +16,7 @@ const styles = useTokenStyle(tokens);
     <slot>{{ label }}</slot>
   </span>
 </template>
+
+<style>
+@import '#build/untheme/chip.css';
+</style>

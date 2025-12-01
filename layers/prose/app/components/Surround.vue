@@ -66,3 +66,13 @@ const styles = useTokenStyle(tokens);
     </NuxtLink>
   </nav>
 </template>
+
+<style>
+@import '#build/untheme/surround-root.css';
+@import '#build/untheme/surround-prev.css';
+@import '#build/untheme/surround-next.css';
+@import '#build/untheme/surround-label.css';
+@import '#build/untheme/surround-title.css';
+@import '#build/untheme/surround-prev-description.css';
+@import '#build/untheme/surround-next-description.css';
+</style>

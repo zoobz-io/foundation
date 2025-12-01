@@ -1,29 +1,25 @@
 import { defineNuxtPlugin, useHead } from "#app";
-import { computed } from "vue";
+import { watch } from "vue";
 import { useUntheme } from "./composables";
-import { keys } from "./utils";
 
 export default defineNuxtPlugin(() => {
-  const { tokens, resolve } = useUntheme();
+  const { mode } = useUntheme();
 
-  const cssVariables = computed(() => {
-    const declarations = keys(tokens.value)
-      .filter((token) => !token.startsWith("ref-"))
-      .map((token) => {
-        const value = resolve(token);
-        return value === null ? null : `--${token}: ${value};`;
-      })
-      .filter(Boolean);
-
-    return `:root {\n${declarations.join("\n")}\n}`;
-  });
-
+  // Set initial class via useHead for SSR
   useHead({
-    style: [
-      {
-        innerHTML: () => cssVariables.value,
-        tagPriority: "high",
-      },
-    ],
+    htmlAttrs: {
+      class: mode.value === "dark" ? "dark" : "",
+    },
   });
+
+  // Direct DOM updates on client for instant mode switching
+  if (import.meta.client) {
+    watch(mode, (newMode) => {
+      if (newMode === "dark") {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+    }, { flush: 'sync' });
+  }
 });

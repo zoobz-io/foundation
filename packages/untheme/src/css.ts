@@ -18,16 +18,12 @@ const getCSSProperty = (tokenProp: string): string => {
 const stateSuffixes = ["-hover", "-active", "-focus"] as const;
 
 /**
- * Extract transition properties from tokens that have state variants with non-null values.
- * Only includes properties that will actually animate (have non-null state values).
+ * Extract transition properties from tokens that have state variants.
  */
 const getTransitionProperties = (roleTokens: Record<string, string | null>): string[] => {
   const transitionProps = new Set<string>();
 
-  for (const [prop, value] of Object.entries(roleTokens)) {
-    // Skip null values - they won't generate CSS so shouldn't transition
-    if (value === null) continue;
-
+  for (const prop of Object.keys(roleTokens)) {
     // Check if this is a state token
     for (const suffix of stateSuffixes) {
       if (prop.endsWith(suffix)) {
@@ -68,9 +64,6 @@ const getRoleFeatures = (roleTokens: Record<string, string | null>) => {
 const generateBaseCSS = (elementName: string, roleTokens: Record<string, string | null>) => {
   const features = getRoleFeatures(roleTokens);
   const css: Record<string, string> = {};
-
-  // Enable smooth theme transitions
-  css["will-change"] = "color, background-color";
 
   for (const prop of Object.keys(roleTokens)) {
     if (
@@ -174,22 +167,3 @@ export const generateElementCSS = (elementName: string, elementTokens: Record<st
   return buildCSS([{ selector: `.f-${elementName}`, props: baseCSS }, ...cssBlocks]);
 };
 
-/**
- * Generate CSS for all elements
- */
-export const generateAllElementsCSS = (elements: Record<string, Record<string, string | null>>): string => {
-  const reset = `* {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font: inherit;
-  vertical-align: baseline;
-  box-sizing: border-box;
-}`;
-
-  const elementCSS = Object.entries(elements)
-    .map(([name, tokens]) => generateElementCSS(name, tokens))
-    .join("\n\n");
-
-  return `${reset}\n\n${elementCSS}`;
-};

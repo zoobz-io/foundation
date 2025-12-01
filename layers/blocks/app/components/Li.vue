@@ -15,3 +15,7 @@ const styles = useTokenStyle(tokens);
     <slot />
   </li>
 </template>
+
+<style>
+@import '#build/untheme/li.css';
+</style>

@@ -74,3 +74,10 @@ const styles = useTokenStyle(tokens);
     </PopoverPortal>
   </PopoverRoot>
 </template>
+
+<style>
+@import '#build/untheme/popover-trigger.css';
+@import '#build/untheme/popover-content.css';
+@import '#build/untheme/popover-arrow.css';
+@import '#build/untheme/popover-close.css';
+</style>

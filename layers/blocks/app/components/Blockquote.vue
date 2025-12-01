@@ -15,3 +15,7 @@ const styles = useTokenStyle(tokens);
     <slot />
   </blockquote>
 </template>
+
+<style>
+@import '#build/untheme/blockquote.css';
+</style>

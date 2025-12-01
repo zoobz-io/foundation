@@ -81,3 +81,11 @@ const styles = useTokenStyle(tokens);
     />
   </TagsInputRoot>
 </template>
+
+<style>
+@import '#build/untheme/tags-input-root.css';
+@import '#build/untheme/tags-input-item.css';
+@import '#build/untheme/tags-input-item-text.css';
+@import '#build/untheme/tags-input-item-delete.css';
+@import '#build/untheme/tags-input-input.css';
+</style>

@@ -97,7 +97,7 @@ const getItemStyle = (depth: number) => {
         v-for="link in flatLinks"
         :key="link.id"
         :to="`#${link.id}`"
-        :aria-selected="activeId === link.id"
+        :aria-selected="activeId === link.id ? 'true' : undefined"
         :style="getItemStyle(link.depth)"
         class="f-toc-item"
       >
@@ -108,3 +108,9 @@ const getItemStyle = (depth: number) => {
     </div>
   </nav>
 </template>
+
+<style>
+@import '#build/untheme/toc-root.css';
+@import '#build/untheme/toc-content.css';
+@import '#build/untheme/toc-item.css';
+</style>

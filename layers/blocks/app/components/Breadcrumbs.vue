@@ -14,6 +14,7 @@ export interface BreadcrumbsProps {
     | "breadcrumbs-item"
     | "breadcrumbs-link"
     | "breadcrumbs-current"
+    | "breadcrumbs-separator"
   >;
 }
 </script>
@@ -75,13 +76,25 @@ const isLast = (index: number) => index === items.length - 1;
           </slot>
         </NuxtLink>
 
-        <slot v-if="!isLast(index)" name="separator">
-          <Icon
-            :alias="separator"
-            :tokens="{ icon: { text: 'ref-slate-500' } }"
-          />
-        </slot>
+        <span
+          v-if="!isLast(index)"
+          :style="styles['breadcrumbs-separator']"
+          class="f-breadcrumbs-separator"
+        >
+          <slot name="separator">
+            <Icon :alias="separator" />
+          </slot>
+        </span>
       </li>
     </ol>
   </nav>
 </template>
+
+<style>
+@import '#build/untheme/breadcrumbs-root.css';
+@import '#build/untheme/breadcrumbs-list.css';
+@import '#build/untheme/breadcrumbs-item.css';
+@import '#build/untheme/breadcrumbs-link.css';
+@import '#build/untheme/breadcrumbs-current.css';
+@import '#build/untheme/breadcrumbs-separator.css';
+</style>

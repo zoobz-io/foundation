@@ -191,3 +191,18 @@ const styles = useTokenStyle(tokens);
     </div>
   </NavigationMenuRoot>
 </template>
+
+<style>
+@import '#build/untheme/navigator-root.css';
+@import '#build/untheme/navigator-list.css';
+@import '#build/untheme/navigator-item.css';
+@import '#build/untheme/navigator-trigger.css';
+@import '#build/untheme/navigator-link.css';
+@import '#build/untheme/navigator-content.css';
+@import '#build/untheme/navigator-viewport.css';
+@import '#build/untheme/navigator-viewport-wrapper.css';
+@import '#build/untheme/navigator-indicator.css';
+@import '#build/untheme/navigator-grid.css';
+@import '#build/untheme/navigator-card.css';
+@import '#build/untheme/navigator-featured.css';
+</style>

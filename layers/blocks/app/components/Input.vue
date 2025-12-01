@@ -36,3 +36,7 @@ const styles = useTokenStyle(tokens);
     class="f-input"
   />
 </template>
+
+<style>
+@import '#build/untheme/input.css';
+</style>

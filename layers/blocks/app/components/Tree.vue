@@ -18,6 +18,7 @@ export interface TreeProps {
     | "tree-root"
     | "tree-branch"
     | "tree-branch-content"
+    | "tree-branch-label"
     | "tree-leaf"
     | "tree-leaf-content"
   >;
@@ -92,10 +93,10 @@ const NuxtLinkComponent = defineNuxtLink({});
           class="f-tree-branch-content"
         >
           <slot name="branch" :item="item.value" :is-expanded="isExpanded">
-            <Group :tokens="{ group: { gap: 'ref-spacing-xs' } }">
+            <div class="f-tree-branch-label" :style="styles['tree-branch-label']">
               <Icon v-if="item.value.icon" :alias="item.value.icon" />
               <span>{{ item.value.label }}</span>
-            </Group>
+            </div>
             <Icon :alias="isExpanded ? 'chevron-down' : 'chevron-right'" />
           </slot>
         </span>
@@ -118,3 +119,12 @@ const NuxtLinkComponent = defineNuxtLink({});
     </template>
   </TreeRoot>
 </template>
+
+<style>
+@import '#build/untheme/tree-root.css';
+@import '#build/untheme/tree-branch.css';
+@import '#build/untheme/tree-branch-content.css';
+@import '#build/untheme/tree-branch-label.css';
+@import '#build/untheme/tree-leaf.css';
+@import '#build/untheme/tree-leaf-content.css';
+</style>

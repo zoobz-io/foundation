@@ -15,3 +15,7 @@ const styles = useTokenStyle(tokens);
     <slot />
   </footer>
 </template>
+
+<style>
+@import '#build/untheme/footer.css';
+</style>

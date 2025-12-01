@@ -28,6 +28,7 @@ export default defineNuxtConfig({
       "surround-title": elements.surroundTitle({}),
       "surround-prev-description": elements.surroundPrevDescription({}),
       "surround-next-description": elements.surroundNextDescription({}),
+      "content-filters-section": elements.contentFiltersSection({}),
     },
   },
 });

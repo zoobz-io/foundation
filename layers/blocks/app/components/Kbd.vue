@@ -15,3 +15,7 @@ const styles = useTokenStyle(tokens);
     <slot />
   </kbd>
 </template>
+
+<style>
+@import '#build/untheme/kbd.css';
+</style>

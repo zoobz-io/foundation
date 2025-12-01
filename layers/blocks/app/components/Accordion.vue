@@ -79,3 +79,12 @@ const styles = useTokenStyle(tokens);
     </AccordionItem>
   </AccordionRoot>
 </template>
+
+<style>
+@import '#build/untheme/accordion-root.css';
+@import '#build/untheme/accordion-item.css';
+@import '#build/untheme/accordion-header.css';
+@import '#build/untheme/accordion-trigger.css';
+@import '#build/untheme/accordion-trigger-content.css';
+@import '#build/untheme/accordion-content.css';
+</style>

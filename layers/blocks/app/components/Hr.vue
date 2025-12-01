@@ -13,3 +13,7 @@ const styles = useTokenStyle(tokens);
 <template>
   <hr :style="styles.hr" class="f-hr" />
 </template>
+
+<style>
+@import '#build/untheme/hr.css';
+</style>

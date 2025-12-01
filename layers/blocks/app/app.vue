@@ -1,15 +1,17 @@
 <script setup lang="ts">
 const useIdFunction = () => useId();
-const { resolve } = useUntheme();
+
+useHead({
+  htmlAttrs: {
+    lang: 'en'
+  }
+});
 </script>
 
 <template>
   <ConfigProvider :use-id="useIdFunction">
     <TooltipProvider>
-      <NuxtLoadingIndicator
-        :color="resolve('sys-primary') ?? undefined"
-        :threshold="0"
-      />
+      <NuxtLoadingIndicator color="var(--sys-primary)" :threshold="0" />
       <NuxtLayout>
         <NuxtPage />
       </NuxtLayout>

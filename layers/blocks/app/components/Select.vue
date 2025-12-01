@@ -68,3 +68,10 @@ const styles = useTokenStyle(tokens);
     </SelectContent>
   </SelectRoot>
 </template>
+
+<style>
+@import '#build/untheme/select-root.css';
+@import '#build/untheme/select-trigger.css';
+@import '#build/untheme/select-content.css';
+@import '#build/untheme/select-item.css';
+</style>

@@ -17,3 +17,7 @@ const styles = useTokenStyle(tokens);
     <slot />
   </div>
 </template>
+
+<style>
+@import '#build/untheme/caption.css';
+</style>

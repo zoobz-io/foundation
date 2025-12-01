@@ -91,6 +91,7 @@ export default defineNuxtConfig({
       "breadcrumbs-item": elements.breadcrumbsItem({}),
       "breadcrumbs-link": elements.breadcrumbsLink({}),
       "breadcrumbs-current": elements.breadcrumbsCurrent({}),
+      "breadcrumbs-separator": elements.breadcrumbsSeparator({}),
 
       // Checkbox
       "checkbox-root": elements.checkboxRoot({}),
@@ -139,6 +140,7 @@ export default defineNuxtConfig({
       "tree-root": elements.treeRoot({}),
       "tree-branch": elements.treeBranch({}),
       "tree-branch-content": elements.treeBranchContent({}),
+      "tree-branch-label": elements.treeBranchLabel({}),
       "tree-leaf": elements.treeLeaf({}),
       "tree-leaf-content": elements.treeLeafContent({}),
 

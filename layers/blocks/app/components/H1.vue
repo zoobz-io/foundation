@@ -15,3 +15,7 @@ const styles = useTokenStyle(tokens);
     <slot />
   </h1>
 </template>
+
+<style>
+@import '#build/untheme/h1.css';
+</style>

@@ -13,3 +13,7 @@ const styles = useTokenStyle(tokens);
 <template>
   <pre :style="styles.pre" class="f-pre"><slot /></pre>
 </template>
+
+<style>
+@import '#build/untheme/pre.css';
+</style>

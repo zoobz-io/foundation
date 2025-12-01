@@ -47,3 +47,10 @@ const styles = useTokenStyle(tokens);
     </TabsContent>
   </TabsRoot>
 </template>
+
+<style>
+@import '#build/untheme/tabs-root.css';
+@import '#build/untheme/tabs-list.css';
+@import '#build/untheme/tabs-trigger.css';
+@import '#build/untheme/tabs-content.css';
+</style>

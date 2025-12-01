@@ -61,3 +61,9 @@ const handleUpdate = (value: string | string[]) => {
     </ListboxContent>
   </ListboxRoot>
 </template>
+
+<style>
+@import '#build/untheme/listbox-root.css';
+@import '#build/untheme/listbox-content.css';
+@import '#build/untheme/listbox-item.css';
+</style>

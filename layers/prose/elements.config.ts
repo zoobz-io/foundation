@@ -29,4 +29,5 @@ export default {
   surroundTitle: defineElement(),
   surroundPrevDescription: defineElement(),
   surroundNextDescription: defineElement(),
+  contentFiltersSection: defineElement("flexbox"),
 };

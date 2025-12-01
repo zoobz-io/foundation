@@ -21,6 +21,7 @@
     "@iconify-json/circle-flags": "^1.2.10",
     "@iconify-json/ic": "^1.2.4",
     "nuxt": "catalog:",
+    "nuxt-security": "^2.5.0",
     "nuxt-typed-router": "^4.0.2",
     "typescript": "catalog:"
   }

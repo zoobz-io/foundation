@@ -32,3 +32,8 @@ const styles = useTokenStyle(tokens);
     </DialogPortal>
   </DialogRoot>
 </template>
+
+<style>
+@import '#build/untheme/dialog-overlay.css';
+@import '#build/untheme/dialog-content.css';
+</style>

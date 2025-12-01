@@ -15,3 +15,7 @@ const styles = useTokenStyle(tokens);
     <slot />
   </del>
 </template>
+
+<style>
+@import '#build/untheme/del.css';
+</style>

@@ -1,9 +1,12 @@
 <script setup lang="ts">
 export interface ContentFiltersProps {
   collection: string;
+  tokens?: Tokens<"content-filters-section">;
 }
 
-const { collection } = defineProps<ContentFiltersProps>();
+const { collection, tokens } = defineProps<ContentFiltersProps>();
+
+const styles = useTokenStyle(tokens);
 
 // Placeholder data - will be dynamic later
 const searchQuery = ref("");
@@ -26,17 +29,9 @@ const sortOptions = [
   </Caption>
 
   <!-- Query Section -->
-  <Group
-    :tokens="{
-      group: {
-        width: 'ref-full',
-        'flex-direction': 'ref-flex-col',
-        'align-items': 'ref-align-start',
-        gap: 'ref-spacing-xs',
-        'padding-left': 'ref-spacing-md',
-        'padding-right': 'ref-spacing-md',
-      },
-    }"
+  <div
+    :style="styles['content-filters-section']"
+    class="f-content-filters-section"
   >
     <FormLabel for="search">Search</FormLabel>
     <Input
@@ -44,16 +39,14 @@ const sortOptions = [
       v-model="searchQuery"
       type="search"
       placeholder="Search content..."
-      :tokens="{ input: { width: 'ref-size-full' } }"
     />
     <FormLabel for="tags">Tags</FormLabel>
     <TagsInput
       id="tags"
       v-model="tags"
       placeholder="Add tags..."
-      :tokens="{ 'tags-input-root': { width: 'ref-size-full' } }"
     />
-  </Group>
+  </div>
 
   <!-- Sort Header -->
   <Caption>
@@ -62,24 +55,19 @@ const sortOptions = [
   </Caption>
 
   <!-- Sort Section -->
-  <Group
-    :tokens="{
-      group: {
-        width: 'ref-full',
-        'flex-direction': 'ref-flex-col',
-        'align-items': 'ref-align-start',
-        gap: 'ref-spacing-xs',
-        'padding-left': 'ref-spacing-md',
-        'padding-right': 'ref-spacing-md',
-      },
-    }"
+  <div
+    :style="styles['content-filters-section']"
+    class="f-content-filters-section"
   >
     <FormLabel for="sort">Sort By</FormLabel>
     <Select
       id="sort"
       v-model="sortBy"
       :options="sortOptions"
-      :tokens="{ select: { width: 'ref-size-full' } }"
     />
-  </Group>
+  </div>
 </template>
+
+<style>
+@import '#build/untheme/content-filters-section.css';
+</style>

@@ -1,8 +1,4 @@
-import type { nav } from "../../elements.config";
-
-export type NavProps = {
-  tokens?: Tokens<typeof nav.key>;
-};
+export type NavProps = {};
 
 export type NavEmits = {};
 

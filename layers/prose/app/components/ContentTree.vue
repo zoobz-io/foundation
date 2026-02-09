@@ -1,26 +1,15 @@
 <script lang="ts">
 import type { PageCollections } from "@nuxt/content";
-import type { caption } from "@foundation/blocks/elements";
-import type { navList } from "../../elements.config";
 import type { NavListGroup } from "./NavList.vue";
 
 export interface ContentTreeProps {
   collection: keyof PageCollections;
   title?: string;
-  icon?: IconAlias;
-  tokens?: Tokens<
-    | typeof caption.key
-    | typeof navList.root
-    | typeof navList.group
-    | typeof navList.item
-  >;
-}
+  icon?: IconAlias;}
 </script>
 
 <script setup lang="ts">
 const props = defineProps<ContentTreeProps>();
-
-const styles = useTokenStyle(props.tokens);
 
 const appConfig = useAppConfig();
 const navIcons = computed(() => appConfig.collection?.navIcons ?? {});
@@ -51,8 +40,8 @@ const groups = computed<NavListGroup[]>(() => {
 </script>
 
 <template>
-  <Caption v-if="props.title" :icon="props.icon" :tokens="props.tokens">
+  <Caption v-if="props.title" :icon="props.icon">
     {{ props.title }}
   </Caption>
-  <NavList :groups="groups" :tokens="props.tokens" />
+  <NavList :groups="groups" />
 </template>

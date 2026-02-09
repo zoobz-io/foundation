@@ -1,0 +1,86 @@
+.f-content-grid-root {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--ref-spacing-none);
+}
+
+.f-content-grid-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--ref-spacing-xs);
+  padding-top: var(--ref-spacing-md);
+  padding-right: var(--ref-spacing-lg);
+  padding-bottom: var(--ref-spacing-md);
+  padding-left: var(--ref-spacing-lg);
+  text-decoration: none;
+  border-top-width: var(--ref-border-width-thin);
+  border-right-width: var(--ref-border-width-thin);
+  border-bottom-width: var(--ref-border-width-thin);
+  border-left-width: var(--ref-border-width-thin);
+  border-top-style: solid;
+  border-right-style: solid;
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-color: var(--ref-color-transparent);
+  cursor: pointer;
+  transition-duration: var(--ref-duration-fast);
+  transition-timing-function: var(--ref-ease-out);
+}
+
+.f-content-grid-item:hover {
+  border-color: var(--sys-outline);
+  background: var(--sys-hover);
+}
+
+.f-content-grid-item:active {
+  border-color: var(--sys-outline);
+}
+
+.f-content-grid-item:focus-visible {
+  border-color: var(--sys-outline);
+  background: var(--sys-hover);
+  box-shadow: var(--ref-shadow-focus-inset);
+}
+
+.f-content-grid-title {
+  color: var(--sys-on-surface);
+  font-size: var(--ref-text-base);
+  font-weight: var(--ref-font-bold);
+}
+
+.f-content-grid-description {
+  color: var(--sys-on-surface-variant);
+  font-size: var(--ref-text-sm);
+  font-weight: var(--ref-font-normal);
+}
+
+.f-content-grid-meta {
+  display: flex;
+  flex-direction: row;
+  gap: var(--ref-spacing-sm);
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.f-content-grid-author {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ref-spacing-2xs);
+  color: var(--sys-on-surface-variant);
+  font-size: var(--ref-text-xs);
+  font-weight: var(--ref-font-normal);
+  white-space: nowrap;
+}
+
+.f-content-grid-published {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ref-spacing-2xs);
+  color: var(--sys-on-surface-variant);
+  font-size: var(--ref-text-xs);
+  font-weight: var(--ref-font-normal);
+  white-space: nowrap;
+}

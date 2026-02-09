@@ -28,7 +28,6 @@ const toggle = () => {
         {{ modKey }}
         <Icon
           alias="plus"
-          :tokens="{ icon: { 'font-size': 'ref-text-2xs' } }"
         />
         D
       </Kbd>

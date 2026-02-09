@@ -1,8 +1,4 @@
-import type { code } from "../../elements.config";
-
-export type CodeProps = {
-  tokens?: Tokens<typeof code.key>;
-};
+export type CodeProps = {};
 
 export type CodeEmits = {};
 

@@ -4,19 +4,11 @@ const { collection } = useAppConfig();
 
 <template>
   <VersionBanner />
-  <Main
-    :tokens="{
-      main: {
-        'grid-template-columns': 'ref-layout-nav-content',
-        'grid-template-rows': 'ref-layout-shell-header-content',
-      },
-    }"
-  >
+  <Main>
     <TopBar />
     <Left border>
       <ContentTree v-if="collection?.key" :collection="collection.key" />
     </Left>
     <slot />
-    <Footer> Test </Footer>
   </Main>
 </template>

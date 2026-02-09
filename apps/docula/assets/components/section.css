@@ -1,0 +1,11 @@
+.f-section {
+  background: var(--ref-color-transparent);
+  color: var(--sys-on-surface);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ref-spacing-lg);
+  padding-right: var(--ref-spacing-lg);
+  padding-bottom: var(--ref-spacing-lg);
+  padding-left: var(--ref-spacing-lg);
+  min-width: 0;
+}

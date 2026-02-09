@@ -1,0 +1,86 @@
+.f-content-search-root {
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  overflow-y: hidden;
+}
+
+.f-content-search-status {
+  color: var(--sys-on-surface-variant);
+  font-size: var(--ref-text-sm);
+  text-align: center;
+  padding-top: var(--ref-spacing-md);
+  padding-bottom: var(--ref-spacing-md);
+}
+
+.f-content-search-results {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.f-content-search-result {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--ref-spacing-xs);
+  padding-top: var(--ref-spacing-sm);
+  padding-right: var(--ref-spacing-md);
+  padding-bottom: var(--ref-spacing-sm);
+  padding-left: var(--ref-spacing-md);
+  background: var(--ref-color-transparent);
+  cursor: pointer;
+  text-align: start;
+  width: 100%;
+  transition-duration: var(--ref-duration-fast);
+  transition-timing-function: var(--ref-ease-out);
+}
+
+.f-content-search-result:hover {
+  background: var(--sys-hover);
+}
+
+.f-content-search-result:focus-visible {
+  box-shadow: var(--ref-shadow-focus-inset);
+}
+
+.f-content-search-result-title {
+  color: var(--sys-on-surface);
+  font-size: var(--ref-text-sm);
+  font-weight: var(--ref-font-bold);
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
+.f-content-search-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.f-content-search-group-title {
+  color: var(--sys-on-surface-variant);
+  font-size: var(--ref-text-xs);
+  font-weight: var(--ref-font-bold);
+  padding-top: var(--ref-spacing-sm);
+  padding-right: var(--ref-spacing-md);
+  padding-bottom: var(--ref-spacing-xs);
+  padding-left: var(--ref-spacing-md);
+}
+
+.f-content-search-result-separator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sys-on-surface-variant);
+}
+
+.f-content-search-result-date {
+  color: var(--sys-on-surface-variant);
+  font-size: var(--ref-text-xs);
+  margin-left: auto;
+  white-space: nowrap;
+}

@@ -1,19 +1,15 @@
 <script setup lang="ts">
 import type { IconProps } from "../types/icon";
 
-const { alias, tokens } = defineProps<IconProps>();
+const { alias } = defineProps<IconProps>();
 
 const icon = computed(() => useIconAlias(alias));
 
-const tokenStyles = useTokenStyle(tokens);
-
 const iconStyle = computed(() => {
-  const base = tokenStyles.value.icon ?? {};
   const { uri, mode } = icon.value;
 
   if (mode === "mask") {
     return {
-      ...base,
       maskImage: `url("${uri}")`,
       maskRepeat: "no-repeat",
       maskPosition: "center",
@@ -27,7 +23,6 @@ const iconStyle = computed(() => {
   }
 
   return {
-    ...base,
     backgroundImage: `url("${uri}")`,
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
@@ -40,6 +35,3 @@ const iconStyle = computed(() => {
   <i class="f-icon" :style="iconStyle" />
 </template>
 
-<style>
-@import '#build/untheme/icon.css';
-</style>

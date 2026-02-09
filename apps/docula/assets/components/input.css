@@ -1,0 +1,57 @@
+.f-input-root {
+  display: flex;
+  align-items: center;
+  gap: var(--ref-spacing-xs);
+  background: var(--sys-surface);
+  padding-top: var(--ref-spacing-xs);
+  padding-right: var(--ref-spacing-sm);
+  padding-bottom: var(--ref-spacing-xs);
+  padding-left: var(--ref-spacing-sm);
+  border-top-width: var(--ref-border-width-thin);
+  border-right-width: var(--ref-border-width-thin);
+  border-bottom-width: var(--ref-border-width-thin);
+  border-left-width: var(--ref-border-width-thin);
+  border-top-style: solid;
+  border-right-style: solid;
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-color: var(--sys-outline);
+  width: 100%;
+}
+
+.f-input-root:hover {
+  border-color: var(--sys-outline);
+  background: var(--sys-hover);
+}
+
+.f-input-root:active {
+  border-color: var(--sys-outline);
+  background: var(--sys-surface);
+}
+
+.f-input-root:focus-visible {
+  border-color: var(--sys-outline);
+  background: var(--sys-surface);
+  box-shadow: var(--ref-shadow-focus-inset);
+}
+
+.f-input-prepend {
+  display: flex;
+  align-items: center;
+  color: var(--sys-on-surface-variant);
+}
+
+.f-input-input {
+  background: var(--ref-color-transparent);
+  color: var(--sys-on-surface);
+  font-size: var(--ref-text-base);
+  font-weight: var(--ref-font-bold);
+  flex-grow: 1;
+  min-width: var(--ref-spacing-none);
+}
+
+.f-input-append {
+  display: flex;
+  align-items: center;
+  color: var(--sys-on-surface-variant);
+}

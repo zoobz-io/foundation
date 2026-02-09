@@ -7,10 +7,8 @@ const {
   side = "bottom",
   align = "center",
   sideOffset = 10,
-  tokens,
 } = defineProps<TooltipProps>();
 
-const styles = useTokenStyle(tokens);
 </script>
 
 <template>
@@ -23,7 +21,6 @@ const styles = useTokenStyle(tokens);
         :side="side"
         :align="align"
         :side-offset="sideOffset"
-        :style="styles['tooltip-content']"
         class="f-tooltip-content"
       >
         <slot name="content">
@@ -34,6 +31,3 @@ const styles = useTokenStyle(tokens);
   </TooltipRoot>
 </template>
 
-<style>
-@import '#build/untheme/tooltip-content.css';
-</style>

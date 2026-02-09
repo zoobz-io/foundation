@@ -1,0 +1,19 @@
+.f-header {
+  background: var(--sys-surface);
+  color: var(--sys-on-surface);
+  gap: var(--ref-spacing-md);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-column: 1 / -1;
+  align-items: center;
+  border-bottom-style: solid;
+  border-bottom-width: var(--ref-border-width-thin);
+  border-color: var(--sys-outline);
+  width: 100%;
+  height: var(--ref-height-header);
+  padding-left: var(--ref-spacing-md);
+  padding-right: var(--ref-spacing-md);
+  position: sticky;
+  top: 0;
+  z-index: var(--ref-z-sticky);
+}

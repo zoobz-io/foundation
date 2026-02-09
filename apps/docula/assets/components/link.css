@@ -1,0 +1,8 @@
+.f-link {
+  color: var(--sys-primary);
+  text-decoration: 0;
+}
+
+.f-link:hover {
+  color: var(--sys-primary-hover);
+}

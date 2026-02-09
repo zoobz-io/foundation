@@ -1,0 +1,49 @@
+.f-button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ref-spacing-xs);
+  background: var(--sys-primary);
+  color: var(--sys-on-primary);
+  font-size: var(--ref-text-base);
+  font-weight: var(--ref-font-bold);
+  white-space: nowrap;
+  padding-left: var(--ref-spacing-sm);
+  padding-right: var(--ref-spacing-sm);
+  padding-top: var(--ref-spacing-xs);
+  padding-bottom: var(--ref-spacing-xs);
+  border-top-width: var(--ref-border-width-thin);
+  border-right-width: var(--ref-border-width-thin);
+  border-bottom-width: var(--ref-border-width-thin);
+  border-left-width: var(--ref-border-width-thin);
+  border-top-style: solid;
+  border-right-style: solid;
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-color: var(--sys-outline);
+  cursor: pointer;
+}
+
+.f-button:not(:disabled):not([data-disabled]):hover {
+  background: var(--sys-primary-hover);
+  color: var(--sys-on-primary);
+  font-weight: var(--ref-font-bold);
+}
+
+.f-button:not(:disabled):not([data-disabled]):active {
+  background: var(--sys-primary-active);
+  color: var(--sys-on-primary);
+  font-weight: var(--ref-font-bold);
+}
+
+.f-button:not(:disabled):not([data-disabled]):focus-visible {
+  background: var(--sys-primary);
+  color: var(--sys-on-primary);
+  font-weight: var(--ref-font-bold);
+  box-shadow: var(--ref-shadow-focus-ring);
+}
+
+.f-button:disabled,
+.f-button[data-disabled] {
+  opacity: 0.5;
+  cursor: default;
+}

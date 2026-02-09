@@ -1,5 +1,3 @@
-import type { command } from "../../elements.config";
-
 export type CommandItem = {
   value: string;
   label: string;
@@ -15,18 +13,7 @@ export type CommandGroup = {
 export type CommandProps = {
   groups: CommandGroup[];
   placeholder?: string;
-  disabled?: boolean;
-  tokens?: Tokens<
-    | typeof command.root
-    | typeof command.input
-    | typeof command.content
-    | typeof command.viewport
-    | typeof command.group
-    | typeof command.label
-    | typeof command.item
-    | typeof command.empty
-  >;
-};
+  disabled?: boolean;};
 
 export type CommandEmits = {
   select: [value: string];

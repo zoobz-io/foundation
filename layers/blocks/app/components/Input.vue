@@ -8,7 +8,6 @@ const {
   required,
   name,
   shortcut,
-  tokens,
 } = defineProps<InputProps>();
 
 const model = defineModel<string>();
@@ -18,8 +17,6 @@ const emit = defineEmits<{
   blur: [event: FocusEvent];
   keydown: [event: KeyboardEvent];
 }>();
-
-const styles = useTokenStyle(tokens);
 
 const inputRef = useTemplateRef<HTMLInputElement>("input");
 
@@ -39,10 +36,9 @@ defineExpose({ focus, blur });
 </script>
 
 <template>
-  <div :style="styles['input-root']" class="f-input-root" @click="focus">
+  <div class="f-input-root" @click="focus">
     <span
       v-if="$slots.prepend"
-      :style="styles['input-prepend']"
       class="f-input-prepend"
     >
       <slot name="prepend" />
@@ -55,7 +51,6 @@ defineExpose({ focus, blur });
       :disabled="disabled"
       :required="required"
       :name="name"
-      :style="styles['input-input']"
       class="f-input-input"
       @focus="emit('focus', $event)"
       @blur="emit('blur', $event)"
@@ -63,7 +58,6 @@ defineExpose({ focus, blur });
     />
     <span
       v-if="$slots.append"
-      :style="styles['input-append']"
       class="f-input-append"
     >
       <slot name="append" />
@@ -72,10 +66,6 @@ defineExpose({ focus, blur });
 </template>
 
 <style>
-@import "#build/untheme/input-root.css";
-@import "#build/untheme/input-prepend.css";
-@import "#build/untheme/input-input.css";
-@import "#build/untheme/input-append.css";
 
 .f-input-root:focus-within,
 .f-input-root:focus-within:hover {

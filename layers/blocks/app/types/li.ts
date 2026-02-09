@@ -1,8 +1,4 @@
-import type { li } from "../../elements.config";
-
-export type LiProps = {
-  tokens?: Tokens<typeof li.key>;
-};
+export type LiProps = {};
 
 export type LiEmits = {};
 

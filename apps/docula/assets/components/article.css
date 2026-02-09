@@ -1,0 +1,6 @@
+.f-article {
+  background: var(--ref-color-transparent);
+  color: var(--sys-on-surface);
+  line-height: var(--ref-leading-relaxed);
+  display: block;
+}

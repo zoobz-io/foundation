@@ -1,14 +1,9 @@
 <script setup lang="ts">
-import type { contentFiltersSection } from "../../elements.config";
 
 export interface ContentFiltersProps {
-  collection: string;
-  tokens?: Tokens<typeof contentFiltersSection.key>;
-}
+  collection: string;}
 
-const { collection: _collection, tokens } = defineProps<ContentFiltersProps>();
-
-const styles = useTokenStyle(tokens);
+const { collection: _collection } = defineProps<ContentFiltersProps>();
 
 // Placeholder data - will be dynamic later
 const searchQuery = ref("");
@@ -32,7 +27,6 @@ const sortOptions = [
 
   <!-- Query Section -->
   <div
-    :style="styles['content-filters-section']"
     class="f-content-filters-section"
   >
     <FormLabel for="search">Search</FormLabel>
@@ -58,7 +52,6 @@ const sortOptions = [
 
   <!-- Sort Section -->
   <div
-    :style="styles['content-filters-section']"
     class="f-content-filters-section"
   >
     <FormLabel for="sort">Sort By</FormLabel>
@@ -70,6 +63,3 @@ const sortOptions = [
   </div>
 </template>
 
-<style>
-@import '#build/untheme/content-filters-section.css';
-</style>

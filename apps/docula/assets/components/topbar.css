@@ -1,0 +1,18 @@
+.f-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: var(--ref-spacing-md);
+}
+
+.f-topbar-center {
+  display: flex;
+  align-items: center;
+  width: var(--ref-width-xl);
+}
+
+.f-topbar-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--ref-spacing-xs);
+}

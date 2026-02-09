@@ -1,0 +1,83 @@
+.f-tabs-root {
+  background: var(--ref-color-transparent);
+}
+
+.f-tabs-list {
+  background: var(--ref-color-transparent);
+  display: flex;
+  flex-direction: row;
+  gap: var(--ref-spacing-none);
+  border-bottom-width: var(--ref-border-width-thin);
+  border-bottom-style: solid;
+  border-color: var(--sys-outline);
+}
+
+.f-tabs-trigger {
+  background: var(--ref-color-transparent);
+  color: var(--sys-on-surface-variant);
+  border-bottom-width: 1px;
+  cursor: pointer;
+  font-size: var(--ref-text-base);
+  font-weight: var(--ref-font-bold);
+  padding-left: var(--ref-spacing-lg);
+  padding-right: var(--ref-spacing-lg);
+  padding-top: var(--ref-spacing-md);
+  padding-bottom: var(--ref-spacing-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ref-spacing-md);
+}
+
+.f-tabs-trigger:hover {
+  color: var(--sys-on-surface);
+  font-weight: var(--ref-font-bold);
+}
+
+.f-tabs-trigger:active {
+  color: var(--sys-primary);
+  font-weight: var(--ref-font-bold);
+}
+
+.f-tabs-trigger:focus-visible {
+  font-weight: var(--ref-font-bold);
+  background: var(--sys-hover);
+  box-shadow: var(--ref-shadow-focus-inset);
+}
+
+.f-tabs-trigger[data-selected],
+.f-tabs-trigger[data-state='checked'],
+.f-tabs-trigger[data-highlighted] {
+  color: var(--sys-primary);
+  background: var(--sys-surface-container-high);
+  box-shadow: var(--ref-shadow-border-bottom);
+  font-weight: var(--ref-font-bold);
+}
+
+.f-tabs-trigger[data-selected]:hover,
+.f-tabs-trigger[data-state='checked']:hover {
+  color: var(--sys-primary);
+  box-shadow: var(--ref-shadow-border-bottom);
+  font-weight: var(--ref-font-bold);
+}
+
+.f-tabs-trigger[data-selected]:active,
+.f-tabs-trigger[data-state='checked']:active {
+  color: var(--sys-primary);
+  box-shadow: var(--ref-shadow-border-bottom);
+  font-weight: var(--ref-font-bold);
+}
+
+.f-tabs-trigger[data-selected]:focus-visible,
+.f-tabs-trigger[data-state='checked']:focus-visible {
+  color: var(--sys-primary);
+  font-weight: var(--ref-font-bold);
+  background: var(--sys-hover);
+  box-shadow: var(--ref-shadow-border-bottom-focus);
+}
+
+.f-tabs-content {
+  background: var(--ref-color-transparent);
+  color: var(--sys-on-surface);
+  font-size: var(--ref-text-base);
+}

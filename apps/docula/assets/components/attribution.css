@@ -1,0 +1,72 @@
+.f-attribution-root {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--ref-spacing-md);
+  color: var(--sys-on-surface-variant);
+  font-size: var(--ref-text-base);
+  font-weight: var(--ref-font-bold);
+  width: 100%;
+  padding-top: var(--ref-spacing-sm);
+  padding-bottom: var(--ref-spacing-sm);
+}
+
+.f-attribution-author {
+  display: flex;
+  align-items: center;
+  gap: var(--ref-spacing-xs);
+  color: var(--sys-on-surface-variant);
+  font-size: var(--ref-text-base);
+  font-weight: var(--ref-font-bold);
+  white-space: nowrap;
+  line-height: var(--ref-leading-none);
+}
+
+.f-attribution-author .f-avatar-root {
+  width: 1em;
+  height: 1em;
+}
+
+.f-attribution-published {
+  display: flex;
+  align-items: center;
+  gap: var(--ref-spacing-xs);
+  color: var(--sys-muted);
+  font-size: var(--ref-text-base);
+  font-weight: var(--ref-font-normal);
+  white-space: nowrap;
+}
+
+.f-attribution-readtime {
+  display: flex;
+  align-items: center;
+  gap: var(--ref-spacing-xs);
+  color: var(--sys-muted);
+  font-size: var(--ref-text-base);
+  font-weight: var(--ref-font-normal);
+  white-space: nowrap;
+}
+
+.f-attribution-edit {
+  display: flex;
+  align-items: center;
+  gap: var(--ref-spacing-xs);
+  color: var(--sys-muted);
+  font-size: var(--ref-text-base);
+  font-weight: var(--ref-font-normal);
+  white-space: nowrap;
+  margin-left: auto;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.f-attribution-edit:hover {
+  color: var(--sys-on-surface);
+  font-weight: var(--ref-font-normal);
+  text-decoration: underline;
+}
+
+.f-attribution-edit:focus-visible {
+  font-weight: var(--ref-font-normal);
+  box-shadow: var(--ref-shadow-focus-ring);
+}

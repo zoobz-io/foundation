@@ -1,21 +1,6 @@
-// Sizing tokens
+// Sizing tokens - design scale values only
 export default {
-  // Viewport
-  "ref-viewport-height": "100vh",
-  "ref-viewport-width": "100vw",
-  "ref-viewport-height-min": "100svh", // Small viewport
-  "ref-viewport-height-max": "100lvh", // Large viewport
-  "ref-viewport-height-dynamic": "100dvh", // Dynamic viewport
-  "ref-viewport-80": "80vh",
-  "ref-viewport-60": "60vh",
-
-  // Percentage
-  "ref-full": "100%",
-  "ref-half": "50%",
-  "ref-third": "33.333%",
-  "ref-quarter": "25%",
-
-  // Width
+  // Width scale
   "ref-width-xs": "16rem", // 256px
   "ref-width-sm": "20rem", // 320px
   "ref-width-md": "24rem", // 384px
@@ -27,29 +12,9 @@ export default {
   "ref-width-container": "80rem", // 1280px - Max container width
   "ref-width-prose": "65ch", // Optimal reading width
 
-  // Height
-  "ref-height-full": "100%",
-  "ref-height-screen": "100vh",
-  "ref-height-min": "min-content",
-  "ref-height-max": "max-content",
-  "ref-height-fit": "fit-content",
+  // Structural heights
   "ref-height-header": "3.5rem",
   "ref-height-aside": "calc(100vh - 3.5rem)",
-
-  // Intrinsic sizing
-  "ref-fit": "fit-content",
-  "ref-min": "min-content",
-  "ref-max": "max-content",
-  "ref-auto": "auto",
-
-  // Width defaults
-  "ref-width-auto": "auto",
-  "ref-width-none": "none",
-  "ref-width-full": "100%",
-
-  // Height defaults
-  "ref-height-auto": "auto",
-  "ref-height-none": "none",
 
   // Em-based sizing (scales with font-size)
   "ref-width-1em": "1em",

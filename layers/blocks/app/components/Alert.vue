@@ -13,15 +13,3 @@ const { icon, variant = "note" } = defineProps<AlertProps>();
   </div>
 </template>
 
-<style>
-@import '#build/untheme/alert-note.css';
-@import '#build/untheme/alert-note-icon.css';
-@import '#build/untheme/alert-tip.css';
-@import '#build/untheme/alert-tip-icon.css';
-@import '#build/untheme/alert-important.css';
-@import '#build/untheme/alert-important-icon.css';
-@import '#build/untheme/alert-warning.css';
-@import '#build/untheme/alert-warning-icon.css';
-@import '#build/untheme/alert-caution.css';
-@import '#build/untheme/alert-caution-icon.css';
-</style>

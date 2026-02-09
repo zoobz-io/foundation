@@ -1,0 +1,58 @@
+.f-table {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  border-top-width: var(--ref-border-width-thin);
+  border-right-width: var(--ref-border-width-thin);
+  border-left-width: var(--ref-border-width-thin);
+  border-top-style: solid;
+  border-right-style: solid;
+  border-left-style: solid;
+  border-color: var(--sys-outline);
+  margin-top: var(--ref-spacing-lg);
+  margin-bottom: var(--ref-spacing-lg);
+}
+
+.f-thead {
+  display: table-header-group;
+  background: var(--sys-surface-container);
+}
+
+.f-tbody {
+  display: table-row-group;
+}
+
+.f-tr {
+  display: table-row;
+  border-bottom-width: var(--ref-border-width-thin);
+  border-bottom-style: solid;
+  border-color: var(--sys-outline);
+}
+
+.f-th {
+  display: table-cell;
+  color: var(--sys-on-surface);
+  font-weight: var(--ref-font-bold);
+  font-size: var(--ref-text-sm);
+  padding-top: var(--ref-spacing-sm);
+  padding-right: var(--ref-spacing-md);
+  padding-bottom: var(--ref-spacing-sm);
+  padding-left: var(--ref-spacing-md);
+  text-align: start;
+  border-bottom-width: var(--ref-border-width-thin);
+  border-bottom-style: solid;
+  border-color: var(--sys-outline);
+}
+
+.f-td {
+  display: table-cell;
+  color: var(--sys-on-surface);
+  font-size: var(--ref-text-sm);
+  padding-top: var(--ref-spacing-sm);
+  padding-right: var(--ref-spacing-md);
+  padding-bottom: var(--ref-spacing-sm);
+  padding-left: var(--ref-spacing-md);
+  border-bottom-width: var(--ref-border-width-thin);
+  border-bottom-style: solid;
+  border-color: var(--sys-outline);
+}

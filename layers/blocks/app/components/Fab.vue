@@ -8,10 +8,7 @@ const {
   type = "button",
   shortcut,
   link,
-  tokens,
 } = defineProps<FabProps>();
-
-const styles = useTokenStyle(tokens);
 
 const fabRef = useTemplateRef("fab");
 
@@ -47,7 +44,6 @@ const linkProps = computed(() => ({
     ref="fab"
     :as="link ? NuxtLink : 'button'"
     :aria-label="label"
-    :style="styles.fab"
     v-bind="link ? linkProps : buttonProps"
     class="f-fab"
   >
@@ -55,6 +51,3 @@ const linkProps = computed(() => ({
   </Primitive>
 </template>
 
-<style>
-@import "#build/untheme/fab.css";
-</style>

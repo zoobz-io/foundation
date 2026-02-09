@@ -1,0 +1,12 @@
+.f-footer {
+  background: var(--sys-void);
+  color: var(--sys-on-surface);
+  gap: var(--ref-spacing-md);
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-column: 1 / -1;
+  align-items: center;
+  border-top-style: solid;
+  border-top-width: var(--ref-border-width-thin);
+  border-color: var(--sys-outline);
+}

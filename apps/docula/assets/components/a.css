@@ -1,0 +1,36 @@
+.f-a {
+  color: var(--sys-primary);
+  font-size: var(--ref-text-base);
+  font-weight: var(--ref-font-bold);
+  line-height: var(--ref-leading-normal);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.f-a:not(:disabled):not([data-disabled]):hover {
+  color: var(--sys-primary);
+  background: var(--ref-color-transparent);
+  font-weight: var(--ref-font-bold);
+  text-decoration: underline;
+}
+
+.f-a:not(:disabled):not([data-disabled]):active {
+  color: var(--sys-primary-active);
+  font-weight: var(--ref-font-bold);
+}
+
+.f-a:not(:disabled):not([data-disabled]):focus-visible {
+  color: var(--sys-primary);
+  font-weight: var(--ref-font-bold);
+  box-shadow: var(--ref-shadow-focus-ring);
+}
+
+.f-a:disabled,
+.f-a[data-disabled] {
+  color: var(--sys-on-surface);
+  cursor: default;
+}
+
+.f-a:visited {
+  color: var(--sys-secondary);
+}

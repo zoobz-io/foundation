@@ -1,0 +1,60 @@
+
+
+.f-breadcrumbs-list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--ref-spacing-xs);
+  list-style-type: none;
+}
+
+.f-breadcrumbs-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ref-spacing-xs);
+}
+
+.f-breadcrumbs-link {
+  color: var(--sys-on-surface-variant);
+  font-size: var(--ref-text-sm);
+  font-weight: var(--ref-font-bold);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ref-spacing-2xs);
+  cursor: pointer;
+}
+
+.f-breadcrumbs-link:hover {
+  color: var(--sys-primary);
+  background: var(--ref-color-transparent);
+  font-weight: var(--ref-font-bold);
+  text-decoration: underline;
+}
+
+.f-breadcrumbs-link:active {
+  color: var(--sys-primary-active);
+  font-weight: var(--ref-font-bold);
+}
+
+.f-breadcrumbs-link:focus-visible {
+  color: var(--sys-on-surface);
+  font-weight: var(--ref-font-bold);
+  box-shadow: var(--ref-shadow-focus-ring);
+}
+
+.f-breadcrumbs-current {
+  color: var(--sys-primary);
+  font-size: var(--ref-text-sm);
+  font-weight: var(--ref-font-bold);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ref-spacing-2xs);
+}
+
+.f-breadcrumbs-separator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}

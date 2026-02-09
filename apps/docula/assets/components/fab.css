@@ -1,0 +1,61 @@
+.f-fab {
+  background: var(--ref-color-transparent);
+  color: var(--sys-on-surface-variant);
+  cursor: pointer;
+  padding-left: var(--ref-spacing-lg);
+  padding-right: var(--ref-spacing-lg);
+  padding-top: var(--ref-spacing-md);
+  padding-bottom: var(--ref-spacing-md);
+  outline-color: var(--sys-focus);
+  outline-width: 2px;
+  font-weight: var(--ref-font-bold);
+}
+
+.f-fab:not(:disabled):not([data-disabled]):hover {
+  color: var(--sys-on-surface);
+  background: var(--sys-hover);
+  font-weight: var(--ref-font-bold);
+}
+
+.f-fab:not(:disabled):not([data-disabled]):active {
+  color: var(--sys-on-surface);
+  background: var(--sys-active);
+  font-weight: var(--ref-font-bold);
+}
+
+.f-fab:not(:disabled):not([data-disabled]):focus-visible {
+  font-weight: var(--ref-font-bold);
+  background: var(--ref-color-transparent);
+  box-shadow: var(--ref-shadow-focus-inset);
+}
+
+.f-fab[data-selected],
+.f-fab[data-state='checked'],
+.f-fab[data-highlighted] {
+  color: var(--sys-primary);
+}
+
+.f-fab[data-selected]:not(:disabled):not([data-disabled]):hover,
+.f-fab[data-state='checked']:not(:disabled):not([data-disabled]):hover {
+  color: var(--sys-primary);
+  background: var(--sys-hover);
+}
+
+.f-fab[data-selected]:not(:disabled):not([data-disabled]):active,
+.f-fab[data-state='checked']:not(:disabled):not([data-disabled]):active {
+  color: var(--sys-primary);
+  background: var(--sys-active);
+}
+
+.f-fab[data-selected]:not(:disabled):not([data-disabled]):focus-visible,
+.f-fab[data-state='checked']:not(:disabled):not([data-disabled]):focus-visible {
+  color: var(--sys-primary);
+  background: var(--ref-color-transparent);
+  box-shadow: var(--ref-shadow-focus-inset);
+}
+
+.f-fab:disabled,
+.f-fab[data-disabled] {
+  opacity: 0.5;
+  cursor: default;
+}

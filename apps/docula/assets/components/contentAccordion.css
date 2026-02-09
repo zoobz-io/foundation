@@ -1,0 +1,9 @@
+.f-content-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ref-spacing-md);
+  padding-left: var(--ref-spacing-md);
+  border-left-width: var(--ref-border-width-thin);
+  border-left-style: solid;
+  border-color: var(--sys-outline);
+}

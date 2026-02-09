@@ -9,35 +9,12 @@ import {
   ComboboxItem,
   ComboboxEmpty,
 } from "reka-ui";
-import type { search, input, icon, kbd } from "../../../elements.config";
 
 interface SearchResult {
   path: string;
   breadcrumbs: string[];
   icon?: IconAlias;
 }
-
-export interface SearchProps {
-  tokens?: Tokens<
-    | typeof search.root
-    | typeof search.results
-    | typeof search.item
-    | typeof search.icon
-    | typeof search.breadcrumb
-    | typeof search.separator
-    | typeof search.empty
-    | typeof input.root
-    | typeof input.prepend
-    | typeof input.input
-    | typeof input.append
-    | typeof icon.key
-    | typeof kbd.key
-  >;
-}
-
-const { tokens } = defineProps<SearchProps>();
-
-const styles = useTokenStyle(tokens);
 
 const open = ref(false);
 const searchQuery = ref("");
@@ -122,7 +99,6 @@ const handleBlur = () => {
     v-model:search-term="searchQuery"
     :open="open"
     :ignore-filter="true"
-    :style="styles['search-root']"
     class="f-search-root"
   >
     <ComboboxAnchor as-child>
@@ -131,15 +107,14 @@ const handleBlur = () => {
           ref="inputRef"
           placeholder="Search..."
           shortcut="meta+k"
-          :tokens="tokens"
           @focus="handleFocus"
           @blur="handleBlur"
         >
           <template #prepend>
-            <Icon alias="search" :tokens="tokens" />
+            <Icon alias="search" />
           </template>
           <template #append>
-            <Kbd :tokens="tokens">{{ modKey }} + K</Kbd>
+            <Kbd>{{ modKey }} + K</Kbd>
           </template>
         </Input>
       </ComboboxInput>
@@ -147,12 +122,11 @@ const handleBlur = () => {
     <ComboboxPortal>
       <ComboboxContent
         position="popper"
-        :style="styles['search-results']"
         class="f-search-results"
         @mousedown.prevent
       >
         <ComboboxViewport>
-          <ComboboxEmpty :style="styles['search-empty']" class="f-search-empty">
+          <ComboboxEmpty class="f-search-empty">
             {{ searchQuery ? "No results found" : "Start typing to search..." }}
           </ComboboxEmpty>
 
@@ -160,7 +134,6 @@ const handleBlur = () => {
             v-for="result in filteredResults"
             :key="result.path"
             :value="result.path"
-            :style="styles['search-item']"
             class="f-search-item"
             as-child
           >
@@ -168,17 +141,14 @@ const handleBlur = () => {
               <Icon
                 v-if="result.icon"
                 :alias="result.icon"
-                :style="styles['search-icon']"
                 class="f-search-icon"
               />
               <span
-                :style="styles['search-breadcrumb']"
                 class="f-search-breadcrumb"
               >
                 <template v-for="(crumb, i) in result.breadcrumbs" :key="i">
                   <span
                     v-if="i > 0"
-                    :style="styles['search-separator']"
                     class="f-search-separator"
                   >
                     <Icon alias="chevron-right" />
@@ -193,13 +163,3 @@ const handleBlur = () => {
     </ComboboxPortal>
   </ComboboxRoot>
 </template>
-
-<style>
-@import "#build/untheme/search-root.css";
-@import "#build/untheme/search-results.css";
-@import "#build/untheme/search-item.css";
-@import "#build/untheme/search-icon.css";
-@import "#build/untheme/search-breadcrumb.css";
-@import "#build/untheme/search-separator.css";
-@import "#build/untheme/search-empty.css";
-</style>

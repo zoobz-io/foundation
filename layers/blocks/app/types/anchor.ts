@@ -1,5 +1,3 @@
-import type { a } from "../../elements.config";
-
 export type AnchorProps = {
   label?: string;
   to?: string;
@@ -9,9 +7,7 @@ export type AnchorProps = {
   target?: "_blank" | "_self";
   replace?: boolean;
   prefetch?: boolean;
-  disabled?: boolean;
-  tokens?: Tokens<typeof a.key>;
-};
+  disabled?: boolean;};
 
 export type AnchorEmits = {};
 

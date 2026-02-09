@@ -3,15 +3,11 @@ import type { NavProps } from "../types/nav";
 
 const { tokens } = defineProps<NavProps>();
 
-const styles = useTokenStyle(tokens);
 </script>
 
 <template>
-  <nav :style="styles.nav" class="f-nav">
+  <nav class="f-nav">
     <slot />
   </nav>
 </template>
 
-<style>
-@import '#build/untheme/nav.css';
-</style>

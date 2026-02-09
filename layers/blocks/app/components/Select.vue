@@ -7,12 +7,10 @@ const {
   disabled,
   required,
   name,
-  tokens,
 } = defineProps<SelectProps>();
 
 const model = defineModel<string>();
 
-const styles = useTokenStyle(tokens);
 </script>
 
 <template>
@@ -21,18 +19,15 @@ const styles = useTokenStyle(tokens);
     :disabled="disabled"
     :required="required"
     :name="name"
-    :style="styles['select-root']"
     class="f-select-root"
   >
     <SelectTrigger
-      :style="styles['select-trigger']"
       class="f-select-trigger"
     >
       <SelectValue :placeholder="placeholder" />
       <Icon alias="chevron-down" />
     </SelectTrigger>
     <SelectContent
-      :style="styles['select-content']"
       class="f-select-content"
     >
       <SelectItem
@@ -40,7 +35,6 @@ const styles = useTokenStyle(tokens);
         :key="option.value"
         :value="option.value"
         :disabled="option.disabled"
-        :style="styles['select-item']"
         class="f-select-item"
       >
         {{ option.label }}
@@ -49,9 +43,3 @@ const styles = useTokenStyle(tokens);
   </SelectRoot>
 </template>
 
-<style>
-@import '#build/untheme/select-root.css';
-@import '#build/untheme/select-trigger.css';
-@import '#build/untheme/select-content.css';
-@import '#build/untheme/select-item.css';
-</style>

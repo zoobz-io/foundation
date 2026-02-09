@@ -1,34 +1,13 @@
 <script lang="ts">
 import type { ContentNavigationItem } from "@nuxt/content";
-import type { contentAccordion, contentGrid } from "../../elements.config";
-import type { accordion } from "@foundation/blocks/elements";
 
 export interface ContentAccordionProps {
   items: ContentNavigationItem[];
-  collection: string;
-  tokens?: Tokens<
-    | typeof contentAccordion.key
-    | typeof accordion.root
-    | typeof accordion.item
-    | typeof accordion.header
-    | typeof accordion.trigger
-    | typeof accordion.triggerContent
-    | typeof accordion.content
-    | typeof contentGrid.root
-    | typeof contentGrid.item
-    | typeof contentGrid.title
-    | typeof contentGrid.description
-    | typeof contentGrid.meta
-    | typeof contentGrid.author
-    | typeof contentGrid.published
-  >;
-}
+  collection: string;}
 </script>
 
 <script setup lang="ts">
-const { items, collection, tokens } = defineProps<ContentAccordionProps>();
-
-const styles = useTokenStyle(tokens);
+const { items, collection } = defineProps<ContentAccordionProps>();
 
 // Separate items into branches (have children) and leaves (no children)
 const branches = computed(() => items.filter((item) => item.children?.length));
@@ -69,32 +48,30 @@ const formatDate = (dateString: string) => {
 </script>
 
 <template>
-  <div :style="styles['content-accordion']" class="f-content-accordion">
+  <div class="f-content-accordion">
     <!-- Render leaves as cards in a grid -->
-    <div v-if="leaves.length" :style="styles['content-grid-root']" class="f-content-grid-root">
+    <div v-if="leaves.length" class="f-content-grid-root">
       <NuxtLink
         v-for="leaf in leaves"
         :key="leaf.path"
         :to="leaf.path"
-        :style="styles['content-grid-item']"
         class="f-content-grid-item"
       >
-        <span :style="styles['content-grid-title']" class="f-content-grid-title">
+        <span class="f-content-grid-title">
           {{ leaf.title }}
         </span>
-        <span v-if="leaf.description" :style="styles['content-grid-description']" class="f-content-grid-description">
+        <span v-if="leaf.description" class="f-content-grid-description">
           {{ leaf.description }}
         </span>
         <div
           v-if="leaf.author || leaf.published"
-          :style="styles['content-grid-meta']"
           class="f-content-grid-meta"
         >
-          <span v-if="leaf.author" :style="styles['content-grid-author']" class="f-content-grid-author">
+          <span v-if="leaf.author" class="f-content-grid-author">
             <Icon alias="user" />
             {{ leaf.author }}
           </span>
-          <span v-if="leaf.published" :style="styles['content-grid-published']" class="f-content-grid-published">
+          <span v-if="leaf.published" class="f-content-grid-published">
             <Icon alias="calendar" />
             {{ formatDate(leaf.published as string) }}
           </span>
@@ -107,8 +84,7 @@ const formatDate = (dateString: string) => {
       v-if="branches.length"
       :items="accordionItems"
       type="multiple"
-      :tokens="tokens"
-    >
+          >
       <template #append="{ item }">
         <Chip>{{ getArticleCount(item.value) }}</Chip>
       </template>
@@ -116,13 +92,9 @@ const formatDate = (dateString: string) => {
         <ContentAccordion
           :items="branches.find((b) => b.path === item.value)?.children ?? []"
           :collection="collection"
-          :tokens="tokens"
-        />
+                  />
       </template>
     </Accordion>
   </div>
 </template>
 
-<style>
-@import '#build/untheme/content-accordion.css';
-</style>

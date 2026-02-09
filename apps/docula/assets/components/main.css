@@ -1,0 +1,20 @@
+.f-main {
+  background: var(--sys-surface);
+  color: var(--sys-on-surface);
+  width: 100%;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto 1fr auto;
+}
+
+/* Content area (anything that's not header, nav, or footer) */
+.f-main > *:not(.f-header):not(.f-nav):not(.f-footer) {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+/* When no sidebar is present, let content fill full width */
+.f-main > .f-header:first-child + *:not(.f-nav) {
+  grid-column: 1 / -1;
+}

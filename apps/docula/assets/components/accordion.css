@@ -1,0 +1,66 @@
+.f-accordion-trigger {
+  background: var(--ref-color-transparent);
+  color: var(--sys-on-surface-variant);
+  cursor: pointer;
+  font-size: var(--ref-text-base);
+  font-weight: var(--ref-font-bold);
+  text-align: start;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ref-spacing-xs);
+  width: 100%;
+  padding-left: var(--ref-spacing-md);
+  padding-right: var(--ref-spacing-md);
+  padding-top: var(--ref-spacing-sm);
+  padding-bottom: var(--ref-spacing-sm);
+}
+
+.f-accordion-trigger:hover {
+  font-weight: var(--ref-font-bold);
+}
+
+.f-accordion-trigger:active {
+  font-weight: var(--ref-font-bold);
+}
+
+.f-accordion-trigger:focus-visible {
+  font-weight: var(--ref-font-bold);
+  background: var(--sys-hover);
+  box-shadow: var(--ref-shadow-focus-inset);
+}
+
+.f-accordion-trigger[data-selected],
+.f-accordion-trigger[data-state='checked'],
+.f-accordion-trigger[data-highlighted] {
+  font-weight: var(--ref-font-bold);
+}
+
+.f-accordion-trigger[data-selected]:hover,
+.f-accordion-trigger[data-state='checked']:hover {
+  font-weight: var(--ref-font-bold);
+}
+
+.f-accordion-trigger[data-selected]:active,
+.f-accordion-trigger[data-state='checked']:active {
+  font-weight: var(--ref-font-bold);
+}
+
+.f-accordion-trigger[data-selected]:focus-visible,
+.f-accordion-trigger[data-state='checked']:focus-visible {
+  font-weight: var(--ref-font-bold);
+  background: var(--sys-hover);
+  box-shadow: var(--ref-shadow-focus-inset);
+}
+
+.f-accordion-trigger-content {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ref-spacing-xs);
+}
+
+.f-accordion-content {
+  background: var(--ref-color-transparent);
+  color: var(--sys-on-surface);
+  font-size: var(--ref-text-base);
+}

@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import type { AnchorProps } from "../types/anchor";
 
-const { label, to, external, target, replace, prefetch, disabled, tokens } =
+const { label, to, external, target, replace, prefetch, disabled } =
   defineProps<AnchorProps>();
 
-const styles = useTokenStyle(tokens);
 </script>
 
 <template>
@@ -14,7 +13,6 @@ const styles = useTokenStyle(tokens);
     :target="target"
     :replace="replace"
     :prefetch="prefetch"
-    :style="styles.a"
     :aria-disabled="disabled"
     :aria-current="disabled ? 'page' : undefined"
     class="f-a"
@@ -25,6 +23,3 @@ const styles = useTokenStyle(tokens);
   </NuxtLink>
 </template>
 
-<style>
-@import "#build/untheme/a.css";
-</style>

@@ -1,8 +1,4 @@
-import type { footer } from "../../elements.config";
-
-export type FooterProps = {
-  tokens?: Tokens<typeof footer.key>;
-};
+export type FooterProps = {};
 
 export type FooterEmits = {};
 

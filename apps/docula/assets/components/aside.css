@@ -1,0 +1,7 @@
+.f-aside {
+  display: block;
+  background: var(--sys-surface);
+  color: var(--sys-on-surface);
+  border-color: var(--ref-color-transparent);
+  width: 100%;
+}

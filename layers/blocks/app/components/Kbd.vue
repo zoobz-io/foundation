@@ -3,15 +3,11 @@ import type { KbdProps } from "../types/kbd";
 
 const { tokens } = defineProps<KbdProps>();
 
-const styles = useTokenStyle(tokens);
 </script>
 
 <template>
-  <kbd :style="styles.kbd" class="f-kbd">
+  <kbd class="f-kbd">
     <slot />
   </kbd>
 </template>
 
-<style>
-@import '#build/untheme/kbd.css';
-</style>

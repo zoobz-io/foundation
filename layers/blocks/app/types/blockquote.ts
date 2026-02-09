@@ -1,8 +1,4 @@
-import type { blockquote } from "../../elements.config";
-
-export type BlockquoteProps = {
-  tokens?: Tokens<typeof blockquote.key>;
-};
+export type BlockquoteProps = {};
 
 export type BlockquoteEmits = {};
 

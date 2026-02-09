@@ -1,0 +1,6 @@
+.f-label {
+  color: var(--sys-on-surface);
+  font-size: var(--ref-text-sm);
+  font-weight: var(--ref-font-medium);
+  display: block;
+}

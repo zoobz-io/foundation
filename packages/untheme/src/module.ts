@@ -1,6 +1,5 @@
-import type { UnthemeOptions, ElementDefinition } from "./config";
+import type { Theme } from "./config";
 
-import { generateElementCSS } from "./css";
 import reference from "./tokens/reference";
 import modes from "./tokens/modes";
 import defu from "defu";
@@ -8,31 +7,16 @@ import defu from "defu";
 import {
   defineNuxtModule,
   addTemplate,
-  addImports,
   addPlugin,
+  addImports,
   createResolver,
 } from "@nuxt/kit";
 
-// Generate TypeScript declarations for element registry
-function generateElementRegistry(
-  elements: Record<string, ElementDefinition>,
-): string {
-  const entries = Object.entries(elements).map(([name, elementConfig]) => {
-    const rolesArray =
-      elementConfig.roles.length > 0
-        ? `[${elementConfig.roles.map((r) => `"${r}"`).join(", ")}]`
-        : "[]";
-    return `    "${name}": Partial<ElementTokens<${rolesArray}>>;`;
-  });
-
-  return `import type { ElementTokens } from '@foundation/untheme/config';
-  export interface ElementRegistry {
-${entries.join("\n")}
-  }
-`;
+export interface UnthemeModuleOptions {
+  theme?: Partial<Theme>;
 }
 
-export default defineNuxtModule<UnthemeOptions>({
+export default defineNuxtModule<UnthemeModuleOptions>({
   meta: {
     name: "untheme",
     configKey: "untheme",
@@ -43,17 +27,74 @@ export default defineNuxtModule<UnthemeOptions>({
     // Merge provided theme with defaults
     const theme = defu(options.theme || {}, { reference, modes });
 
-    // Elements are now directly serializable { roles, keys }
-    const elements = options.elements || {};
-
     // Generate global reset CSS
-    const resetCSS = `* {
+    // Using :where() for zero specificity so component classes always win
+    const resetCSS = `/* Box sizing and base reset */
+:where(*),
+:where(*::before),
+:where(*::after) {
   margin: 0;
   padding: 0;
   border: 0;
   font: inherit;
   vertical-align: baseline;
   box-sizing: border-box;
+}
+
+/* Remove default list styles */
+:where(ol, ul, menu) {
+  list-style: none;
+}
+
+/* Interactive elements */
+:where(button, [type="button"], [type="reset"], [type="submit"]) {
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+:where(input, textarea, select) {
+  appearance: none;
+  background: transparent;
+}
+
+/* Remove outline - components should provide their own focus styles */
+:where(*:focus) {
+  outline: none;
+}
+
+/* Links */
+:where(a) {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+/* Media elements */
+:where(img, picture, video, canvas, svg) {
+  display: block;
+  max-width: 100%;
+}
+
+/* Tables */
+:where(table) {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* Remove default quote styles */
+:where(blockquote, q) {
+  quotes: none;
+}
+
+:where(blockquote::before, blockquote::after, q::before, q::after) {
+  content: '';
+  content: none;
+}
+
+/* Text selection */
+::selection {
+  background: var(--sys-secondary);
+  color: var(--sys-on-secondary);
 }`;
 
     // Add global reset CSS
@@ -127,65 +168,12 @@ export default defineNuxtModule<UnthemeOptions>({
     });
     nuxt.options.css.push(tokensTemplate.dst);
 
-    // Generate individual CSS files per element (with unresolved var() references)
-    for (const [elementName, elementConfig] of Object.entries(elements)) {
-      // Create token map with null values - CSS generator will create var() references
-      const tokenMap: Record<string, string | null> = {};
-      for (const key of elementConfig.keys) {
-        tokenMap[key] = null; // Actual values come from runtime defineTokens()
-      }
-      const elementCSS = generateElementCSS(elementName, tokenMap);
-
-      addTemplate({
-        filename: `untheme/${elementName}.css`,
-        getContents: () => elementCSS,
-        write: true,
-      });
-    }
-
-    // Generate TypeScript declarations for element registry
-    addTemplate({
-      filename: "types/untheme.d.ts",
-      getContents: () => generateElementRegistry(elements),
-      write: true,
-    });
-
-    // Runtime config is now the elements directly (already has keys and roles)
-    const runtimeConfig: Record<string, { keys: string[]; roles: string[] }> = {};
-    Object.entries(elements).forEach(([elementName, elementConfig]) => {
-      runtimeConfig[elementName] = {
-        keys: elementConfig.keys,
-        roles: elementConfig.roles,
-      };
-    });
-
-    addTemplate({
-      filename: "untheme.config.mjs",
-      getContents: () => `export default ${JSON.stringify(runtimeConfig, null, 2)};`,
-      write: true,
-    });
-
-    // Register plugin
+    // Register plugin for color mode management
     addPlugin(resolver.resolve("../runtime/plugin"));
 
-    // Auto-import composables and utilities
+    // Auto-import useUntheme composable
     addImports([
-      { name: "tokenize", from: resolver.resolve("../runtime/utils") },
-      { name: "keys", from: resolver.resolve("../runtime/utils") },
       { name: "useUntheme", from: resolver.resolve("../runtime/composables") },
-      {
-        name: "useTokenStyle",
-        from: resolver.resolve("../runtime/composables"),
-      },
-      {
-        name: "defineTokens",
-        from: resolver.resolve("../runtime/composables"),
-      },
-      {
-        name: "Tokens",
-        from: resolver.resolve("../runtime/types"),
-        type: true,
-      },
     ]);
   },
 });

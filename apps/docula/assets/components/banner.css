@@ -1,0 +1,12 @@
+.f-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ref-spacing-sm);
+  padding-top: var(--ref-spacing-sm);
+  padding-bottom: var(--ref-spacing-sm);
+  padding-left: var(--ref-spacing-md);
+  padding-right: var(--ref-spacing-md);
+  background: var(--sys-surface-container);
+  color: var(--sys-on-surface);
+}

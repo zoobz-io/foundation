@@ -1,8 +1,4 @@
-import type { th } from "../../elements.config";
-
-export type ThProps = {
-  tokens?: Tokens<typeof th.key>;
-};
+export type ThProps = {};
 
 export type ThEmits = {};
 

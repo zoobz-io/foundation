@@ -1,8 +1,4 @@
-import type { aside } from "../../elements.config";
-
-export type AsideProps = {
-  tokens?: Tokens<typeof aside.key>;
-};
+export type AsideProps = {};
 
 export type AsideEmits = {};
 

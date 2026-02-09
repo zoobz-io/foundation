@@ -7,10 +7,7 @@ const {
   type = "button",
   shortcut,
   link,
-  tokens,
 } = defineProps<ButtonProps>();
-
-const styles = useTokenStyle(tokens);
 
 const buttonRef = useTemplateRef("button");
 
@@ -46,7 +43,6 @@ const linkProps = computed(() => ({
     ref="button"
     :as="link ? NuxtLink : 'button'"
     :aria-label="label"
-    :style="styles.button"
     v-bind="link ? linkProps : buttonProps"
     class="f-button"
   >
@@ -57,7 +53,3 @@ const linkProps = computed(() => ({
     <slot name="append" />
   </Primitive>
 </template>
-
-<style>
-@import "#build/untheme/button.css";
-</style>

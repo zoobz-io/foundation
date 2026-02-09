@@ -1,0 +1,23 @@
+.f-chip {
+  background: var(--sys-surface-container-high);
+  color: var(--sys-on-surface);
+  font-size: var(--ref-text-sm);
+  font-weight: var(--ref-font-medium);
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ref-spacing-2xs);
+  padding-left: var(--ref-spacing-sm);
+  padding-right: var(--ref-spacing-sm);
+  padding-top: var(--ref-spacing-2xs);
+  padding-bottom: var(--ref-spacing-2xs);
+  border-top-width: var(--ref-border-width-thin);
+  border-right-width: var(--ref-border-width-thin);
+  border-bottom-width: var(--ref-border-width-thin);
+  border-left-width: var(--ref-border-width-thin);
+  border-top-style: solid;
+  border-right-style: solid;
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-color: var(--sys-outline);
+}

@@ -1,0 +1,332 @@
+.f-navigator-root {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.f-navigator-list {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--ref-spacing-none);
+}
+
+.f-navigator-item {
+  display: flex;
+}
+
+.f-navigator-trigger {
+  background: var(--ref-color-transparent);
+  color: var(--sys-on-surface-variant);
+  cursor: pointer;
+  font-size: var(--ref-text-base);
+  font-weight: var(--ref-font-bold);
+  padding-left: var(--ref-spacing-lg);
+  padding-right: var(--ref-spacing-lg);
+  padding-top: var(--ref-spacing-md);
+  padding-bottom: var(--ref-spacing-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ref-spacing-xs);
+}
+
+.f-navigator-trigger:hover {
+  color: var(--sys-on-surface);
+  background: var(--sys-hover);
+  font-weight: var(--ref-font-bold);
+}
+
+.f-navigator-trigger:active {
+  color: var(--sys-on-surface);
+  font-weight: var(--ref-font-bold);
+}
+
+.f-navigator-trigger:focus-visible {
+  font-weight: var(--ref-font-bold);
+  background: var(--sys-hover);
+  box-shadow: var(--ref-shadow-focus-inset);
+}
+
+.f-navigator-trigger[data-selected],
+.f-navigator-trigger[data-state='checked'],
+.f-navigator-trigger[data-highlighted] {
+  color: var(--sys-primary);
+  background: var(--ref-color-transparent);
+  box-shadow: var(--ref-shadow-border-bottom);
+  font-weight: var(--ref-font-bold);
+}
+
+.f-navigator-trigger[data-selected]:hover,
+.f-navigator-trigger[data-state='checked']:hover {
+  color: var(--sys-primary);
+  background: var(--sys-hover);
+  box-shadow: var(--ref-shadow-border-bottom);
+  font-weight: var(--ref-font-bold);
+}
+
+.f-navigator-trigger[data-selected]:active,
+.f-navigator-trigger[data-state='checked']:active {
+  color: var(--sys-primary);
+  box-shadow: var(--ref-shadow-border-bottom);
+  font-weight: var(--ref-font-bold);
+}
+
+.f-navigator-trigger[data-selected]:focus-visible,
+.f-navigator-trigger[data-state='checked']:focus-visible {
+  font-weight: var(--ref-font-bold);
+  background: var(--sys-hover);
+  box-shadow: var(--ref-shadow-border-bottom-focus);
+}
+
+.f-navigator-trigger[data-state='open'],
+.f-navigator-trigger[data-expanded] {
+  color: var(--sys-on-surface);
+  background: var(--sys-surface-container-high);
+  font-weight: var(--ref-font-bold);
+}
+
+.f-navigator-trigger[data-state='open']:hover,
+.f-navigator-trigger[data-expanded]:hover {
+  color: var(--sys-on-surface);
+  background: var(--sys-hover);
+  font-weight: var(--ref-font-bold);
+}
+
+.f-navigator-trigger[data-state='open']:active,
+.f-navigator-trigger[data-expanded]:active {
+  color: var(--sys-on-surface);
+  font-weight: var(--ref-font-bold);
+}
+
+.f-navigator-trigger[data-state='open']:focus-visible,
+.f-navigator-trigger[data-expanded]:focus-visible {
+  font-weight: var(--ref-font-bold);
+  background: var(--sys-hover);
+  box-shadow: var(--ref-shadow-focus-inset);
+}
+
+.f-navigator-link {
+  background: var(--ref-color-transparent);
+  color: var(--sys-on-surface-variant);
+  cursor: pointer;
+  font-size: var(--ref-text-base);
+  font-weight: var(--ref-font-bold);
+  padding-left: var(--ref-spacing-lg);
+  padding-right: var(--ref-spacing-lg);
+  padding-top: var(--ref-spacing-md);
+  padding-bottom: var(--ref-spacing-md);
+  display: flex;
+  align-items: center;
+  gap: var(--ref-spacing-xs);
+  text-decoration: none;
+}
+
+.f-navigator-link:hover {
+  color: var(--sys-on-surface);
+  background: var(--sys-hover);
+  font-weight: var(--ref-font-bold);
+}
+
+.f-navigator-link:active {
+  color: var(--sys-on-surface);
+  font-weight: var(--ref-font-bold);
+}
+
+.f-navigator-link:focus-visible {
+  color: var(--sys-on-surface);
+  font-weight: var(--ref-font-bold);
+  background: var(--sys-hover);
+  box-shadow: var(--ref-shadow-focus-inset);
+}
+
+.f-navigator-link[data-selected],
+.f-navigator-link[data-state='checked'],
+.f-navigator-link[data-highlighted] {
+  color: var(--sys-primary);
+  background: var(--ref-color-transparent);
+  box-shadow: var(--ref-shadow-border-bottom);
+  font-weight: var(--ref-font-bold);
+}
+
+.f-navigator-link[data-selected]:hover,
+.f-navigator-link[data-state='checked']:hover {
+  color: var(--sys-primary);
+  background: var(--sys-hover);
+  box-shadow: var(--ref-shadow-border-bottom);
+  font-weight: var(--ref-font-bold);
+}
+
+.f-navigator-link[data-selected]:active,
+.f-navigator-link[data-state='checked']:active {
+  color: var(--sys-primary);
+  box-shadow: var(--ref-shadow-border-bottom);
+  font-weight: var(--ref-font-bold);
+}
+
+.f-navigator-link[data-selected]:focus-visible,
+.f-navigator-link[data-state='checked']:focus-visible {
+  color: var(--sys-primary);
+  font-weight: var(--ref-font-bold);
+  background: var(--sys-hover);
+  box-shadow: var(--ref-shadow-border-bottom-focus);
+}
+
+.f-navigator-content {
+  background: var(--sys-surface-container);
+  color: var(--sys-on-surface);
+  padding-top: var(--ref-spacing-sm);
+  padding-right: var(--ref-spacing-sm);
+  padding-bottom: var(--ref-spacing-sm);
+  padding-left: var(--ref-spacing-sm);
+  border-top-width: var(--ref-border-width-thin);
+  border-right-width: var(--ref-border-width-thin);
+  border-bottom-width: var(--ref-border-width-thin);
+  border-left-width: var(--ref-border-width-thin);
+  border-top-style: solid;
+  border-right-style: solid;
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-color: var(--sys-outline);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ref-spacing-none);
+  width: max-content;
+}
+
+.f-navigator-viewport {
+  position: absolute;
+  top: 0;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.f-navigator-viewport-wrapper {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  z-index: var(--ref-z-dropdown);
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.f-navigator-indicator {
+  background: var(--sys-primary);
+  height: 1px;
+  position: absolute;
+  bottom: 0;
+  z-index: var(--ref-z-base);
+}
+
+.f-navigator-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: var(--ref-spacing-sm);
+}
+
+.f-navigator-card {
+  background: var(--sys-surface-container);
+  color: var(--sys-on-surface-variant);
+  cursor: pointer;
+  font-size: var(--ref-text-base);
+  font-weight: var(--ref-font-bold);
+  padding-left: var(--ref-spacing-md);
+  padding-right: var(--ref-spacing-md);
+  padding-top: var(--ref-spacing-md);
+  padding-bottom: var(--ref-spacing-md);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--ref-spacing-xs);
+  text-decoration: none;
+  border-top-width: var(--ref-border-width-thin);
+  border-right-width: var(--ref-border-width-thin);
+  border-bottom-width: var(--ref-border-width-thin);
+  border-left-width: var(--ref-border-width-thin);
+  border-top-style: solid;
+  border-right-style: solid;
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-color: var(--sys-outline);
+  transition-duration: var(--ref-duration-fast);
+  transition-timing-function: var(--ref-ease-out);
+}
+
+.f-navigator-card:hover {
+  color: var(--sys-on-surface);
+  background: var(--sys-surface-container-high);
+  font-weight: var(--ref-font-bold);
+}
+
+.f-navigator-card:active {
+  color: var(--sys-on-surface);
+  font-weight: var(--ref-font-bold);
+}
+
+.f-navigator-card:focus-visible {
+  color: var(--sys-on-surface);
+  font-weight: var(--ref-font-bold);
+  background: var(--sys-surface-container-high);
+  box-shadow: var(--ref-shadow-focus-inset);
+}
+
+.f-navigator-featured {
+  background: var(--sys-surface-container-high);
+  color: var(--sys-on-surface-variant);
+  cursor: pointer;
+  font-size: var(--ref-text-lg);
+  font-weight: var(--ref-font-bold);
+  padding-left: var(--ref-spacing-lg);
+  padding-right: var(--ref-spacing-lg);
+  padding-top: var(--ref-spacing-lg);
+  padding-bottom: var(--ref-spacing-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--ref-spacing-sm);
+  text-decoration: none;
+  border-top-width: var(--ref-border-width-thin);
+  border-right-width: var(--ref-border-width-thin);
+  border-bottom-width: var(--ref-border-width-thin);
+  border-left-width: var(--ref-border-width-thin);
+  border-top-style: solid;
+  border-right-style: solid;
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-color: var(--sys-outline);
+  grid-row: 1 / -1;
+  transition-duration: var(--ref-duration-fast);
+  transition-timing-function: var(--ref-ease-out);
+}
+
+.f-navigator-featured:hover {
+  color: var(--sys-on-surface);
+  background: var(--sys-surface-container-highest);
+  font-weight: var(--ref-font-bold);
+}
+
+.f-navigator-featured:active {
+  color: var(--sys-on-surface);
+  font-weight: var(--ref-font-bold);
+}
+
+.f-navigator-featured:focus-visible {
+  color: var(--sys-on-surface);
+  font-weight: var(--ref-font-bold);
+  background: var(--sys-surface-container-highest);
+  box-shadow: var(--ref-shadow-focus-inset);
+}
+
+.f-navigator-card-description {
+  font-size: var(--ref-text-xs);
+  font-weight: var(--ref-font-normal);
+}
+
+.f-navigator-featured-description {
+  font-size: var(--ref-text-sm);
+  font-weight: var(--ref-font-normal);
+}

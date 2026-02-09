@@ -6,12 +6,9 @@ const {
   modelValue,
   multiple = false,
   disabled,
-  tokens,
 } = defineProps<ListboxProps>();
 
 const emit = defineEmits<ListboxEmits>();
-
-const styles = useTokenStyle(tokens);
 
 const _handleUpdate = (value: string | string[]) => {
   emit("update:modelValue", value);
@@ -23,11 +20,9 @@ const _handleUpdate = (value: string | string[]) => {
     :model-value="modelValue"
     :multiple="multiple"
     :disabled="disabled"
-    :style="styles['listbox-root']"
     class="f-listbox-root"
   >
     <ListboxContent
-      :style="styles['listbox-content']"
       class="f-listbox-content"
     >
       <ListboxItem
@@ -35,7 +30,6 @@ const _handleUpdate = (value: string | string[]) => {
         :key="item.value"
         :value="item.value"
         :disabled="item.disabled"
-        :style="styles['listbox-item']"
         class="f-listbox-item"
       >
         <slot name="item" :item="item">
@@ -46,8 +40,3 @@ const _handleUpdate = (value: string | string[]) => {
   </ListboxRoot>
 </template>
 
-<style>
-@import '#build/untheme/listbox-root.css';
-@import '#build/untheme/listbox-content.css';
-@import '#build/untheme/listbox-item.css';
-</style>

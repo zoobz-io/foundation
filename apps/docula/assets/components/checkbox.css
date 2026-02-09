@@ -1,0 +1,54 @@
+.f-checkbox-root {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--ref-spacing-lg);
+  height: var(--ref-spacing-lg);
+  background: var(--sys-surface);
+  border-top-width: var(--ref-border-width-thin);
+  border-right-width: var(--ref-border-width-thin);
+  border-bottom-width: var(--ref-border-width-thin);
+  border-left-width: var(--ref-border-width-thin);
+  border-top-style: solid;
+  border-right-style: solid;
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-color: var(--sys-outline);
+  border-top-left-radius: var(--ref-radius-sm);
+  border-top-right-radius: var(--ref-radius-sm);
+  border-bottom-right-radius: var(--ref-radius-sm);
+  border-bottom-left-radius: var(--ref-radius-sm);
+  cursor: pointer;
+  transition-duration: var(--ref-duration-fast);
+  transition-timing-function: var(--ref-ease-out);
+}
+
+.f-checkbox-root:not(:disabled):not([data-disabled]):hover {
+  background: var(--sys-hover);
+}
+
+.f-checkbox-root[data-selected],
+.f-checkbox-root[data-state='checked'],
+.f-checkbox-root[data-highlighted] {
+  background: var(--sys-primary);
+  border-color: var(--sys-primary);
+}
+
+.f-checkbox-root[data-selected]:not(:disabled):not([data-disabled]):hover,
+.f-checkbox-root[data-state='checked']:not(:disabled):not([data-disabled]):hover {
+  background: var(--sys-primary-hover);
+}
+
+.f-checkbox-root:disabled,
+.f-checkbox-root[data-disabled] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.f-checkbox-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--sys-on-primary);
+  font-size: var(--ref-text-sm);
+}

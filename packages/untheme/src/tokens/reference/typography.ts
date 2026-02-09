@@ -1,4 +1,4 @@
-// Typography tokens
+// Typography tokens - design scale values only
 export default {
   // Font families
   "ref-font-sans": "system-ui, -apple-system, sans-serif",
@@ -35,22 +35,4 @@ export default {
   "ref-tracking-tight": "-0.025em",
   "ref-tracking-normal": "0",
   "ref-tracking-wide": "0.025em",
-
-  // Text decoration
-  "ref-decoration-none": "none",
-  "ref-decoration-underline": "underline",
-  "ref-decoration-line-through": "line-through",
-
-  // Font style
-  "ref-font-normal-style": "normal",
-  "ref-font-italic": "italic",
-
-  // Text align
-  "ref-text-align-start": "start",
-  "ref-text-align-center": "center",
-  "ref-text-align-end": "end",
-
-  // Text overflow
-  "ref-text-overflow-ellipsis": "ellipsis",
-  "ref-text-overflow-clip": "clip",
 };

@@ -1,8 +1,4 @@
-import type { tbody } from "../../elements.config";
-
-export type TbodyProps = {
-  tokens?: Tokens<typeof tbody.key>;
-};
+export type TbodyProps = {};
 
 export type TbodyEmits = {};
 

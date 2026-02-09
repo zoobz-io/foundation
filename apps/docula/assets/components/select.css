@@ -1,0 +1,104 @@
+.f-select-root {
+  background: var(--ref-color-transparent);
+}
+
+.f-select-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ref-spacing-xs);
+  background: var(--sys-surface);
+  color: var(--sys-on-surface);
+  font-size: var(--ref-text-base);
+  font-weight: var(--ref-font-normal);
+  padding-top: var(--ref-spacing-sm);
+  padding-right: var(--ref-spacing-md);
+  padding-bottom: var(--ref-spacing-sm);
+  padding-left: var(--ref-spacing-md);
+  border-top-width: var(--ref-border-width-thin);
+  border-right-width: var(--ref-border-width-thin);
+  border-bottom-width: var(--ref-border-width-thin);
+  border-left-width: var(--ref-border-width-thin);
+  border-top-style: solid;
+  border-right-style: solid;
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-color: var(--sys-outline);
+  cursor: pointer;
+  width: 100%;
+  transition-duration: var(--ref-duration-fast);
+  transition-timing-function: var(--ref-ease-out);
+}
+
+.f-select-trigger:hover {
+  border-color: var(--sys-outline);
+  background: var(--sys-hover);
+}
+
+.f-select-trigger:focus-visible {
+  border-color: var(--sys-primary);
+  background: var(--sys-surface);
+  box-shadow: var(--ref-shadow-focus-ring);
+}
+
+.f-select-content {
+  background: var(--sys-surface-container);
+  color: var(--sys-on-surface);
+  padding-top: var(--ref-spacing-xs);
+  padding-right: var(--ref-spacing-xs);
+  padding-bottom: var(--ref-spacing-xs);
+  padding-left: var(--ref-spacing-xs);
+  border-top-width: var(--ref-border-width-thin);
+  border-right-width: var(--ref-border-width-thin);
+  border-bottom-width: var(--ref-border-width-thin);
+  border-left-width: var(--ref-border-width-thin);
+  border-top-style: solid;
+  border-right-style: solid;
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-color: var(--sys-outline);
+  z-index: var(--ref-z-dropdown);
+  max-height: var(--ref-width-md);
+  overflow-y: auto;
+}
+
+.f-select-item {
+  background: var(--ref-color-transparent);
+  color: var(--sys-on-surface);
+  padding-top: var(--ref-spacing-xs);
+  padding-right: var(--ref-spacing-md);
+  padding-bottom: var(--ref-spacing-xs);
+  padding-left: var(--ref-spacing-md);
+  cursor: pointer;
+  font-size: var(--ref-text-base);
+  transition-duration: var(--ref-duration-fast);
+  transition-timing-function: var(--ref-ease-out);
+}
+
+.f-select-item:hover {
+  color: var(--sys-on-surface);
+  background: var(--sys-hover);
+}
+
+.f-select-item:focus-visible {
+  background: var(--sys-hover);
+  box-shadow: var(--ref-shadow-focus-inset);
+}
+
+.f-select-item[data-selected],
+.f-select-item[data-state='checked'],
+.f-select-item[data-highlighted] {
+  color: var(--sys-primary);
+  background: var(--sys-surface-container-high);
+}
+
+.f-select-item[data-selected]:hover,
+.f-select-item[data-state='checked']:hover {
+  color: var(--sys-primary);
+  background: var(--sys-hover);
+}
+
+.f-select-item[data-selected]:focus-visible,
+.f-select-item[data-state='checked']:focus-visible {
+  background: var(--sys-hover);
+}

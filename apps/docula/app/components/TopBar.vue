@@ -8,7 +8,6 @@ interface CollectionConfig {
   icon?: IconAlias;
 }
 
-const styles = useTokenStyle();
 const appConfig = useAppConfig();
 const collections = computed(
   () => (appConfig.collections as CollectionConfig[]) || [],
@@ -88,16 +87,16 @@ const featured = computed(() => {
 
 <template>
   <Header>
-    <div :style="styles['topbar-left']" class="f-topbar-left">
+    <div class="f-topbar-left">
       <slot name="logo">
         <AsciiLogo :text="appConfig.title ?? 'Docula'" />
       </slot>
       <VersionSelector />
     </div>
-    <div :style="styles['topbar-center']" class="f-topbar-center">
+    <div class="f-topbar-center">
       <Search />
     </div>
-    <div :style="styles['topbar-right']" class="f-topbar-right">
+    <div class="f-topbar-right">
       <slot name="actions">
         <FontMode />
         <Theme />
@@ -106,9 +105,3 @@ const featured = computed(() => {
     </div>
   </Header>
 </template>
-
-<style>
-@import '#build/untheme/topbar-left.css';
-@import '#build/untheme/topbar-center.css';
-@import '#build/untheme/topbar-right.css';
-</style>

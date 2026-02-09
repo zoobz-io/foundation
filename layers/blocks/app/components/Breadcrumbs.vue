@@ -4,10 +4,7 @@ import type { BreadcrumbsProps } from "../types/breadcrumbs";
 const {
   items,
   separator = "chevron-right",
-  tokens,
 } = defineProps<BreadcrumbsProps>();
-
-const styles = useTokenStyle(tokens);
 
 const isLast = (index: number) => index === items.length - 1;
 </script>
@@ -15,19 +12,16 @@ const isLast = (index: number) => index === items.length - 1;
 <template>
   <nav
     aria-label="Breadcrumb"
-    :style="styles['breadcrumbs-root']"
     class="f-breadcrumbs-root"
   >
-    <ol :style="styles['breadcrumbs-list']" class="f-breadcrumbs-list">
+    <ol class="f-breadcrumbs-list">
       <li
         v-for="(item, index) in items"
         :key="item.to"
-        :style="styles['breadcrumbs-item']"
         class="f-breadcrumbs-item"
       >
         <span
           v-if="isLast(index)"
-          :style="styles['breadcrumbs-current']"
           class="f-breadcrumbs-current"
         >
           <slot
@@ -43,7 +37,6 @@ const isLast = (index: number) => index === items.length - 1;
         <NuxtLink
           v-else
           :to="item.to"
-          :style="styles['breadcrumbs-link']"
           class="f-breadcrumbs-link"
         >
           <slot
@@ -59,7 +52,6 @@ const isLast = (index: number) => index === items.length - 1;
 
         <span
           v-if="!isLast(index)"
-          :style="styles['breadcrumbs-separator']"
           class="f-breadcrumbs-separator"
         >
           <slot name="separator">
@@ -71,11 +63,3 @@ const isLast = (index: number) => index === items.length - 1;
   </nav>
 </template>
 
-<style>
-@import '#build/untheme/breadcrumbs-root.css';
-@import '#build/untheme/breadcrumbs-list.css';
-@import '#build/untheme/breadcrumbs-item.css';
-@import '#build/untheme/breadcrumbs-link.css';
-@import '#build/untheme/breadcrumbs-current.css';
-@import '#build/untheme/breadcrumbs-separator.css';
-</style>

@@ -1,9 +1,5 @@
-import type { banner } from "../../elements.config";
-
 export type BannerProps = {
-  icon?: IconAlias;
-  tokens?: Tokens<typeof banner.key>;
-};
+  icon?: IconAlias;};
 
 export type BannerEmits = {};
 

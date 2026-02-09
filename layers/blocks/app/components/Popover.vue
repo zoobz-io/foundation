@@ -11,14 +11,12 @@ const {
   sideOffset = 10,
   alignOffset = 0,
   arrow = false,
-  tokens,
 } = defineProps<
   Omit<PopoverProps, "open"> & { reference?: ReferenceElement }
 >();
 
 const open = defineModel<boolean>("open", { default: false });
 
-const styles = useTokenStyle(tokens);
 </script>
 
 <template>
@@ -33,18 +31,15 @@ const styles = useTokenStyle(tokens);
         :align="align"
         :side-offset="sideOffset"
         :align-offset="alignOffset"
-        :style="styles['popover-content']"
         class="f-popover-content"
       >
         <slot name="content" />
         <PopoverArrow
           v-if="arrow"
-          :style="styles['popover-arrow']"
           class="f-popover-arrow"
         />
         <PopoverClose
           v-if="$slots.close"
-          :style="styles['popover-close']"
           class="f-popover-close"
         >
           <slot name="close" />
@@ -54,9 +49,3 @@ const styles = useTokenStyle(tokens);
   </PopoverRoot>
 </template>
 
-<style>
-@import "#build/untheme/popover-trigger.css";
-@import "#build/untheme/popover-content.css";
-@import "#build/untheme/popover-arrow.css";
-@import "#build/untheme/popover-close.css";
-</style>

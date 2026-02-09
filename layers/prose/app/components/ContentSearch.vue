@@ -1,37 +1,17 @@
 <script lang="ts">
 import type { CollectionConfig, SearchResult, GroupedResults } from "../composables/search";
 import type { CommandGroup } from "@foundation/blocks/app/components/Command.vue";
-import type { command, icon } from "@foundation/blocks/elements";
-import type { contentSearch } from "../../elements.config";
 
 export interface ContentSearchProps {
-  collections: CollectionConfig[];
-  tokens?: Tokens<
-    | typeof command.root
-    | typeof command.input
-    | typeof command.content
-    | typeof command.viewport
-    | typeof command.group
-    | typeof command.label
-    | typeof command.item
-    | typeof command.empty
-    | typeof icon.key
-    | typeof contentSearch.result
-    | typeof contentSearch.resultTitle
-    | typeof contentSearch.resultSeparator
-    | typeof contentSearch.resultDate
-  >;
-}
+  collections: CollectionConfig[];}
 </script>
 
 <script setup lang="ts">
-const { collections, tokens } = defineProps<ContentSearchProps>();
+const { collections } = defineProps<ContentSearchProps>();
 
 const emit = defineEmits<{
   select: [id: string];
 }>();
-
-const styles = useTokenStyle(tokens);
 
 const { query, groupedResults, isSearching } = useContentSearch(collections);
 
@@ -121,7 +101,6 @@ defineExpose({ focus, clear });
     v-model:search-term="query"
     :groups="commandGroups"
     placeholder="Search documentation..."
-    :tokens="tokens"
     @select="handleSelect"
   >
     <template #empty>
@@ -134,8 +113,7 @@ defineExpose({ focus, clear });
         <Icon
           v-if="getResult(item.value)?.icon"
           :alias="getResult(item.value)!.icon!"
-          :tokens="tokens"
-        />
+                  />
         <template v-if="getResult(item.value)!.titles.length > 0">
           <template
             v-for="(title, index) in getResult(item.value)!.titles"
@@ -143,13 +121,11 @@ defineExpose({ focus, clear });
           >
             <span
               v-if="index > 0"
-              :style="styles['content-search-result-separator']"
               class="f-content-search-result-separator"
             >
-              <Icon alias="chevron-right" :tokens="tokens" />
+              <Icon alias="chevron-right" />
             </span>
             <span
-              :style="styles['content-search-result-title']"
               class="f-content-search-result-title"
             >
               {{ title }}
@@ -158,14 +134,12 @@ defineExpose({ focus, clear });
         </template>
         <span
           v-else
-          :style="styles['content-search-result-title']"
           class="f-content-search-result-title"
         >
           {{ getResult(item.value)!.title }}
         </span>
         <span
           v-if="getResult(item.value)?.published"
-          :style="styles['content-search-result-date']"
           class="f-content-search-result-date"
         >
           {{ formatDate(getResult(item.value)!.published!) }}
@@ -175,8 +149,3 @@ defineExpose({ focus, clear });
   </Command>
 </template>
 
-<style>
-@import "#build/untheme/content-search-result-title.css";
-@import "#build/untheme/content-search-result-separator.css";
-@import "#build/untheme/content-search-result-date.css";
-</style>

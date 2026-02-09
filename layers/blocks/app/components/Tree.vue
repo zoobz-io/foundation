@@ -7,12 +7,9 @@ const {
   expanded,
   multiple = false,
   selectionBehavior = "toggle",
-  tokens,
 } = defineProps<TreeProps>();
 
 const emit = defineEmits<TreeEmits>();
-
-const styles = useTokenStyle(tokens);
 
 const getKey = (item: TreeNode) => item.value;
 const getChildren = (item: TreeNode) => item.children;
@@ -37,7 +34,6 @@ const NuxtLinkComponent = defineNuxtLink({});
     :selection-behavior="selectionBehavior"
     :get-key="getKey"
     :get-children="getChildren"
-    :style="styles['tree-root']"
     class="f-tree-root"
     @update:model-value="handleUpdate"
     @update:expanded="handleExpanded"
@@ -63,7 +59,7 @@ const NuxtLinkComponent = defineNuxtLink({});
           class="f-tree-branch-content"
         >
           <slot name="branch" :item="item.value" :is-expanded="isExpanded">
-            <div class="f-tree-branch-label" :style="styles['tree-branch-label']">
+            <div class="f-tree-branch-label">
               <Icon v-if="item.value.icon" :alias="item.value.icon" />
               <span>{{ item.value.label }}</span>
             </div>
@@ -90,11 +86,3 @@ const NuxtLinkComponent = defineNuxtLink({});
   </TreeRoot>
 </template>
 
-<style>
-@import '#build/untheme/tree-root.css';
-@import '#build/untheme/tree-branch.css';
-@import '#build/untheme/tree-branch-content.css';
-@import '#build/untheme/tree-branch-label.css';
-@import '#build/untheme/tree-leaf.css';
-@import '#build/untheme/tree-leaf-content.css';
-</style>

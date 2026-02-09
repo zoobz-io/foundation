@@ -1,8 +1,4 @@
-import type { tr } from "../../elements.config";
-
-export type TrProps = {
-  tokens?: Tokens<typeof tr.key>;
-};
+export type TrProps = {};
 
 export type TrEmits = {};
 

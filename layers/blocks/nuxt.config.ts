@@ -91,7 +91,7 @@ export default defineNuxtConfig({
   }),
   vite: {
     optimizeDeps: {
-      exclude: ["#build/untheme.config.mjs", "#build/iconic.config.mjs"],
+      exclude: ["#build/iconic.config.mjs"],
     },
   },
 });

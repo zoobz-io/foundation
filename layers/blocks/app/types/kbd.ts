@@ -1,8 +1,4 @@
-import type { kbd } from "../../elements.config";
-
-export type KbdProps = {
-  tokens?: Tokens<typeof kbd.key>;
-};
+export type KbdProps = {};
 
 export type KbdEmits = {};
 

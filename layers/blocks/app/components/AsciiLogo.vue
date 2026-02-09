@@ -45,7 +45,7 @@ const ascii = computed(() => {
 
 .f-ascii-logo-link:focus-visible {
   outline: 2px solid var(--sys-primary);
-  outline-offset: var(--ref-outline-offset-sm);
+  outline-offset: 4px;
 }
 
 .f-ascii-logo {

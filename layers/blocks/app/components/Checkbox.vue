@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import type { CheckboxProps } from "../types/checkbox";
 
-const { disabled, name, value, required, tokens } = defineProps<CheckboxProps>();
+const { disabled, name, value, required } = defineProps<CheckboxProps>();
 
 const model = defineModel<boolean | "indeterminate">();
 
-const styles = useTokenStyle(tokens);
 </script>
 
 <template>
@@ -15,11 +14,9 @@ const styles = useTokenStyle(tokens);
     :name="name"
     :value="value"
     :required="required"
-    :style="styles['checkbox-root']"
     class="f-checkbox-root"
   >
     <CheckboxIndicator
-      :style="styles['checkbox-indicator']"
       class="f-checkbox-indicator"
     >
       <slot>
@@ -29,7 +26,3 @@ const styles = useTokenStyle(tokens);
   </CheckboxRoot>
 </template>
 
-<style>
-@import '#build/untheme/checkbox-root.css';
-@import '#build/untheme/checkbox-indicator.css';
-</style>

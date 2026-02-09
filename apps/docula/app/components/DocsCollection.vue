@@ -16,9 +16,6 @@ defineProps<{
       <P v-if="description">{{ description }}</P>
     </Article>
     <Hr
-      :tokens="{
-        hr: { 'margin-top': 'ref-none', 'margin-bottom': 'ref-none' },
-      }"
     />
     <ContentAccordion
       v-if="navigation"

@@ -46,9 +46,3 @@ watch(selected, (version) => {
     </SelectContent>
   </SelectRoot>
 </template>
-
-<style>
-@import "#build/untheme/version-select-root.css";
-@import "#build/untheme/version-select-content.css";
-@import "#build/untheme/version-select-item.css";
-</style>

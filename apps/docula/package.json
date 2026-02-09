@@ -4,6 +4,10 @@
   "private": true,
   "version": "0.0.1",
   "main": "./nuxt.config.ts",
+  "exports": {
+    ".": "./nuxt.config.ts",
+    "./assets/*": "./assets/*"
+  },
   "scripts": {
     "dev": "nuxi dev",
     "build": "nuxi build",

@@ -1,0 +1,56 @@
+.f-dialog-overlay {
+  background: var(--sys-surface);
+  opacity: 0.5;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: var(--ref-z-overlay);
+}
+
+.f-dialog-content {
+  background: var(--sys-surface-container);
+  color: var(--sys-on-surface);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--ref-width-xl);
+  max-height: var(--ref-viewport-60);
+  overflow-y: hidden;
+  border-top-width: var(--ref-border-width-thin);
+  border-right-width: var(--ref-border-width-thin);
+  border-bottom-width: var(--ref-border-width-thin);
+  border-left-width: var(--ref-border-width-thin);
+  border-top-style: solid;
+  border-right-style: solid;
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-color: var(--sys-outline);
+  z-index: var(--ref-z-modal);
+}
+
+.f-dialog-title {
+  display: block;
+  color: var(--sys-on-surface);
+  font-size: var(--ref-text-lg);
+  font-weight: var(--ref-font-bold);
+  padding-top: var(--ref-spacing-md);
+  padding-right: var(--ref-spacing-md);
+  padding-bottom: var(--ref-spacing-xs);
+  padding-left: var(--ref-spacing-md);
+}
+
+.f-dialog-description {
+  display: block;
+  color: var(--sys-on-surface-variant);
+  font-size: var(--ref-text-sm);
+  padding-top: var(--ref-spacing-xs);
+  padding-right: var(--ref-spacing-md);
+  padding-bottom: var(--ref-spacing-md);
+  padding-left: var(--ref-spacing-md);
+  border-bottom-width: var(--ref-border-width-thin);
+  border-bottom-style: solid;
+  border-color: var(--sys-outline-variant);
+}

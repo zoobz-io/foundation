@@ -1,8 +1,4 @@
-import type { h2 } from "../../elements.config";
-
-export type H2Props = {
-  tokens?: Tokens<typeof h2.key>;
-};
+export type H2Props = {};
 
 export type H2Emits = {};
 

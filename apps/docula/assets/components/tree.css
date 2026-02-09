@@ -1,0 +1,132 @@
+.f-tree-root {
+  display: flex;
+  flex-direction: column;
+}
+
+.f-tree-branch {
+  display: flex;
+  flex-direction: column;
+  background: var(--ref-color-transparent);
+  color: var(--sys-on-surface-variant);
+  cursor: pointer;
+  font-size: var(--ref-text-base);
+  font-weight: var(--ref-font-normal);
+}
+
+.f-tree-branch:hover {
+  color: var(--sys-on-surface);
+  background: var(--sys-hover);
+  font-weight: var(--ref-font-normal);
+}
+
+.f-tree-branch:active {
+  font-weight: var(--ref-font-normal);
+}
+
+.f-tree-branch:focus-visible {
+  font-weight: var(--ref-font-normal);
+  background: var(--sys-hover);
+  box-shadow: var(--ref-shadow-focus-inset);
+}
+
+.f-tree-branch[data-state='open'],
+.f-tree-branch[data-expanded] {
+  color: var(--sys-on-surface);
+  font-weight: var(--ref-font-normal);
+}
+
+.f-tree-branch[data-state='open']:hover,
+.f-tree-branch[data-expanded]:hover {
+  color: var(--sys-on-surface);
+  font-weight: var(--ref-font-normal);
+}
+
+.f-tree-branch[data-state='open']:active,
+.f-tree-branch[data-expanded]:active {
+  font-weight: var(--ref-font-normal);
+}
+
+.f-tree-branch[data-state='open']:focus-visible,
+.f-tree-branch[data-expanded]:focus-visible {
+  font-weight: var(--ref-font-normal);
+  background: var(--sys-hover);
+  box-shadow: var(--ref-shadow-focus-inset);
+}
+
+.f-tree-branch-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ref-spacing-xs);
+  padding-left: var(--ref-spacing-md);
+  padding-right: var(--ref-spacing-md);
+  padding-top: var(--ref-spacing-xs);
+  padding-bottom: var(--ref-spacing-xs);
+}
+
+.f-tree-leaf {
+  background: var(--ref-color-transparent);
+  color: var(--sys-on-surface-variant);
+  border-color: var(--ref-color-transparent);
+  cursor: pointer;
+  font-size: var(--ref-text-base);
+  display: flex;
+  flex-direction: column;
+}
+
+.f-tree-leaf:hover {
+  color: var(--sys-on-surface);
+  background: var(--sys-hover);
+}
+
+.f-tree-leaf:active {
+  color: var(--sys-primary);
+}
+
+.f-tree-leaf:focus-visible {
+  background: var(--sys-hover);
+  box-shadow: var(--ref-shadow-focus-inset);
+}
+
+.f-tree-leaf[data-selected],
+.f-tree-leaf[data-state='checked'],
+.f-tree-leaf[data-highlighted] {
+  color: var(--sys-primary);
+  background: var(--sys-surface-container-high);
+  box-shadow: var(--ref-shadow-border-left);
+}
+
+.f-tree-leaf[data-selected]:hover,
+.f-tree-leaf[data-state='checked']:hover {
+  color: var(--sys-primary);
+  background: var(--sys-hover);
+  box-shadow: var(--ref-shadow-border-left);
+}
+
+.f-tree-leaf[data-selected]:active,
+.f-tree-leaf[data-state='checked']:active {
+  box-shadow: var(--ref-shadow-border-left);
+  color: var(--sys-primary);
+}
+
+.f-tree-leaf[data-selected]:focus-visible,
+.f-tree-leaf[data-state='checked']:focus-visible {
+  color: var(--sys-primary);
+  background: var(--sys-hover);
+  box-shadow: var(--ref-shadow-border-left-focus);
+}
+
+.f-tree-leaf-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--ref-spacing-xs);
+  padding-left: var(--ref-spacing-md);
+  padding-right: var(--ref-spacing-md);
+  padding-top: var(--ref-spacing-xs);
+  padding-bottom: var(--ref-spacing-xs);
+  color: inherit;
+  text-decoration: none;
+  font-weight: var(--ref-font-normal);
+}

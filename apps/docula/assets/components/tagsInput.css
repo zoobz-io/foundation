@@ -1,0 +1,67 @@
+.f-tags-input-root {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ref-spacing-xs);
+  background: var(--sys-surface);
+  color: var(--sys-on-surface);
+  padding-top: var(--ref-spacing-sm);
+  padding-right: var(--ref-spacing-md);
+  padding-bottom: var(--ref-spacing-sm);
+  padding-left: var(--ref-spacing-md);
+  border-top-width: var(--ref-border-width-thin);
+  border-right-width: var(--ref-border-width-thin);
+  border-bottom-width: var(--ref-border-width-thin);
+  border-left-width: var(--ref-border-width-thin);
+  border-top-style: solid;
+  border-right-style: solid;
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-color: var(--sys-outline);
+}
+
+.f-tags-input-item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ref-spacing-2xs);
+  background: var(--sys-surface-container-high);
+  color: var(--sys-on-surface);
+  font-size: var(--ref-text-sm);
+  font-weight: var(--ref-font-medium);
+  white-space: nowrap;
+  padding-left: var(--ref-spacing-sm);
+  padding-right: var(--ref-spacing-sm);
+  padding-top: var(--ref-spacing-2xs);
+  padding-bottom: var(--ref-spacing-2xs);
+  transition-duration: var(--ref-duration-fast);
+  transition-timing-function: var(--ref-ease-out);
+}
+
+.f-tags-input-item-text {
+  font-size: var(--ref-text-sm);
+}
+
+.f-tags-input-item-delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ref-color-transparent);
+  color: var(--sys-on-surface-variant);
+  cursor: pointer;
+  transition-duration: var(--ref-duration-fast);
+  transition-timing-function: var(--ref-ease-out);
+}
+
+.f-tags-input-item-delete:hover {
+  background: var(--sys-hover);
+  color: var(--sys-on-surface);
+}
+
+.f-tags-input-input {
+  background: var(--ref-color-transparent);
+  color: var(--sys-on-surface);
+  font-size: var(--ref-text-base);
+  flex-grow: 1;
+  min-width: var(--ref-width-xs);
+}

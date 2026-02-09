@@ -1,14 +1,9 @@
-<script lang="ts">
-import type { caption } from "@foundation/blocks/elements";
-import type { toc } from "../../elements.config";
-</script>
-
 <script setup lang="ts">
 import { useIntersectionObserver } from "@vueuse/core";
+
 export interface TocProps {
   links: TocLink[];
   title?: string;
-  tokens?: Tokens<typeof caption.key | typeof toc.root | typeof toc.content | typeof toc.item>;
 }
 
 interface FlatTocLink {
@@ -17,9 +12,7 @@ interface FlatTocLink {
   depth: number;
 }
 
-const { links, title = "On this page", tokens } = defineProps<TocProps>();
-
-const styles = useTokenStyle(tokens);
+const { links, title = "On this page" } = defineProps<TocProps>();
 
 // Flatten nested links into a single array with depth preserved
 const flatLinks = computed<FlatTocLink[]>(() => {
@@ -72,23 +65,21 @@ onMounted(() => {
   });
 });
 
-// Calculate padding based on depth (TOC starts at h2, so depth 2 = 0 extra padding)
+// Calculate padding based on depth (TOC starts at h2, so depth 2 = base padding only)
 const getItemStyle = (depth: number) => {
-  const baseStyle = styles.value["toc-item"] || {};
-  const depthPadding = `calc(1rem * ${depth - 2})`;
+  const depthPadding = `calc(var(--ref-spacing-md) + 1rem * ${depth - 2})`;
   return {
-    ...baseStyle,
-    paddingLeft: `calc(${baseStyle.paddingLeft || "1rem"} + ${depthPadding})`,
+    paddingLeft: depthPadding,
   };
 };
 </script>
 
 <template>
-  <nav :style="styles['toc-root']" class="f-toc-root">
-    <Caption icon="toc" :tokens="tokens">
+  <nav class="f-toc-root">
+    <Caption icon="toc">
       {{ title }}
     </Caption>
-    <div :style="styles['toc-content']" class="f-toc-content">
+    <div class="f-toc-content">
       <NuxtLink
         v-for="link in flatLinks"
         :key="link.id"
@@ -104,9 +95,3 @@ const getItemStyle = (depth: number) => {
     </div>
   </nav>
 </template>
-
-<style>
-@import '#build/untheme/toc-root.css';
-@import '#build/untheme/toc-content.css';
-@import '#build/untheme/toc-item.css';
-</style>

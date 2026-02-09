@@ -25,10 +25,7 @@ const modKey = computed(() => (isMac.value ? "⌘" : "Ctrl"));
       <span>{{ label }}</span>
       <Kbd>
         {{ modKey }}
-        <Icon
-          alias="plus"
-          :tokens="{ icon: { 'font-size': 'ref-text-2xs' } }"
-        />
+        <Icon alias="plus" />
         M
       </Kbd>
     </template>

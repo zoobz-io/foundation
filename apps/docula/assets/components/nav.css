@@ -1,0 +1,32 @@
+.f-nav {
+  background: var(--ref-color-transparent);
+  color: var(--sys-on-surface);
+}
+
+/* Nav as direct child of Main = left sidebar */
+.f-main > .f-nav {
+  grid-column: 1;
+  grid-row: 2;
+  border-right: var(--ref-border-width-thin) solid var(--sys-outline);
+}
+
+/* Aside inside left sidebar - sticky within Nav bounds */
+.f-main > .f-nav > .f-aside {
+  position: sticky;
+  top: var(--ref-height-header);
+  max-height: calc(100vh - var(--ref-height-header));
+  overflow-y: auto;
+}
+
+/* Nav inside Container = right sidebar - needs height to allow sticky */
+.f-container > .f-nav {
+  align-self: stretch;
+}
+
+/* Aside inside right sidebar - sticky within Nav bounds */
+.f-container > .f-nav > .f-aside {
+  position: sticky;
+  top: var(--ref-height-header);
+  max-height: calc(100vh - var(--ref-height-header));
+  overflow-y: auto;
+}

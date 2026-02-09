@@ -1,0 +1,22 @@
+.f-tooltip-content {
+  background: var(--sys-surface-container);
+  color: var(--sys-on-surface);
+  font-size: var(--ref-text-sm);
+  padding-left: var(--ref-spacing-xs);
+  padding-right: var(--ref-spacing-xs);
+  padding-top: var(--ref-spacing-xs);
+  padding-bottom: var(--ref-spacing-xs);
+  border-top-width: var(--ref-border-width-thin);
+  border-right-width: var(--ref-border-width-thin);
+  border-bottom-width: var(--ref-border-width-thin);
+  border-left-width: var(--ref-border-width-thin);
+  border-top-style: solid;
+  border-right-style: solid;
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-color: var(--sys-outline);
+  z-index: var(--ref-z-tooltip);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ref-spacing-xs);
+}

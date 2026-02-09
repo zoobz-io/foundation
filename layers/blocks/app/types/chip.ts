@@ -1,9 +1,5 @@
-import type { chip } from "../../elements.config";
-
 export type ChipProps = {
-  label?: string;
-  tokens?: Tokens<typeof chip.key>;
-};
+  label?: string;};
 
 export type ChipEmits = {};
 

@@ -70,6 +70,8 @@ export const useMockTable = () => {
     isRowSelected: store.isRowSelected,
     setPageSize: store.setPageSize,
     update: store.update,
+    getSnapshot: store.getSnapshot,
+    restoreSnapshot: store.restoreSnapshot,
     fetch: store.fetch,
   };
 };

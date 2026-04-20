@@ -1,5 +1,5 @@
 {
-  "name": "@zoobz-io/forge",
+  "name": "@zoobz-io/foundry",
   "type": "module",
   "license": "MIT",
   "version": "0.0.1",
@@ -21,12 +21,10 @@
     "registry": "https://registry.npmjs.org"
   },
   "dependencies": {
-    "@zoobz-io/alloy": "workspace:*",
-    "@internationalized/date": "^3.7.0",
+    "@zoobz-io/forge": "workspace:*",
     "nuxt": "catalog:",
     "pinia": "catalog:",
-    "@pinia/nuxt": "catalog:",
-    "zod": "^3.23.0"
+    "@pinia/nuxt": "catalog:"
   },
   "devDependencies": {
     "typescript": "catalog:"

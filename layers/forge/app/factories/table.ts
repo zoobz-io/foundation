@@ -6,12 +6,20 @@ import type {
   DateFilter,
   FacetGroup,
 } from "../types/data-table";
+import { DATA_TABLE_CONFIG } from "../types/data-table";
+import { DataTableSnapshotSchema } from "../schemas/data-table";
+import type { DataTableSnapshot } from "../schemas/data-table";
 
 export const createTableStore = <T, K = unknown>(
   id: string,
   config: Omit<DataTableConfig<T, K>, "id">,
 ) => {
   return defineStore(`table-${id}`, () => {
+    // Resolve defaults from page config via inject
+    const getConfig = inject(DATA_TABLE_CONFIG, undefined);
+    const raw = getConfig?.(id);
+    const defaults = raw ? DataTableSnapshotSchema.partial().parse(raw) : undefined;
+
     // Data
     const data = ref<T[]>([]) as Ref<T[]>;
     const loading = ref(false);
@@ -19,8 +27,8 @@ export const createTableStore = <T, K = unknown>(
     const rowKey = config.rowKey;
 
     // Pagination
-    const page = ref(1);
-    const pageSize = ref(config.defaultPageSize ?? 10);
+    const page = ref(defaults?.page ?? 1);
+    const pageSize = ref(defaults?.pageSize ?? config.defaultPageSize ?? 10);
     const total = ref(0);
     const pageCount = computed(() =>
       Math.max(1, Math.ceil(total.value / pageSize.value)),
@@ -33,8 +41,8 @@ export const createTableStore = <T, K = unknown>(
     };
 
     // Sorting
-    const sortField = ref<string | null>(null);
-    const sortDirection = ref<"asc" | "desc">("asc");
+    const sortField = ref<string | null>(defaults?.sortField ?? null);
+    const sortDirection = ref<"asc" | "desc">(defaults?.sortDirection ?? "asc");
 
     const sortBy = (field: string) => {
       if (sortField.value === field) {
@@ -48,12 +56,12 @@ export const createTableStore = <T, K = unknown>(
     };
 
     // Search
-    const query = ref("");
-    const keywords = ref("");
-    const match = ref<"all" | "any">("all");
+    const query = ref(defaults?.query ?? "");
+    const keywords = ref(defaults?.keywords ?? "");
+    const match = ref<"all" | "any">(defaults?.match ?? "all");
 
     // Facets
-    const selectedFacets = ref(new Set<string>());
+    const selectedFacets = ref(new Set<string>(defaults?.selectedFacets));
     const facetGroups = computed<FacetGroup[]>(() =>
       config.facetGroups ? config.facetGroups(data.value) : [],
     );
@@ -66,7 +74,7 @@ export const createTableStore = <T, K = unknown>(
 
     // Date filters
     const dateFields = config.dateFields ?? [];
-    const dateFilters = ref<DateFilter[]>([]);
+    const dateFilters = ref<DateFilter[]>(defaults?.dateFilters ?? []);
 
     const addDateFilter = (filter: DateFilter) => {
       const existing = dateFilters.value.findIndex(
@@ -162,6 +170,32 @@ export const createTableStore = <T, K = unknown>(
       fetchData();
     };
 
+    // Persistence
+    const getSnapshot = (): DataTableSnapshot => ({
+      query: query.value,
+      keywords: keywords.value,
+      match: match.value,
+      page: page.value,
+      pageSize: pageSize.value,
+      selectedFacets: [...selectedFacets.value],
+      dateFilters: dateFilters.value,
+      sortField: sortField.value,
+      sortDirection: sortDirection.value,
+    });
+
+    const restoreSnapshot = (snapshot: DataTableSnapshot) => {
+      query.value = snapshot.query;
+      keywords.value = snapshot.keywords;
+      match.value = snapshot.match;
+      page.value = snapshot.page;
+      pageSize.value = snapshot.pageSize;
+      selectedFacets.value = new Set(snapshot.selectedFacets);
+      dateFilters.value = snapshot.dateFilters;
+      sortField.value = snapshot.sortField;
+      sortDirection.value = snapshot.sortDirection;
+      fetchData();
+    };
+
     // Fetch
     const fetchData = async () => {
       loading.value = true;
@@ -182,6 +216,7 @@ export const createTableStore = <T, K = unknown>(
         total.value = result.total;
       } finally {
         loading.value = false;
+        useNuxtApp().callHook("widget:table:snapshot", { id, snapshot: getSnapshot() });
       }
     };
 
@@ -224,6 +259,8 @@ export const createTableStore = <T, K = unknown>(
       colSpan,
       setPageSize,
       update,
+      getSnapshot,
+      restoreSnapshot,
       fetch: fetchData,
     };
   });

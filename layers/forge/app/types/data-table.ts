@@ -130,9 +130,19 @@ export interface DataTableState<T, K = unknown> {
   // Mutation
   update: (payload: Partial<DataTablePayload>) => void;
 
+  // Persistence
+  getSnapshot: () => DataTableSnapshot;
+  restoreSnapshot: (snapshot: DataTableSnapshot) => void;
+
   // Lifecycle
   fetch: () => Promise<void>;
 }
+
+/**
+ * Injection key for DataTable widget config lookup.
+ * Pages provide this, DataTable widgets inject it to get their defaults.
+ */
+export const DATA_TABLE_CONFIG: InjectionKey<(id: string) => DataTableSnapshot | undefined> = Symbol("DATA_TABLE_CONFIG");
 
 /**
  * The writable slice of table state.

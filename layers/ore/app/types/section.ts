@@ -1,4 +1,5 @@
 export type SectionProps = {
+  label?: string;
   variant?: OreVariants["section"];
   size?: OreSizes["section"];
   color?: OreColors["section"];

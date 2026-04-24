@@ -12,7 +12,7 @@ const {
   pt,
 } = defineProps<ListboxProps>();
 
-const emit = defineEmits<ListboxEmits>();
+const _emit = defineEmits<ListboxEmits>();
 
 const el = useTemplateRef("el");
 defineExpose({ el });
@@ -38,21 +38,21 @@ const ctx = computed(() => ({ items, modelValue, multiple, disabled }));
   <ListboxRoot
     ref="el"
     v-bind="rootPT.props"
-    v-on="rootPT.handlers"
     class="f-listbox-root"
+    v-on="rootPT.handlers"
   >
     <slot name="content" v-bind="ctx">
       <ListboxContent
         v-bind="contentPT.props"
-        v-on="contentPT.handlers"
         class="f-listbox-content"
+        v-on="contentPT.handlers"
       >
         <ListboxItem
           v-for="entry in itemsPT"
           :key="entry.item.value"
           v-bind="entry.pt.props"
-          v-on="entry.pt.handlers"
           class="f-listbox-item"
+          v-on="entry.pt.handlers"
         >
           <slot name="item" v-bind="{ ...ctx, item: entry.item }">
             {{ entry.item.label }}

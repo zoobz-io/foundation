@@ -25,21 +25,21 @@ const ctx = computed(() => ({ title, description, open }));
       <slot name="overlay" v-bind="ctx">
         <DialogOverlay
           v-bind="overlayPT.props"
-          v-on="overlayPT.handlers"
           class="f-dialog-overlay"
+          v-on="overlayPT.handlers"
         />
       </slot>
       <slot name="content" v-bind="ctx">
         <DialogContent
           v-bind="contentPT.props"
-          v-on="contentPT.handlers"
           class="f-dialog-content"
+          v-on="contentPT.handlers"
         >
           <slot name="title" v-bind="ctx">
             <DialogTitle
               v-bind="titlePT.props"
-              v-on="titlePT.handlers"
               class="f-dialog-title"
+              v-on="titlePT.handlers"
             >
               {{ title }}
             </DialogTitle>
@@ -47,8 +47,8 @@ const ctx = computed(() => ({ title, description, open }));
           <slot name="description" v-bind="ctx">
             <DialogDescription
               v-bind="descriptionPT.props"
-              v-on="descriptionPT.handlers"
               class="f-dialog-description"
+              v-on="descriptionPT.handlers"
             >
               {{ description }}
             </DialogDescription>

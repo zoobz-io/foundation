@@ -5,7 +5,7 @@ import type { DateFiltersProps, DateFilter, DateFilterOperator } from "../types/
 </script>
 
 <script setup lang="ts">
-const { fields, addFilter, removeFilter, pt } = defineProps<DateFiltersProps>();
+const { fields, addFilter, removeFilter: _removeFilter, pt } = defineProps<DateFiltersProps>();
 
 const el = useTemplateRef("el");
 defineExpose({ el });
@@ -187,7 +187,7 @@ const ctx = computed(() => ({ fields, filters: filters.value, activeCount: activ
     </slot>
     <template #content>
       <slot v-bind="ctx">
-        <Group ref="el" v-bind="rootPT.props" v-on="rootPT.handlers" class="f-date-filters">
+        <Group ref="el" v-bind="rootPT.props" class="f-date-filters" v-on="rootPT.handlers">
           <!-- Stepper header -->
           <Group class="f-date-filters-stepper">
             <button

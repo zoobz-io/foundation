@@ -26,6 +26,11 @@ const {
   filters,
   addFilter,
   removeFilter,
+  query,
+  keywords,
+  page,
+  selectedFacets,
+  fetch: fetchData,
 } = table;
 
 const el = useTemplateRef("el");
@@ -361,18 +366,18 @@ const onInput = (event: Event) => {
 
   // Auto-submit on closing character
   if (raw.startsWith('"') && raw.endsWith('"') && raw.length > 2) {
-    table.query.value = raw.slice(1, -1);
-    table.page.value = 1;
-    table.fetch();
+    query.value = raw.slice(1, -1);
+    page.value = 1;
+    fetchData();
     resetAutocomplete();
     return;
   }
   if (raw.startsWith("(") && raw.endsWith(")") && raw.length > 2) {
     const kw = raw.slice(1, -1);
     if (validateKeywords(kw)) {
-      table.keywords.value = kw;
-      table.page.value = 1;
-      table.fetch();
+      keywords.value = kw;
+      page.value = 1;
+      fetchData();
       resetAutocomplete();
     }
     return;
@@ -407,7 +412,7 @@ const onInput = (event: Event) => {
       }
     }
 
-    const opMatch = raw.match(/^(.+?)([><])(.*)$/);
+    const opMatch = raw.match(/^([^><]+)([><])(.*)$/);
     if (opMatch) {
       const [, fieldText, op, rest] = opMatch;
       const col = dateColumns.value.find(
@@ -483,18 +488,18 @@ const onKeydown = (event: KeyboardEvent) => {
 
   if (event.key === "Enter") {
     if (inputValue.value.startsWith('"') && inputValue.value.endsWith('"') && inputValue.value.length > 2) {
-      table.query.value = inputValue.value.slice(1, -1);
-      table.page.value = 1;
-      table.fetch();
+      query.value = inputValue.value.slice(1, -1);
+      page.value = 1;
+      fetchData();
       resetAutocomplete();
       return;
     }
     if (inputValue.value.startsWith("(") && inputValue.value.endsWith(")") && inputValue.value.length > 2) {
       const kw = inputValue.value.slice(1, -1);
       if (!validateKeywords(kw)) return;
-      table.keywords.value = kw;
-      table.page.value = 1;
-      table.fetch();
+      keywords.value = kw;
+      page.value = 1;
+      fetchData();
       resetAutocomplete();
       return;
     }
@@ -550,8 +555,8 @@ const onKeydown = (event: KeyboardEvent) => {
           const lastVal = values.pop()!;
           // Remove the last value from selectedFacets
           const namespacedKey = `${lastFilter.field}:${lastVal}`;
-          table.selectedFacets.value = new Set(
-            [...table.selectedFacets.value].filter((v) => v !== namespacedKey),
+          selectedFacets.value = new Set(
+            [...selectedFacets.value].filter((v) => v !== namespacedKey),
           );
           // Unravel into input
           lockedField.value = col;

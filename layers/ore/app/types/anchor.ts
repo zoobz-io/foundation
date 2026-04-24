@@ -7,6 +7,7 @@ export type AnchorProps = {
   replace?: boolean;
   prefetch?: boolean;
   disabled?: boolean;
+  ariaCurrent?: "page" | "step" | "location" | "date" | "time" | boolean;
   variant?: OreVariants["anchor"];
   size?: OreSizes["anchor"];
   color?: OreColors["anchor"];

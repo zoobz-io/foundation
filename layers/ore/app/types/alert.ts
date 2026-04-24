@@ -1,4 +1,6 @@
 export type AlertProps = {
+  label?: string;
+  role?: "alert" | "status";
   icon?: IconAlias;
   variant?: OreVariants["alert"];
   size?: OreSizes["alert"];

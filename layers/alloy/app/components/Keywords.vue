@@ -27,7 +27,7 @@ const parseEntries = (kw: string) => {
   const include: string[] = [];
   const exclude: string[] = [];
   const cleaned = kw.replace(/\|\|/g, " ");
-  const regex = /([+-]?)(?:"([^"]+)"|(\S+))/g;
+  const regex = /([+-])(?:"([^"]+)"|([^\s"+-]\S*))/g;
   let m;
   while ((m = regex.exec(cleaned)) !== null) {
     const prefix = m[1];
@@ -178,17 +178,17 @@ const ctx = computed(() => ({
     </slot>
     <template #content>
       <slot v-bind="ctx">
-        <Group ref="el" v-bind="rootPT.props" v-on="rootPT.handlers" class="f-keywords">
+        <Group ref="el" v-bind="rootPT.props" class="f-keywords" v-on="rootPT.handlers">
           <slot name="include" v-bind="ctx">
-            <Group v-bind="includePT.props" v-on="includePT.handlers" class="f-keywords-section">
+            <Group v-bind="includePT.props" class="f-keywords-section" v-on="includePT.handlers">
               <slot name="include-label" v-bind="ctx">
                 <Caption class="f-keywords-label">Include</Caption>
               </slot>
               <TagsInput
                 v-model="includeModel"
                 v-bind="includeInputPT.props"
-                v-on="includeInputPT.handlers"
                 class="f-keywords-tags"
+                v-on="includeInputPT.handlers"
               >
                 <template #input>
                   <input
@@ -203,15 +203,15 @@ const ctx = computed(() => ({
             </Group>
           </slot>
           <slot name="exclude" v-bind="ctx">
-            <Group v-bind="excludePT.props" v-on="excludePT.handlers" class="f-keywords-section">
+            <Group v-bind="excludePT.props" class="f-keywords-section" v-on="excludePT.handlers">
               <slot name="exclude-label" v-bind="ctx">
                 <Caption class="f-keywords-label">Exclude</Caption>
               </slot>
               <TagsInput
                 v-model="excludeModel"
                 v-bind="excludeInputPT.props"
-                v-on="excludeInputPT.handlers"
                 class="f-keywords-tags"
+                v-on="excludeInputPT.handlers"
               >
                 <template #input>
                   <input
@@ -226,7 +226,7 @@ const ctx = computed(() => ({
             </Group>
           </slot>
           <slot name="match" v-bind="ctx">
-            <Group v-bind="matchPT.props" v-on="matchPT.handlers" class="f-keywords-match">
+            <Group v-bind="matchPT.props" class="f-keywords-match" v-on="matchPT.handlers">
               <slot name="match-label" v-bind="ctx">
                 <Caption class="f-keywords-label">Match</Caption>
               </slot>

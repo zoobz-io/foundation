@@ -20,20 +20,20 @@ const ctx = computed(() => ({ src, alt, fallback }));
 
 <template>
   <slot ref="el" name="root" v-bind="ctx">
-    <AvatarRoot v-bind="rootPT.props" v-on="rootPT.handlers" class="f-avatar-root">
+    <AvatarRoot v-bind="rootPT.props" class="f-avatar-root" v-on="rootPT.handlers">
       <slot name="image" v-bind="ctx">
         <AvatarImage
           :alt="alt"
           v-bind="imagePT.props"
-          v-on="imagePT.handlers"
           class="f-avatar-image"
+          v-on="imagePT.handlers"
         />
       </slot>
       <slot name="fallback" v-bind="ctx">
         <AvatarFallback
           v-bind="fallbackPT.props"
-          v-on="fallbackPT.handlers"
           class="f-avatar-fallback"
+          v-on="fallbackPT.handlers"
         >
           {{ fallback }}
         </AvatarFallback>

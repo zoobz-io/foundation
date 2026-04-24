@@ -1,5 +1,6 @@
 export type IconProps = {
   alias: IconAlias;
+  label?: string;
   variant?: OreVariants["icon"];
   size?: OreSizes["icon"];
   color?: OreColors["icon"];

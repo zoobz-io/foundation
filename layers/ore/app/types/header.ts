@@ -1,4 +1,5 @@
 export type HeaderProps = {
+  label?: string;
   variant?: OreVariants["header"];
   size?: OreSizes["header"];
   color?: OreColors["header"];

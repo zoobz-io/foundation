@@ -1,4 +1,5 @@
 export type FooterProps = {
+  label?: string;
   variant?: OreVariants["footer"];
   size?: OreSizes["footer"];
   color?: OreColors["footer"];

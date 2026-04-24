@@ -61,8 +61,8 @@ const ctx = computed(() => ({
     ref="el"
     v-model="model"
     v-bind="rootPT.props"
-    v-on="rootPT.handlers"
     class="f-date-range-picker"
+    v-on="rootPT.handlers"
   >
     <DateRangePickerField v-slot="{ segments }" class="f-date-picker-field">
       <template v-for="segment in segments.start" :key="'start-' + segment.part">
@@ -107,20 +107,20 @@ const ctx = computed(() => ({
       </DateRangePickerTrigger>
     </DateRangePickerField>
     <slot name="content" v-bind="{ ...ctx }">
-      <DateRangePickerContent v-bind="contentPT.props" v-on="contentPT.handlers" class="f-date-picker-content">
+      <DateRangePickerContent v-bind="contentPT.props" class="f-date-picker-content" v-on="contentPT.handlers">
         <DateRangePickerCalendar v-slot="{ weekDays, grid }" class="f-calendar f-calendar--range">
           <slot name="header" v-bind="{ ...ctx, weekDays, grid }">
-            <DateRangePickerHeader v-bind="headerPT.props" v-on="headerPT.handlers" class="f-calendar-header">
+            <DateRangePickerHeader v-bind="headerPT.props" class="f-calendar-header" v-on="headerPT.handlers">
               <slot name="prev" v-bind="{ ...ctx, weekDays, grid }">
-                <DateRangePickerPrev v-bind="prevPT.props" v-on="prevPT.handlers" class="f-calendar-nav">
+                <DateRangePickerPrev v-bind="prevPT.props" class="f-calendar-nav" v-on="prevPT.handlers">
                   <Icon alias="chevron-left" />
                 </DateRangePickerPrev>
               </slot>
               <slot name="heading" v-bind="{ ...ctx, weekDays, grid }">
-                <DateRangePickerHeading v-bind="headingPT.props" v-on="headingPT.handlers" class="f-calendar-heading" />
+                <DateRangePickerHeading v-bind="headingPT.props" class="f-calendar-heading" v-on="headingPT.handlers" />
               </slot>
               <slot name="next" v-bind="{ ...ctx, weekDays, grid }">
-                <DateRangePickerNext v-bind="nextPT.props" v-on="nextPT.handlers" class="f-calendar-nav">
+                <DateRangePickerNext v-bind="nextPT.props" class="f-calendar-nav" v-on="nextPT.handlers">
                   <Icon alias="chevron-right" />
                 </DateRangePickerNext>
               </slot>
@@ -128,7 +128,7 @@ const ctx = computed(() => ({
           </slot>
           <Group class="f-calendar-grids">
             <slot v-for="month in grid" name="grid" v-bind="{ ...ctx, weekDays, grid, month }">
-              <DateRangePickerGrid :key="month.value.toString()" v-bind="gridPT.props" v-on="gridPT.handlers" class="f-calendar-grid">
+              <DateRangePickerGrid :key="month.value.toString()" v-bind="gridPT.props" class="f-calendar-grid" v-on="gridPT.handlers">
                 <DateRangePickerGridHead>
                   <DateRangePickerGridRow class="f-calendar-row">
                     <DateRangePickerHeadCell v-for="day in weekDays" :key="day" class="f-calendar-head-cell">
@@ -142,17 +142,17 @@ const ctx = computed(() => ({
                       <DateRangePickerCell
                         :key="date.toString()"
                         v-bind="cellPT.props"
-                        v-on="cellPT.handlers"
                         :date="date"
                         class="f-calendar-cell"
+                        v-on="cellPT.handlers"
                       >
                         <slot name="cellTrigger" v-bind="{ ...ctx, month, date }">
                           <DateRangePickerCellTrigger
                             v-bind="cellTriggerPT.props"
-                            v-on="cellTriggerPT.handlers"
                             :day="date"
                             :month="month.value"
                             class="f-calendar-cell-trigger"
+                            v-on="cellTriggerPT.handlers"
                           />
                         </slot>
                       </DateRangePickerCell>

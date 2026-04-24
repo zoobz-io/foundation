@@ -1,4 +1,5 @@
 export type NavProps = {
+  label?: string;
   variant?: OreVariants["nav"];
   size?: OreSizes["nav"];
   color?: OreColors["nav"];

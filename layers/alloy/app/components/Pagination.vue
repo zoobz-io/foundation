@@ -54,15 +54,15 @@ const ctx = computed(() => ({ page, pageSize, pageCount, total, hasPrev: hasPrev
 </script>
 
 <template>
-  <Group ref="el" v-bind="rootPT.props" v-on="rootPT.handlers" class="f-pagination">
+  <Group ref="el" v-bind="rootPT.props" class="f-pagination" v-on="rootPT.handlers">
     <slot name="info" v-bind="ctx">
-      <Span v-bind="infoPT.props" v-on="infoPT.handlers" class="f-pagination-info">
+      <Span v-bind="infoPT.props" class="f-pagination-info" v-on="infoPT.handlers">
         Page {{ page }} of {{ pageCount }} ({{ total }} results)
       </Span>
     </slot>
 
     <slot name="pages" v-bind="ctx">
-      <Group v-bind="pagesPT.props" v-on="pagesPT.handlers" class="f-pagination-pages">
+      <Group v-bind="pagesPT.props" class="f-pagination-pages" v-on="pagesPT.handlers">
         <Fab :disabled="!hasPrev" @click="first">
           <Icon alias="chevron-first" />
         </Fab>

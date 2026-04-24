@@ -67,21 +67,21 @@ const ctx = computed(() => ({
     <slot name="trigger" v-bind="ctx">
       <Button
         v-bind="triggerPT.props"
-        v-on="triggerPT.handlers"
         class="f-multiselect-trigger"
+        v-on="triggerPT.handlers"
       >
         <Span>{{ displayText }}</Span>
         <Icon alias="chevron-down" />
       </Button>
     </slot>
     <template #content>
-      <Group v-bind="contentPT.props" v-on="contentPT.handlers" class="f-multiselect-content">
+      <Group v-bind="contentPT.props" class="f-multiselect-content" v-on="contentPT.handlers">
         <template v-for="entry in itemsPT" :key="entry.item.value">
           <slot name="item" v-bind="{ ...ctx, item: entry.item, selected: isSelected(entry.item.value) }">
             <Button
               v-bind="entry.pt.props"
-              v-on="entry.pt.handlers"
               class="f-multiselect-item"
+              v-on="entry.pt.handlers"
             >
               <Checkbox
                 :model-value="isSelected(entry.item.value)"

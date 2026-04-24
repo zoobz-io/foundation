@@ -63,16 +63,16 @@ const ctx = computed(() => ({ groups, open: open.value }));
     <DropdownMenuPortal>
       <DropdownMenuContent
         v-bind="contentPT.props"
-        v-on="contentPT.handlers"
         class="f-menu-content"
+        v-on="contentPT.handlers"
       >
         <slot name="content" v-bind="ctx">
           <template v-for="(group, groupIndex) in groupsPT" :key="group.key">
             <DropdownMenuSeparator
               v-if="groupIndex > 0"
               v-bind="separatorPT.props"
-              v-on="separatorPT.handlers"
               class="f-menu-separator"
+              v-on="separatorPT.handlers"
             />
             <DropdownMenuGroup>
               <DropdownMenuLabel v-if="group.label" as-child>
@@ -84,8 +84,8 @@ const ctx = computed(() => ({ groups, open: open.value }));
                 v-for="entry in group.items"
                 :key="entry.item.label"
                 v-bind="entry.pt.props"
-                v-on="entry.pt.handlers"
                 class="f-menu-item"
+                v-on="entry.pt.handlers"
               >
                 <slot name="item" v-bind="{ ...ctx, item: entry.item }">
                   <Icon v-if="entry.item.icon" :alias="entry.item.icon" />

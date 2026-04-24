@@ -37,6 +37,8 @@ const {
   query,
   keywords,
   dateFilters,
+  page,
+  fetch: fetchData,
 } = table;
 
 const getRowKey = (row: T) => row[table.rowKey] as K;
@@ -62,8 +64,8 @@ watch(searchInput, (val) => {
   if (searchDebounce.value) clearTimeout(searchDebounce.value);
   searchDebounce.value = setTimeout(() => {
     query.value = val;
-    table.page.value = 1;
-    table.fetch();
+    page.value = 1;
+    fetchData();
   }, 300);
 });
 
@@ -187,7 +189,7 @@ const formatCell = (value: unknown, type?: ColumnType) => {
                 class="f-command-input"
                 @input="searchInput = ($event.target as HTMLInputElement).value"
                 @keydown.escape="searchOpen = false"
-              />
+              >
             </Group>
           </template>
         </Popover>

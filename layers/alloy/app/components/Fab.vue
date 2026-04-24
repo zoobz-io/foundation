@@ -62,14 +62,14 @@ const ctx = computed(() => ({ icon, label, disabled, type, shortcut, link, badge
       :as="link ? NuxtLink : 'button'"
       :aria-label="label"
       v-bind="rootPT.props"
-      v-on="rootPT.handlers"
       class="f-fab"
+      v-on="rootPT.handlers"
     >
       <slot v-bind="ctx">
         <Icon v-if="icon" :alias="icon" />
       </slot>
       <slot name="badge" v-bind="ctx">
-        <Group v-if="badge !== undefined" v-bind="badgePT.props" v-on="badgePT.handlers" class="f-fab-badge">{{ badge }}</Group>
+        <Group v-if="badge !== undefined" v-bind="badgePT.props" class="f-fab-badge" v-on="badgePT.handlers">{{ badge }}</Group>
       </slot>
     </Primitive>
   </Tooltip>
@@ -79,14 +79,14 @@ const ctx = computed(() => ({ icon, label, disabled, type, shortcut, link, badge
     :as="link ? NuxtLink : 'button'"
     :aria-label="label"
     v-bind="rootPT.props"
-    v-on="rootPT.handlers"
     class="f-fab"
+    v-on="rootPT.handlers"
   >
     <slot v-bind="ctx">
       <Icon v-if="icon" :alias="icon" />
     </slot>
     <slot name="badge" v-bind="ctx">
-      <Group v-if="badge !== undefined" v-bind="badgePT.props" v-on="badgePT.handlers" class="f-fab-badge">{{ badge }}</Group>
+      <Group v-if="badge !== undefined" v-bind="badgePT.props" class="f-fab-badge" v-on="badgePT.handlers">{{ badge }}</Group>
     </slot>
   </Primitive>
 </template>

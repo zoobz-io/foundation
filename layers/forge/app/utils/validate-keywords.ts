@@ -23,7 +23,7 @@ export const validateKeywords = (input: string): boolean => {
     // Each segment must be valid terms separated by spaces
     // Match: +term, -term, +"quoted", -"quoted"
     // Term must start with a word character (no double prefix like --foo or +-foo)
-    const tokenRegex = /^([+-](?:"[^"]+"|[a-zA-Z0-9]\S*))(\s+[+-](?:"[^"]+"|[a-zA-Z0-9]\S*))*$/;
+    const tokenRegex = /^[+-](?:"[^"]+"|[a-z0-9]\S*)(?:\s+[+-](?:"[^"]+"|[a-z0-9]\S*))*$/i;
     if (!tokenRegex.test(segment.trim())) return false;
   }
 

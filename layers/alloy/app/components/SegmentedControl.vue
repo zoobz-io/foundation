@@ -53,15 +53,15 @@ const ctx = computed(() => ({
   <ToggleGroupRoot
     ref="el"
     v-bind="rootPT.props"
-    v-on="rootPT.handlers"
     class="f-segmented-control"
+    v-on="rootPT.handlers"
   >
     <slot v-for="entry in itemsPT" name="item" v-bind="{ ...ctx, option: entry.item }">
       <ToggleGroupItem
         :key="entry.item.value"
         v-bind="entry.pt.props"
-        v-on="entry.pt.handlers"
         class="f-segmented-control-item"
+        v-on="entry.pt.handlers"
       >
         <Icon v-if="entry.item.icon" :alias="entry.item.icon" />
         <Span v-if="entry.item.label">{{ entry.item.label }}</Span>

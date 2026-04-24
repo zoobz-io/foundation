@@ -18,7 +18,7 @@ const ctx = computed(() => ({}));
   <ToastProvider ref="el">
     <slot v-bind="ctx" />
     <slot name="viewport" v-bind="ctx">
-      <ToastViewport v-bind="viewportPT.props" v-on="viewportPT.handlers" class="f-toast-viewport" />
+      <ToastViewport v-bind="viewportPT.props" class="f-toast-viewport" v-on="viewportPT.handlers" />
     </slot>
   </ToastProvider>
 </template>

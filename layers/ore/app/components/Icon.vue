@@ -3,7 +3,7 @@ import type { IconProps } from "../types/icon";
 </script>
 
 <script setup lang="ts">
-const { alias, variant, size, color, radius, density, elevation } = defineProps<IconProps>();
+const { alias, label, variant, size, color, radius, density, elevation } = defineProps<IconProps>();
 
 const icon = computed(() => useIconAlias(alias) ?? useIconAlias("warning"));
 
@@ -37,5 +37,5 @@ defineExpose({ el });
 </script>
 
 <template>
-  <i ref="el" :data-variant="variant" :data-size="size" :data-color="color" :data-radius="radius" :data-density="density" :data-elevation="elevation" class="f-icon" :style="iconStyle" />
+  <i ref="el" :aria-hidden="!label" :aria-label="label || undefined" :role="label ? 'img' : undefined" :data-variant="variant" :data-size="size" :data-color="color" :data-radius="radius" :data-density="density" :data-elevation="elevation" class="f-icon" :style="iconStyle" />
 </template>

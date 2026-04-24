@@ -1,4 +1,5 @@
 export type CaptionProps = {
+  label?: string;
   icon?: IconAlias;
   variant?: OreVariants["caption"];
   size?: OreSizes["caption"];

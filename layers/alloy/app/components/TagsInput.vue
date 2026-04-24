@@ -49,25 +49,25 @@ const ctx = computed(() => ({ placeholder, disabled, required, name, max, model:
     ref="el"
     v-model="model"
     v-bind="rootPT.props"
-    v-on="rootPT.handlers"
     class="f-tags-input-root"
+    v-on="rootPT.handlers"
   >
     <template v-for="entry in tagsPT" :key="entry.item">
       <slot name="item" v-bind="{ ...ctx, tag: entry.item }">
         <TagsInputItem
           v-bind="entry.pt.props"
-          v-on="entry.pt.handlers"
           class="f-tags-input-item"
+          v-on="entry.pt.handlers"
         >
           <TagsInputItemText
             v-bind="itemTextPT.props"
-            v-on="itemTextPT.handlers"
             class="f-tags-input-item-text"
+            v-on="itemTextPT.handlers"
           />
           <TagsInputItemDelete
             v-bind="itemDeletePT.props"
-            v-on="itemDeletePT.handlers"
             class="f-tags-input-item-delete"
+            v-on="itemDeletePT.handlers"
           >
             <Icon alias="close" />
           </TagsInputItemDelete>
@@ -77,8 +77,8 @@ const ctx = computed(() => ({ placeholder, disabled, required, name, max, model:
     <slot name="input" v-bind="ctx">
       <TagsInputInput
         v-bind="inputPT.props"
-        v-on="inputPT.handlers"
         class="f-tags-input-input"
+        v-on="inputPT.handlers"
       />
     </slot>
   </TagsInputRoot>

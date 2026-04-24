@@ -1,4 +1,6 @@
 export type BannerProps = {
+  label?: string;
+  role?: "banner" | "status" | "alert";
   icon?: IconAlias;
   variant?: OreVariants["banner"];
   size?: OreSizes["banner"];

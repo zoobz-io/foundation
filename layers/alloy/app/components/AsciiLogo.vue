@@ -34,13 +34,13 @@ const ctx = computed(() => ({ text, font, link, ascii: ascii.value }));
 </script>
 
 <template>
-  <Anchor v-if="link !== false" ref="el" to="/" v-bind="linkPT.props" v-on="linkPT.handlers" class="f-ascii-logo-link">
+  <Anchor v-if="link !== false" ref="el" to="/" v-bind="linkPT.props" class="f-ascii-logo-link" v-on="linkPT.handlers">
     <slot name="pre" v-bind="ctx">
-      <Pre v-bind="prePT.props" v-on="prePT.handlers" class="f-ascii-logo">{{ ascii }}</Pre>
+      <Pre v-bind="prePT.props" class="f-ascii-logo" v-on="prePT.handlers">{{ ascii }}</Pre>
     </slot>
   </Anchor>
   <slot v-else name="pre" v-bind="ctx">
-    <Pre v-bind="prePT.props" v-on="prePT.handlers" class="f-ascii-logo">{{ ascii }}</Pre>
+    <Pre v-bind="prePT.props" class="f-ascii-logo" v-on="prePT.handlers">{{ ascii }}</Pre>
   </slot>
 </template>
 

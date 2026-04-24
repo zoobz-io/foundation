@@ -49,14 +49,14 @@ const ctx = computed(() => ({ options, placeholder, disabled, required, name, mo
     ref="el"
     v-model="model"
     v-bind="rootPT.props"
-    v-on="rootPT.handlers"
     class="f-select-root"
+    v-on="rootPT.handlers"
   >
     <slot name="trigger" v-bind="ctx">
       <SelectTrigger
         v-bind="triggerPT.props"
-        v-on="triggerPT.handlers"
         class="f-select-trigger"
+        v-on="triggerPT.handlers"
       >
         <Span>{{ displayText }}</Span>
         <Icon alias="chevron-down" />
@@ -65,15 +65,15 @@ const ctx = computed(() => ({ options, placeholder, disabled, required, name, mo
     <SelectPortal>
       <SelectContent
         v-bind="contentPT.props"
-        v-on="contentPT.handlers"
         class="f-select-content"
+        v-on="contentPT.handlers"
       >
         <template v-for="entry in itemsPT" :key="entry.item.value">
           <slot name="item" v-bind="{ ...ctx, option: entry.item }">
             <SelectItem
               v-bind="entry.pt.props"
-              v-on="entry.pt.handlers"
               class="f-select-item"
+              v-on="entry.pt.handlers"
             >
               <SelectItemText v-bind="itemTextPT.props" v-on="itemTextPT.handlers">{{ entry.item.label }}</SelectItemText>
             </SelectItem>

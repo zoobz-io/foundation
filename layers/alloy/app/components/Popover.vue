@@ -42,21 +42,21 @@ const ctx = computed(() => ({ open: open.value, defaultOpen, modal, side, align,
     <PopoverPortal>
       <PopoverContent
         v-bind="contentPT.props"
-        v-on="contentPT.handlers"
         class="f-popover-content"
+        v-on="contentPT.handlers"
       >
         <slot name="content" v-bind="ctx" />
         <PopoverArrow
           v-if="arrow"
           v-bind="arrowPT.props"
-          v-on="arrowPT.handlers"
           class="f-popover-arrow"
+          v-on="arrowPT.handlers"
         />
         <PopoverClose
           v-if="$slots.close"
           v-bind="closePT.props"
-          v-on="closePT.handlers"
           class="f-popover-close"
+          v-on="closePT.handlers"
         >
           <slot name="close" v-bind="ctx" />
         </PopoverClose>

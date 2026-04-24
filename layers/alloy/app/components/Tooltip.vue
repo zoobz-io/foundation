@@ -34,8 +34,8 @@ const ctx = computed(() => ({ content, delayDuration, side, align, sideOffset })
     <TooltipPortal>
       <TooltipContent
         v-bind="contentPT.props"
-        v-on="contentPT.handlers"
         class="f-tooltip-content"
+        v-on="contentPT.handlers"
       >
         <slot name="content" v-bind="ctx">
           {{ content }}

@@ -1,4 +1,5 @@
 export type CardProps = {
+  label?: string;
   variant?: OreVariants["card"];
   size?: OreSizes["card"];
   color?: OreColors["card"];

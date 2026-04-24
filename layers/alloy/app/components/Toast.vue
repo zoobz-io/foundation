@@ -26,21 +26,21 @@ const ctx = computed(() => ({ title, description, variant, duration }));
   <ToastRoot
     ref="el"
     v-bind="rootPT.props"
-    v-on="rootPT.handlers"
     :class="`f-toast f-toast-${variant}`"
+    v-on="rootPT.handlers"
   >
     <slot name="title" v-bind="ctx">
-      <ToastTitle v-if="title" v-bind="titlePT.props" v-on="titlePT.handlers" class="f-toast-title">
+      <ToastTitle v-if="title" v-bind="titlePT.props" class="f-toast-title" v-on="titlePT.handlers">
         {{ title }}
       </ToastTitle>
     </slot>
     <slot name="description" v-bind="ctx">
-      <ToastDescription v-if="description || $slots.default" v-bind="descriptionPT.props" v-on="descriptionPT.handlers" class="f-toast-description">
+      <ToastDescription v-if="description || $slots.default" v-bind="descriptionPT.props" class="f-toast-description" v-on="descriptionPT.handlers">
         <slot>{{ description }}</slot>
       </ToastDescription>
     </slot>
     <slot name="close" v-bind="ctx">
-      <ToastClose v-bind="closePT.props" v-on="closePT.handlers" class="f-toast-close">
+      <ToastClose v-bind="closePT.props" class="f-toast-close" v-on="closePT.handlers">
         <Icon alias="close" />
       </ToastClose>
     </slot>

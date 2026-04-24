@@ -38,29 +38,29 @@ const ctx = computed(() => ({ items, type, collapsible, defaultValue }));
   <AccordionRoot
     ref="el"
     v-bind="rootPT.props"
-    v-on="rootPT.handlers"
     class="f-accordion-root"
+    v-on="rootPT.handlers"
   >
     <AccordionItem
       v-for="entry in itemsPT"
       :key="entry.item.value"
       v-slot="{ open }"
       v-bind="entry.pt.props"
-      v-on="entry.pt.handlers"
       class="f-accordion-item"
+      v-on="entry.pt.handlers"
     >
       <slot name="item" v-bind="{ ...ctx, item: entry.item, open }">
         <AccordionHeader
           v-bind="headerPT.props"
-          v-on="headerPT.handlers"
           class="f-accordion-header"
+          v-on="headerPT.handlers"
         >
           <slot name="header" v-bind="{ ...ctx, item: entry.item, open }">
             <AccordionTrigger
               v-bind="triggerPT.props"
-              v-on="triggerPT.handlers"
               class="f-accordion-trigger"
               :aria-selected="open"
+              v-on="triggerPT.handlers"
             >
               <slot name="trigger" v-bind="{ ...ctx, item: entry.item, open }">
                 <Group class="f-accordion-trigger-content">
@@ -74,8 +74,8 @@ const ctx = computed(() => ({ items, type, collapsible, defaultValue }));
         </AccordionHeader>
         <AccordionContent
           v-bind="contentPT.props"
-          v-on="contentPT.handlers"
           class="f-accordion-content"
+          v-on="contentPT.handlers"
         >
           <slot name="content" v-bind="{ ...ctx, item: entry.item, open }" />
         </AccordionContent>

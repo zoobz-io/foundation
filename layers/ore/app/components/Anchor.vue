@@ -3,7 +3,7 @@ import type { AnchorProps } from "../types/anchor";
 </script>
 
 <script setup lang="ts">
-const { label, to, external, target, replace, prefetch, disabled, variant, size, color, radius, density, elevation } =
+const { label, to, external, target, replace, prefetch, disabled, ariaCurrent, variant, size, color, radius, density, elevation } =
   defineProps<AnchorProps>();
 
 const el = useTemplateRef("el");
@@ -18,8 +18,9 @@ defineExpose({ el });
     :target="target"
     :replace="replace"
     :prefetch="prefetch"
+    :aria-label="label"
     :aria-disabled="disabled"
-    :aria-current="disabled ? 'page' : undefined"
+    :aria-current="ariaCurrent ?? (disabled ? 'page' : undefined)"
     :data-variant="variant"
     :data-size="size"
     :data-color="color"

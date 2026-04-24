@@ -16,7 +16,6 @@ const {
   columnOrder,
   reorderColumns,
   isColumnPinned,
-  isColumnVisible,
 } = table;
 
 const {

@@ -41,23 +41,23 @@ const ctx = computed(() => ({ options, disabled, required, name, orientation, mo
     ref="el"
     v-model="model"
     v-bind="rootPT.props"
-    v-on="rootPT.handlers"
     class="f-radio-root"
+    v-on="rootPT.handlers"
   >
     <template v-for="entry in optionsPT" :key="entry.item.value">
       <slot name="option" v-bind="{ ...ctx, option: entry.item }">
         <Label
           v-bind="entry.optionPt.props"
-          v-on="entry.optionPt.handlers"
           class="f-radio-option"
+          v-on="entry.optionPt.handlers"
         >
           <RadioGroupItem
             v-bind="entry.itemPt.props"
-            v-on="entry.itemPt.handlers"
             class="f-radio-item"
+            v-on="entry.itemPt.handlers"
           >
             <slot name="indicator" v-bind="{ ...ctx, option: entry.item }">
-              <RadioGroupIndicator v-bind="indicatorPT.props" v-on="indicatorPT.handlers" class="f-radio-indicator" />
+              <RadioGroupIndicator v-bind="indicatorPT.props" class="f-radio-indicator" v-on="indicatorPT.handlers" />
             </slot>
           </RadioGroupItem>
           <Span class="f-radio-label">{{ entry.item.label }}</Span>

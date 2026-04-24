@@ -27,11 +27,11 @@ const ctx = computed(() => ({ disabled, name, value, required, model: model.valu
     <CheckboxRoot
       v-model="model"
       v-bind="rootPT.props"
-      v-on="rootPT.handlers"
       class="f-checkbox-root"
+      v-on="rootPT.handlers"
     >
       <slot name="indicator" v-bind="ctx">
-        <Group v-bind="indicatorPT.props" v-on="indicatorPT.handlers" class="f-checkbox-indicator">
+        <Group v-bind="indicatorPT.props" class="f-checkbox-indicator" v-on="indicatorPT.handlers">
           <slot>
             <Icon :alias="model === 'indeterminate' ? 'minus' : 'check'" />
           </slot>

@@ -107,8 +107,8 @@ const ctx = computed(() => ({
     ref="el"
     v-model="modelArray"
     v-bind="rootPT.props"
-    v-on="rootPT.handlers"
     class="f-command-root"
+    v-on="rootPT.handlers"
   >
     <Group class="f-command-input-wrapper">
       <slot name="input-icon" v-bind="ctx" />
@@ -117,13 +117,13 @@ const ctx = computed(() => ({
           v-model="searchTerm"
           :placeholder="placeholder"
           v-bind="filterPT.props"
-          v-on="filterPT.handlers"
           class="f-command-input"
+          v-on="filterPT.handlers"
         />
       </slot>
     </Group>
     <slot name="content" v-bind="ctx">
-      <ListboxContent v-bind="contentPT.props" v-on="contentPT.handlers" class="f-command-content">
+      <ListboxContent v-bind="contentPT.props" class="f-command-content" v-on="contentPT.handlers">
         <Scroller class="f-command-viewport">
           <Group v-if="!hasResults" class="f-command-empty">
             <slot name="empty" v-bind="ctx">No results found</slot>
@@ -143,8 +143,8 @@ const ctx = computed(() => ({
               v-for="entry in group.items"
               :key="entry.item.value"
               v-bind="entry.pt.props"
-              v-on="entry.pt.handlers"
               class="f-command-item"
+              v-on="entry.pt.handlers"
             >
               <slot name="item" v-bind="{ ...ctx, item: entry.item, selected: isSelected(entry.item.value) }">
                 <Checkbox v-if="multiple" :model-value="isSelected(entry.item.value)" />

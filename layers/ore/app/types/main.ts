@@ -1,4 +1,5 @@
 export type MainProps = {
+  label?: string;
   variant?: OreVariants["main"];
   size?: OreSizes["main"];
   color?: OreColors["main"];

@@ -24,10 +24,10 @@ const model = defineModel<string[]>();
 const el = useTemplateRef("el");
 defineExpose({ el });
 
-const rootPT = usePassthrough(pt?.root, {
+const rootPT = usePassthrough(pt?.root, () => ({
   props: { modelValue: model.value, disabled, required, name, max, addOnBlur, addOnPaste, addOnTab, delimiter, duplicate },
   handlers: { "update:modelValue": (v: AcceptableInputValue[]) => { model.value = v.map(String); } },
-});
+}));
 const itemTextPT = usePassthrough(pt?.itemText, { props: {}, handlers: {} });
 const itemDeletePT = usePassthrough(pt?.itemDelete, { props: {}, handlers: {} });
 const itemDeleteIconPT = usePassthrough(pt?.itemDeleteIcon, { props: { alias: "close" }, handlers: {} });

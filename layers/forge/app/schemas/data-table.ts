@@ -8,16 +8,16 @@ export const DateFilterSchema = z.object({
 });
 
 export const DataTableSnapshotSchema = z.object({
-  query: z.string(),
-  keywords: z.string(),
-  match: z.enum(["all", "any"]),
-  page: z.number(),
-  pageSize: z.number(),
-  selectedFacets: z.array(z.string()),
-  dateFilters: z.array(DateFilterSchema),
-  sortField: z.string().nullable(),
-  sortDirection: z.enum(["asc", "desc"]),
-  columnOrder: z.array(z.string()),
+  query: z.string().default(""),
+  keywords: z.string().default(""),
+  match: z.enum(["all", "any"]).default("all"),
+  page: z.number().default(1),
+  pageSize: z.number().default(25),
+  selectedFacets: z.array(z.string()).default([]),
+  dateFilters: z.array(DateFilterSchema).default([]),
+  sortField: z.string().nullable().default(null),
+  sortDirection: z.enum(["asc", "desc"]).default("asc"),
+  columnOrder: z.array(z.string()).default([]),
 });
 
 export type DataTableSnapshot = z.infer<typeof DataTableSnapshotSchema>;

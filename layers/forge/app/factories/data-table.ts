@@ -1,17 +1,25 @@
+/**
+ * Injection key for pre-fetched widget configs.
+ * Pages provide this. Widgets inject and validate their own slice.
+ */
+export const WIDGET_CONFIGS: InjectionKey<Record<string, unknown>> =
+  Symbol("WIDGET_CONFIGS");
+
 export const createTable = <T, K = unknown>(
   id: string,
   config: DataTableConfig<T, K>,
 ) => {
   return (): Table<T, K> => {
-    // Resolve defaults: inject pre-fetched configs, validate with zod, fall back to constants
+    // Resolve defaults: inject pre-fetched configs, validate with zod defaults
     const configs = inject(WIDGET_CONFIGS, {});
     const raw = configs[id];
-    const defaults = raw
-      ? { ...defaultTableSnapshot, ...DataTableSnapshotSchema.partial().parse(raw) }
-      : defaultTableSnapshot;
+    const defaults = DataTableSnapshotSchema.parse(raw ?? {});
 
     // Initialization
-    const initialized = useState<boolean>(`table-${id}-initialized`, () => false);
+    const initialized = useState<boolean>(
+      `table-${id}-initialized`,
+      () => false,
+    );
 
     // State
     const data = useState<T[]>(`table-${id}-data`, () => []);
@@ -65,9 +73,8 @@ export const createTable = <T, K = unknown>(
     ).map(String);
 
     // Column ordering
-    const columnOrder = useState<string[]>(
-      `table-${id}-columnOrder`,
-      () => defaults.columnOrder.length ? defaults.columnOrder : defaultColumnKeys,
+    const columnOrder = useState<string[]>(`table-${id}-columnOrder`, () =>
+      defaults.columnOrder.length ? defaults.columnOrder : defaultColumnKeys,
     );
 
     const columnMap = new Map(columns.map((c) => [String(c.key), c]));
@@ -109,42 +116,50 @@ export const createTable = <T, K = unknown>(
     });
 
     // Facets
-    watch(selectedFacets, (val, oldVal) => {
-      // Determine which fields changed
-      const oldFields = new Map<string, Set<string>>();
-      for (const namespaced of oldVal ?? []) {
-        const sep = namespaced.indexOf(":");
-        if (sep === -1) continue;
-        const field = namespaced.slice(0, sep);
-        if (!oldFields.has(field)) oldFields.set(field, new Set());
-        oldFields.get(field)!.add(namespaced);
-      }
-
-      const newFields = new Map<string, Set<string>>();
-      for (const namespaced of val) {
-        const sep = namespaced.indexOf(":");
-        if (sep === -1) continue;
-        const field = namespaced.slice(0, sep);
-        if (!newFields.has(field)) newFields.set(field, new Set());
-        newFields.get(field)!.add(namespaced);
-      }
-
-      // Touch only fields whose values changed
-      for (const [field, values] of newFields) {
-        const old = oldFields.get(field);
-        if (!old || old.size !== values.size || ![...values].every((v) => old.has(v))) {
-          touchFilterOrder(`enum:${field}`);
+    watch(
+      selectedFacets,
+      (val, oldVal) => {
+        // Determine which fields changed
+        const oldFields = new Map<string, Set<string>>();
+        for (const namespaced of oldVal ?? []) {
+          const sep = namespaced.indexOf(":");
+          if (sep === -1) continue;
+          const field = namespaced.slice(0, sep);
+          if (!oldFields.has(field)) oldFields.set(field, new Set());
+          oldFields.get(field)!.add(namespaced);
         }
-      }
 
-      // Remove order for fields that were fully cleared
-      for (const field of oldFields.keys()) {
-        if (!newFields.has(field)) removeFilterOrder(`enum:${field}`);
-      }
+        const newFields = new Map<string, Set<string>>();
+        for (const namespaced of val) {
+          const sep = namespaced.indexOf(":");
+          if (sep === -1) continue;
+          const field = namespaced.slice(0, sep);
+          if (!newFields.has(field)) newFields.set(field, new Set());
+          newFields.get(field)!.add(namespaced);
+        }
 
-      page.value = 1;
-      fetchData();
-    }, { deep: true });
+        // Touch only fields whose values changed
+        for (const [field, values] of newFields) {
+          const old = oldFields.get(field);
+          if (
+            !old ||
+            old.size !== values.size ||
+            ![...values].every((v) => old.has(v))
+          ) {
+            touchFilterOrder(`enum:${field}`);
+          }
+        }
+
+        // Remove order for fields that were fully cleared
+        for (const field of oldFields.keys()) {
+          if (!newFields.has(field)) removeFilterOrder(`enum:${field}`);
+        }
+
+        page.value = 1;
+        fetchData();
+      },
+      { deep: true },
+    );
 
     const clearFacets = () => {
       selectedFacets.value = new Set();
@@ -296,12 +311,19 @@ export const createTable = <T, K = unknown>(
       } else if (filter.field === "__keywords") {
         keywords.value = "";
       } else if (filter.value.type === "enum") {
-        const toRemove = new Set(filter.value.value.map((v) => `${filter.field}:${v}`));
+        const toRemove = new Set(
+          filter.value.value.map((v) => `${filter.field}:${v}`),
+        );
         selectedFacets.value = new Set(
           [...selectedFacets.value].filter((v) => !toRemove.has(v)),
         );
-      } else if (filter.value.type === "date" || filter.value.type === "date_range") {
-        dateFilters.value = dateFilters.value.filter((f) => f.field !== filter.field);
+      } else if (
+        filter.value.type === "date" ||
+        filter.value.type === "date_range"
+      ) {
+        dateFilters.value = dateFilters.value.filter(
+          (f) => f.field !== filter.field,
+        );
       }
       page.value = 1;
       fetchData();
@@ -377,7 +399,8 @@ export const createTable = <T, K = unknown>(
     // Column management
     const pinnedSet = new Set(pinnedColumns.map(String));
     const isColumnPinned = (key: keyof T) => pinnedSet.has(String(key));
-    const isColumnVisible = (key: keyof T) => columnOrder.value.includes(String(key));
+    const isColumnVisible = (key: keyof T) =>
+      columnOrder.value.includes(String(key));
 
     const toggleColumn = (key: keyof T) => {
       const k = String(key);

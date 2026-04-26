@@ -11,10 +11,10 @@ const model = defineModel<string>();
 const el = useTemplateRef("el");
 defineExpose({ el });
 
-const rootPT = usePassthrough(pt?.root, {
+const rootPT = usePassthrough(pt?.root, () => ({
   props: { modelValue: model.value },
   handlers: { "update:modelValue": (v: string | number) => { model.value = String(v); } },
-});
+}));
 const listPT = usePassthrough(pt?.list, { props: {}, handlers: {} });
 
 const triggersPT = computed(() =>

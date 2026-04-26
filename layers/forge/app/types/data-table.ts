@@ -91,48 +91,6 @@ export interface TableFilter {
 }
 
 /**
- * Operators available per column type.
- */
-export const filterOperators: Record<string, { value: string; label: string }[]> = {
-  text: [
-    { value: "contains", label: "contains" },
-    { value: "equals", label: "equals" },
-    { value: "starts_with", label: "starts with" },
-    { value: "ends_with", label: "ends with" },
-  ],
-  number: [
-    { value: "eq", label: "equals" },
-    { value: "gt", label: "greater than" },
-    { value: "lt", label: "less than" },
-    { value: "between", label: "between" },
-  ],
-  currency: [
-    { value: "eq", label: "equals" },
-    { value: "gt", label: "greater than" },
-    { value: "lt", label: "less than" },
-    { value: "between", label: "between" },
-  ],
-  date: [
-    { value: "before", label: "before" },
-    { value: "after", label: "after" },
-    { value: "between", label: "between" },
-  ],
-  datetime: [
-    { value: "before", label: "before" },
-    { value: "after", label: "after" },
-    { value: "between", label: "between" },
-  ],
-  enum: [
-    { value: "is", label: "is" },
-    { value: "is_not", label: "is not" },
-  ],
-  boolean: [
-    { value: "is_true", label: "is true" },
-    { value: "is_false", label: "is false" },
-  ],
-};
-
-/**
  * Row action — rendered per-row in an actions menu.
  */
 export interface RowAction<T> {
@@ -149,13 +107,6 @@ export interface BulkAction<K> {
   label: string;
   action: (selected: Set<K>) => void;
 }
-
-/**
- * Injection key for pre-fetched widget configs.
- * Pages provide this. Widgets inject and validate their own slice.
- */
-export const WIDGET_CONFIGS: InjectionKey<Record<string, unknown>> =
-  Symbol("WIDGET_CONFIGS");
 
 /**
  * The writable slice of table state.
@@ -208,31 +159,192 @@ export interface DataTableFetchResult<T> {
   facets?: FacetGroup[];
 }
 
+/**
+ * The reactive interface for a data table.
+ * Returned by the table factory. Components accept this as their prop.
+ */
+export interface Table<T, K = unknown> {
+  // Reactive state
+  data: Ref<T[]>;
+  loading: Ref<boolean>;
+
+  // Static config
+  readonly columns: DataTableColumn<T>[];
+  readonly rowKey: keyof T;
+  readonly actions: RowAction<T>[];
+  readonly bulkActions: BulkAction<K>[];
+  readonly pinnedColumns: (keyof T)[];
+
+  // Pagination
+  page: Ref<number>;
+  pageSize: Ref<number>;
+  pageCount: Ref<number>;
+  total: Ref<number>;
+
+  // Sorting
+  sortField: Ref<string | null>;
+  sortDirection: Ref<SortDirection>;
+
+  // Search
+  query: Ref<string>;
+  keywords: Ref<string>;
+  match: Ref<MatchMode>;
+
+  // Facets
+  facetGroups: Ref<FacetGroup[]>;
+  selectedFacets: Ref<Set<string>>;
+
+  // Date filters
+  dateFilters: Ref<DateFilter[]>;
+
+  // Filters
+  filters: ComputedRef<TableFilter[]>;
+
+  // Selection
+  selected: Ref<Set<K>>;
+  isAllSelected: Ref<boolean>;
+  isIndeterminate: Ref<boolean>;
+
+  // Columns
+  columnOrder: Ref<string[]>;
+  visibleColumns: Ref<DataTableColumn<T>[]>;
+
+  // Getters
+  selectAllState: Ref<boolean | "indeterminate">;
+  colSpan: Ref<number>;
+  dateColumns: Ref<DataTableColumn<T>[]>;
+
+  // Actions
+  goToPage: (page: number) => void;
+  sortBy: (field: string) => void;
+  clearFacets: () => void;
+  addDateFilter: (filter: DateFilter) => void;
+  removeDateFilter: (field: string) => void;
+  clearDateFilters: () => void;
+  toggleRow: (key: K) => void;
+  toggleAll: () => void;
+  clearSelection: () => void;
+  sortFieldFor: (col: DataTableColumn<T>) => string;
+  isSorted: (col: DataTableColumn<T>) => boolean;
+  getSortIcon: () => IconAlias;
+  isRowSelected: (row: T) => boolean;
+  addFilter: (filter: TableFilter) => void;
+  removeFilter: (index: number) => void;
+  clearFilters: () => void;
+  toggleColumn: (key: keyof T) => void;
+  reorderColumns: (order: string[]) => void;
+  resetColumns: () => void;
+  isColumnPinned: (key: keyof T) => boolean;
+  isColumnVisible: (key: keyof T) => boolean;
+  setPageSize: (size: number) => void;
+  update: (payload: Partial<DataTablePayload>) => void;
+  getSnapshot: () => DataTableSnapshot;
+  restoreSnapshot: (snapshot: DataTableSnapshot) => void;
+  init: () => Promise<boolean>;
+  initialized: Ref<boolean>;
+  fetch: () => Promise<void>;
+}
+
+// ---------------------------------------------------------------------------
+// Filters
+// ---------------------------------------------------------------------------
+
+export type DataTableFiltersPassthrough = {
+  root?: Passthrough<GroupProps>;
+  chips?: Passthrough<GroupProps>;
+  icon?: Passthrough<IconProps>;
+  chip?: Passthrough<ChipProps>;
+  inputWrap?: Passthrough<GroupProps>;
+  mirrorWrap?: Passthrough<GroupProps>;
+  mirrorText?: Passthrough<SpanProps>;
+  mirrorHint?: Passthrough<SpanProps>;
+  input?: Passthrough<InputProps>;
+  dropdown?: Passthrough<GroupProps>;
+  dropdownPanel?: Passthrough<GroupProps>;
+  dropdownScroller?: Passthrough<ScrollerProps, ScrollerEmits>;
+  dropdownItem?: Passthrough<ButtonProps>;
+  dropdownItemIcon?: Passthrough<IconProps>;
+  dropdownItemLabel?: Passthrough<SpanProps>;
+  dropdownItemArrow?: Passthrough<IconProps>;
+  dropdownEmpty?: Passthrough<SpanProps>;
+  infoIcon?: Passthrough<IconProps>;
+  dialog?: Passthrough<DialogProps, DialogEmits>;
+  helpTable?: Passthrough<TableProps>;
+  helpThead?: Passthrough<TheadProps>;
+  helpTbody?: Passthrough<TbodyProps>;
+  helpTh?: Passthrough<ThProps>;
+  helpTd?: Passthrough<TdProps>;
+  helpKbd?: Passthrough<KbdProps>;
+};
+
+export type DataTableFiltersProps<T, K = unknown> = {
+  table: Table<T, K>;
+  pt?: DataTableFiltersPassthrough;
+};
+
+// ---------------------------------------------------------------------------
+// Columns
+// ---------------------------------------------------------------------------
+
+export type DataTableColumnsPassthrough = {
+  popover?: Passthrough<PopoverProps, PopoverEmits>;
+  trigger?: Passthrough<FabProps>;
+  command?: Passthrough<CommandProps, CommandEmits>;
+};
+
+export type DataTableColumnsProps<T, K = unknown> = {
+  table: Table<T, K>;
+  pt?: DataTableColumnsPassthrough;
+};
+
+// ---------------------------------------------------------------------------
+// Widget
+// ---------------------------------------------------------------------------
+
 export type DataTablePassthrough = {
   root?: Passthrough<GroupProps>;
   toolbar?: Passthrough<GroupProps>;
+  searchPopover?: Passthrough<PopoverProps, PopoverEmits>;
+  searchTrigger?: Passthrough<FabProps>;
+  searchWrap?: Passthrough<GroupProps>;
+  searchInput?: Passthrough<InputProps>;
+  keywords?: Passthrough<KeywordsProps, KeywordsEmits>;
+  facets?: Passthrough<FacetsProps, FacetsEmits>;
+  dateFilters?: Passthrough<DateFiltersProps, DateFiltersEmits>;
   bulkActions?: Passthrough<GroupProps>;
+  bulkActionsCount?: Passthrough<SpanProps>;
+  bulkAction?: Passthrough<ButtonProps>;
+  bulkActionIcon?: Passthrough<IconProps>;
+  bulkActionClear?: Passthrough<ButtonProps>;
+  scroller?: Passthrough<ScrollerProps, ScrollerEmits>;
   table?: Passthrough<TableProps>;
   thead?: Passthrough<TheadProps>;
+  theadTr?: Passthrough<TrProps>;
+  th?: Passthrough<ThProps>;
+  selectAllCheckbox?: Passthrough<CheckboxProps, CheckboxEmits>;
+  headerWrap?: Passthrough<GroupProps>;
+  sortButton?: Passthrough<ButtonProps>;
+  sortIcon?: Passthrough<IconProps>;
+  headerLabel?: Passthrough<SpanProps>;
+  dragIcon?: Passthrough<IconProps>;
   tbody?: Passthrough<TbodyProps>;
+  tr?: Passthrough<TrProps>;
+  td?: Passthrough<TdProps>;
   empty?: Passthrough<TdProps>;
-  pagination?: Passthrough<GroupProps>;
-};
+  rowCheckbox?: Passthrough<CheckboxProps, CheckboxEmits>;
+  cellAnchor?: Passthrough<AnchorProps>;
+  cellImg?: Passthrough<ImgProps>;
+  cellSpan?: Passthrough<SpanProps>;
+  actionsMenu?: Passthrough<MenuProps, MenuEmits>;
+  actionsTrigger?: Passthrough<FabProps>;
+  pagination?: Passthrough<PaginationProps, PaginationEmits>;
 
-export type DataTableColumnsRecipes = {
-  trigger?: FabRecipe;
-  checkbox?: CheckboxRecipe;
-};
-
-export type DataTableRecipes = {
-  keywords: ComputedRef<KeywordsRecipe>;
-  facets: ComputedRef<FacetsRecipe>;
-  dateFilters: ComputedRef<DateFiltersRecipe>;
-  pagination: ComputedRef<PaginationRecipe>;
+  // Sub-component passthrough
+  filters?: DataTableFiltersPassthrough;
+  columns?: DataTableColumnsPassthrough;
 };
 
 export type DataTableProps<T, K = unknown> = {
   table: Table<T, K>;
-  recipes: DataTableRecipes;
   pt?: DataTablePassthrough;
 };

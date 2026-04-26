@@ -27,10 +27,10 @@ const toggle = (value: string) => {
   model.value = MultiSelect.toggle(model.value, value);
 };
 
-const popoverPT = usePassthrough(pt?.popover, {
+const popoverPT = usePassthrough(pt?.popover, () => ({
   props: { open: open.value, disabled },
   handlers: { "update:open": (v: boolean) => { open.value = v; } },
-});
+}));
 const triggerPT = usePassthrough(pt?.trigger, {
   props: { disabled },
   handlers: {},
@@ -64,6 +64,7 @@ const ctx = computed(() => ({
 
 <template>
   <Popover ref="el" v-bind="popoverPT.props" v-on="popoverPT.handlers">
+    <template #trigger>
     <slot name="trigger" v-bind="ctx">
       <Button
         v-bind="triggerPT.props"
@@ -78,6 +79,7 @@ const ctx = computed(() => ({
         </slot>
       </Button>
     </slot>
+    </template>
     <template #content>
       <slot name="content" v-bind="ctx">
         <Group v-bind="contentPT.props" class="f-multiselect-content" v-on="contentPT.handlers">

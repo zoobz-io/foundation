@@ -32,10 +32,10 @@ const linkProps = computed(() => ({
 }));
 
 const attrs = useAttrs();
-const rootPT = usePassthrough(pt?.root, {
+const rootPT = usePassthrough(pt?.root, () => ({
   props: { as: link ? NuxtLink : "button", "aria-label": label, ...(link ? linkProps.value : buttonProps.value), ...attrs },
   handlers: {},
-});
+}));
 const tooltipPT = usePassthrough(pt?.tooltip, { props: { content: label }, handlers: {} });
 const iconPT = usePassthrough(pt?.icon, { props: { alias: icon ?? "warning" }, handlers: {} });
 const badgePT = usePassthrough(pt?.badge, { props: {}, handlers: {} });

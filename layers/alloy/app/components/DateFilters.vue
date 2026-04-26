@@ -158,39 +158,39 @@ watch(open, (isOpen) => {
   }
 });
 
-const popoverPT = usePassthrough(pt?.popover, {
+const popoverPT = usePassthrough(pt?.popover, () => ({
   props: { open: open.value, align: "end" as const },
   handlers: { "update:open": (v: boolean) => { open.value = v; } },
-});
-const triggerPT = usePassthrough(pt?.trigger, {
+}));
+const triggerPT = usePassthrough(pt?.trigger, () => ({
   props: { icon: "calendar" as IconAlias, badge: activeCount.value > 0 ? "" : undefined },
   handlers: {},
-});
+}));
 const rootPT = usePassthrough(pt?.root, { props: {}, handlers: {} });
 const stepperPT = usePassthrough(pt?.stepper, { props: {}, handlers: {} });
 const stepSeparatorPT = usePassthrough(pt?.stepSeparator, { props: { alias: "chevron-right" }, handlers: {} });
-const fieldCommandPT = usePassthrough(pt?.fieldCommand, {
+const fieldCommandPT = usePassthrough(pt?.fieldCommand, () => ({
   props: { groups: fieldGroups.value, placeholder: "Search fields...", selected: fieldSelected.value },
   handlers: { select: onFieldSelect, "update:selected": (v: Set<string>) => { fieldSelected.value = v; } },
-});
-const operatorCommandPT = usePassthrough(pt?.operatorCommand, {
+}));
+const operatorCommandPT = usePassthrough(pt?.operatorCommand, () => ({
   props: { groups: operatorGroups.value, placeholder: "Search operators...", selected: operatorSelected.value },
   handlers: { select: onOperatorSelect, "update:selected": (v: Set<string>) => { operatorSelected.value = v; } },
-});
+}));
 const calendarWrapperPT = usePassthrough(pt?.calendarWrapper, { props: {}, handlers: {} });
-const calendarPTProp = usePassthrough(pt?.calendar, {
+const calendarPTProp = usePassthrough(pt?.calendar, () => ({
   props: { modelValue: selectedDate.value, maxValue: today(getLocalTimeZone()) },
   handlers: { "update:modelValue": (v: DateValue | undefined) => { selectedDate.value = v; } },
-});
-const rangeCalendarPTProp = usePassthrough(pt?.rangeCalendar, {
+}));
+const rangeCalendarPTProp = usePassthrough(pt?.rangeCalendar, () => ({
   props: { modelValue: selectedRange.value, maxValue: today(getLocalTimeZone()) },
   handlers: { "update:modelValue": (v: DateRange) => { selectedRange.value = v; } },
-});
+}));
 const actionsPT = usePassthrough(pt?.actions, { props: {}, handlers: {} });
-const applyButtonPT = usePassthrough(pt?.applyButton, {
+const applyButtonPT = usePassthrough(pt?.applyButton, () => ({
   props: { type: "button" as const, disabled: !isFormValid.value },
   handlers: { click: () => applyFilter() },
-});
+}));
 
 const ctx = computed(() => ({ fields, filters: filters.value, activeCount: activeCount.value }));
 </script>
@@ -198,9 +198,11 @@ const ctx = computed(() => ({ fields, filters: filters.value, activeCount: activ
 <template>
   <slot name="popover" v-bind="ctx">
     <Popover v-bind="popoverPT.props" v-on="popoverPT.handlers">
-      <slot name="trigger" v-bind="ctx">
-        <Fab v-bind="triggerPT.props" v-on="triggerPT.handlers" />
-      </slot>
+      <template #trigger>
+        <slot name="trigger" v-bind="ctx">
+          <Fab v-bind="triggerPT.props" v-on="triggerPT.handlers" />
+        </slot>
+      </template>
       <template #content>
         <slot name="root" v-bind="ctx">
           <Group ref="el" v-bind="rootPT.props" class="f-date-filters" v-on="rootPT.handlers">

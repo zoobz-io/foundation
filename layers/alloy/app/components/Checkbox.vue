@@ -12,10 +12,10 @@ const model = defineModel<boolean | "indeterminate">();
 const el = useTemplateRef("el");
 defineExpose({ el });
 
-const rootPT = usePassthrough(pt?.root, {
+const rootPT = usePassthrough(pt?.root, () => ({
   props: { modelValue: model.value, disabled, name, value, required },
   handlers: { "update:modelValue": (v: boolean | "indeterminate") => { model.value = v; emit("update:modelValue", v); } },
-});
+}));
 
 const indicatorPT = usePassthrough(pt?.indicator, { props: {}, handlers: {} });
 const iconPT = computed(() => passthrough(pt?.icon, {

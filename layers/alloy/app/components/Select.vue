@@ -24,10 +24,10 @@ const displayText = computed(() => {
   return selected?.label ?? placeholder;
 });
 
-const rootPT = usePassthrough(pt?.root, {
+const rootPT = usePassthrough(pt?.root, () => ({
   props: { modelValue: model.value, disabled, required, name },
   handlers: { "update:modelValue": (v: AcceptableValue) => { model.value = String(v); } },
-});
+}));
 const triggerPT = usePassthrough(pt?.trigger, { props: {}, handlers: {} });
 const contentPT = usePassthrough(pt?.content, {
   props: { position: "popper", sideOffset: 4 },

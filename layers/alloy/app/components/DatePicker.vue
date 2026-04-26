@@ -39,10 +39,10 @@ const model = defineModel<DateValue>();
 const el = useTemplateRef("el");
 defineExpose({ el });
 
-const rootPT = usePassthrough(pt?.root, {
+const rootPT = usePassthrough(pt?.root, () => ({
   props: { modelValue: model.value, minValue, maxValue, locale, disabled, granularity, isDateDisabled },
   handlers: { "update:modelValue": (v: DateValue | undefined) => { model.value = v; } },
-});
+}));
 const contentPT = usePassthrough(pt?.content, {
   props: { sideOffset: 8 },
   handlers: {},

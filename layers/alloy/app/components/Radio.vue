@@ -18,10 +18,10 @@ const model = defineModel<string>();
 const el = useTemplateRef("el");
 defineExpose({ el });
 
-const rootPT = usePassthrough(pt?.root, {
+const rootPT = usePassthrough(pt?.root, () => ({
   props: { modelValue: model.value, disabled, required, name, orientation },
   handlers: { "update:modelValue": (v: string) => { model.value = v; } },
-});
+}));
 const indicatorPT = usePassthrough(pt?.indicator, { props: {}, handlers: {} });
 const optionLabelPT = usePassthrough(pt?.optionLabel, { props: {}, handlers: {} });
 

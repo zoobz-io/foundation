@@ -3,7 +3,7 @@ const workspace = accessExampleWorkspace();
 
 await useAsyncData("workspace", () => workspace.init());
 
-const { table, recipes } = useFakeTable();
+const { table } = useFakeTable();
 </script>
 
 <template>
@@ -16,11 +16,11 @@ const { table, recipes } = useFakeTable();
     </template>
 
     <template #main-table>
-      <DataTable :table="table" :recipes="recipes">
+      <DataTableWidget :table="table">
         <template #cell:status="{ value }">
           <Chip :label="String(value)" />
         </template>
-      </DataTable>
+      </DataTableWidget>
     </template>
 
     <template #sidebar>

@@ -1,12 +1,11 @@
 <script lang="ts">
-import type { Table } from "../types/table";
-import type { DataTableColumn, TableFilter } from "../types/data-table";
-import { parseShorthand } from "../utils/parse-shorthand";
-import { validateKeywords } from "../utils/validate-keywords";
-
-interface DataTableFiltersProps<T, K = unknown> {
-  table: Table<T, K>;
-}
+import type {
+  DataTableColumn,
+  TableFilter,
+  DataTableFiltersProps,
+} from "../../../types/data-table";
+import { parseShorthand } from "../../../utils/parse-shorthand";
+import { validateKeywords } from "../../../utils/validate-keywords";
 
 type Suggestion = {
   label: string;
@@ -19,7 +18,7 @@ type Suggestion = {
 </script>
 
 <script setup lang="ts" generic="T, K = unknown">
-const { table } = defineProps<DataTableFiltersProps<T, K>>();
+const { table, pt } = defineProps<DataTableFiltersProps<T, K>>();
 
 const {
   columns,
@@ -34,7 +33,7 @@ const {
 } = table;
 
 const el = useTemplateRef("el");
-const inputRef = useTemplateRef<HTMLInputElement>("input");
+const inputRef = useTemplateRef<{ el: HTMLInputElement }>("input");
 defineExpose({ el });
 
 const inputValue = ref("");
@@ -42,8 +41,70 @@ const helpOpen = ref(false);
 const focused = ref(false);
 const highlightIndex = ref(0);
 
+// Passthrough
+const rootPT = usePassthrough(pt?.root, { props: {}, handlers: {} });
+const chipsPT = usePassthrough(pt?.chips, { props: {}, handlers: {} });
+const iconPT = usePassthrough(pt?.icon, {
+  props: { alias: "sparkle" as IconAlias },
+  handlers: {},
+});
+const inputWrapPT = usePassthrough(pt?.inputWrap, { props: {}, handlers: {} });
+const mirrorWrapPT = usePassthrough(pt?.mirrorWrap, {
+  props: {},
+  handlers: {},
+});
+const mirrorTextPT = usePassthrough(pt?.mirrorText, {
+  props: {},
+  handlers: {},
+});
+const mirrorHintPT = usePassthrough(pt?.mirrorHint, {
+  props: {},
+  handlers: {},
+});
+const inputPT = usePassthrough(pt?.input, {
+  props: { placeholder: "Filter..." },
+  handlers: {},
+});
+const dropdownPT = usePassthrough(pt?.dropdown, { props: {}, handlers: {} });
+const dropdownPanelPT = usePassthrough(pt?.dropdownPanel, {
+  props: {},
+  handlers: {},
+});
+const dropdownScrollerPT = usePassthrough(pt?.dropdownScroller, {
+  props: {},
+  handlers: {},
+});
+const dropdownEmptyPT = usePassthrough(pt?.dropdownEmpty, {
+  props: {},
+  handlers: {},
+});
+const infoIconPT = usePassthrough(pt?.infoIcon, {
+  props: { alias: "info" as IconAlias },
+  handlers: {},
+});
+const dialogPT = usePassthrough(pt?.dialog, () => ({
+  props: {
+    open: helpOpen.value,
+    title: "Filter Shortcuts",
+    description: "Use these shortcuts in the filter input",
+  },
+  handlers: {
+    "update:open": (v: boolean) => {
+      helpOpen.value = v;
+    },
+  },
+}));
+const helpTablePT = usePassthrough(pt?.helpTable, { props: {}, handlers: {} });
+const helpTheadPT = usePassthrough(pt?.helpThead, { props: {}, handlers: {} });
+const helpTbodyPT = usePassthrough(pt?.helpTbody, { props: {}, handlers: {} });
+const helpThPT = usePassthrough(pt?.helpTh, { props: {}, handlers: {} });
+const helpTdPT = usePassthrough(pt?.helpTd, { props: {}, handlers: {} });
+const helpKbdPT = usePassthrough(pt?.helpKbd, { props: {}, handlers: {} });
+
 // Locked steps — each entry is a locked selection
-const lockedSteps = ref<{ label: string; value: string; icon?: IconAlias; hasChildren?: boolean }[]>([]);
+const lockedSteps = ref<
+  { label: string; value: string; icon?: IconAlias; hasChildren?: boolean }[]
+>([]);
 const lockedField = ref<DataTableColumn<T> | null>(null);
 const lockedOperator = ref<string | null>(null);
 const lockedDate1 = ref<string | null>(null);
@@ -83,7 +144,8 @@ const lockedPrefix = computed(() => {
   if (!lockedField.value) return "";
   const fieldLabel = lockedField.value.label;
   if (lockedField.value.type === "enum") return `${fieldLabel}=`;
-  if (lockedOperator.value === "><" && lockedDate1.value) return `${fieldLabel}><${lockedDate1.value},`;
+  if (lockedOperator.value === "><" && lockedDate1.value)
+    return `${fieldLabel}><${lockedDate1.value},`;
   if (lockedOperator.value) return `${fieldLabel}${lockedOperator.value}`;
   return fieldLabel;
 });
@@ -95,8 +157,8 @@ const activeText = computed(() => {
   return inputValue.value;
 });
 
-const isRawMode = computed(() =>
-  inputValue.value.startsWith('"') || inputValue.value.startsWith("("),
+const isRawMode = computed(
+  () => inputValue.value.startsWith('"') || inputValue.value.startsWith("("),
 );
 
 const closingHint = computed(() => {
@@ -137,19 +199,40 @@ const activePanelSuggestions = computed<Suggestion[]>(() => {
   if (phase.value === "field") {
     const items: Suggestion[] = [];
     if (!search || "search".includes(search)) {
-      items.push({ label: "Search", value: "__search", type: "shortcut", icon: "search" });
+      items.push({
+        label: "Search",
+        value: "__search",
+        type: "shortcut",
+        icon: "search",
+      });
     }
     if (!search || "keywords".includes(search)) {
-      items.push({ label: "Keywords", value: "__keywords", type: "shortcut", icon: "tag" });
+      items.push({
+        label: "Keywords",
+        value: "__keywords",
+        type: "shortcut",
+        icon: "tag",
+      });
     }
     for (const c of enumColumns.value) {
       if (!search || c.label.toLowerCase().includes(search)) {
-        items.push({ label: c.label, value: String(c.key), hasChildren: true, icon: "filter" });
+        items.push({
+          label: c.label,
+          value: String(c.key),
+          hasChildren: true,
+          icon: "filter",
+        });
       }
     }
     for (const c of dateColumns.value) {
       if (!search || c.label.toLowerCase().includes(search)) {
-        items.push({ label: c.label, value: String(c.key), hasChildren: true, type: "date", icon: "calendar" });
+        items.push({
+          label: c.label,
+          value: String(c.key),
+          hasChildren: true,
+          type: "date",
+          icon: "calendar",
+        });
       }
     }
     return items;
@@ -174,7 +257,8 @@ const activePanelSuggestions = computed<Suggestion[]>(() => {
   }
 
   if (phase.value === "date-value" || phase.value === "date-value-2") {
-    const isBetweenFirst = phase.value === "date-value" && lockedOperator.value === "><";
+    const isBetweenFirst =
+      phase.value === "date-value" && lockedOperator.value === "><";
     const isSecondDate = phase.value === "date-value-2";
     return recentDates.value
       .filter((d) => !search || d.value.includes(search))
@@ -190,8 +274,13 @@ const activePanelSuggestions = computed<Suggestion[]>(() => {
 });
 
 // Whether to show empty state in the last panel
-const showEmptyState = computed(() =>
-  focused.value && !isRawMode.value && lockedSteps.value.length > 0 && activePanelSuggestions.value.length === 0 && activeText.value.length > 0,
+const showEmptyState = computed(
+  () =>
+    focused.value &&
+    !isRawMode.value &&
+    lockedSteps.value.length > 0 &&
+    activePanelSuggestions.value.length === 0 &&
+    activeText.value.length > 0,
 );
 
 // All panels: locked steps (each as single-item panel) + active panel
@@ -228,17 +317,22 @@ watch(activePanel, (items) => {
 const selectField = (col: DataTableColumn<T>) => {
   lockedField.value = col;
   lockedOperator.value = null;
-  const icon = col.type === "enum" ? "filter" as IconAlias : "calendar" as IconAlias;
+  const icon =
+    col.type === "enum" ? ("filter" as IconAlias) : ("calendar" as IconAlias);
   lockedSteps.value = [{ label: col.label, value: String(col.key), icon }];
   if (col.type === "enum") {
     inputValue.value = `${col.label}=`;
   } else {
     inputValue.value = `${col.label}`;
   }
-  nextTick(() => inputRef.value?.focus());
+  nextTick(() => inputRef.value?.el?.focus());
 };
 
-const operatorLabels: Record<string, string> = { ">": "After", "<": "Before", "><": "Between" };
+const operatorLabels: Record<string, string> = {
+  ">": "After",
+  "<": "Before",
+  "><": "Between",
+};
 
 const selectDateOperator = (op: string) => {
   if (!lockedField.value) return;
@@ -248,7 +342,7 @@ const selectDateOperator = (op: string) => {
     { label: operatorLabels[op] ?? op, value: op, hasChildren: true },
   ];
   inputValue.value = `${lockedField.value.label}${op}`;
-  nextTick(() => inputRef.value?.focus());
+  nextTick(() => inputRef.value?.el?.focus());
 };
 
 const selectValue = (value: string) => {
@@ -273,7 +367,7 @@ const selectValue = (value: string) => {
         { label: value, value, hasChildren: true },
       ];
       inputValue.value = `${lockedField.value.label}><${value},`;
-      nextTick(() => inputRef.value?.focus());
+      nextTick(() => inputRef.value?.el?.focus());
       return;
     }
     // Second date of Between — submit
@@ -338,16 +432,17 @@ const unwindToPanel = (panelIndex: number) => {
     lockedOperator.value = null;
     lockedDate1.value = null;
     lockedSteps.value = lockedSteps.value.slice(0, 1);
-    inputValue.value = lockedField.value.type === "enum"
-      ? `${lockedField.value.label}=`
-      : `${lockedField.value.label}`;
+    inputValue.value =
+      lockedField.value.type === "enum"
+        ? `${lockedField.value.label}=`
+        : `${lockedField.value.label}`;
   } else if (panelIndex === 2 && lockedField.value && lockedOperator.value) {
     // Back to first date value (keep field + operator locked)
     lockedDate1.value = null;
     lockedSteps.value = lockedSteps.value.slice(0, 2);
     inputValue.value = `${lockedField.value.label}${lockedOperator.value}`;
   }
-  nextTick(() => inputRef.value?.focus());
+  nextTick(() => inputRef.value?.el?.focus());
 };
 
 const resetAutocomplete = () => {
@@ -407,7 +502,9 @@ const onInput = (event: Event) => {
       );
       if (col) {
         lockedField.value = col;
-        lockedSteps.value = [{ label: col.label, value: String(col.key), icon: "filter" }];
+        lockedSteps.value = [
+          { label: col.label, value: String(col.key), icon: "filter" },
+        ];
         inputValue.value = `${col.label}=${raw.slice(eqIndex + 1)}`;
       }
     }
@@ -446,7 +543,9 @@ const onInput = (event: Event) => {
 watch(highlightIndex, () => {
   nextTick(() => {
     const container = el.value?.$el ?? el.value;
-    const highlighted = (container as HTMLElement | undefined)?.querySelector('.f-data-table-filters-dropdown-item--highlighted');
+    const highlighted = (container as HTMLElement | undefined)?.querySelector(
+      ".f-data-table-filters-dropdown-item--highlighted",
+    );
     highlighted?.scrollIntoView({ block: "nearest" });
   });
 });
@@ -458,7 +557,11 @@ const onKeydown = (event: KeyboardEvent) => {
     if (event.key === "ArrowDown") {
       event.preventDefault();
       let next = highlightIndex.value + 1;
-      while (next < activePanel.value.length && activePanel.value[next]?.disabled) next++;
+      while (
+        next < activePanel.value.length &&
+        activePanel.value[next]?.disabled
+      )
+        next++;
       if (next < activePanel.value.length) highlightIndex.value = next;
       return;
     }
@@ -481,20 +584,28 @@ const onKeydown = (event: KeyboardEvent) => {
     if (event.key === "Escape") {
       event.preventDefault();
       resetAutocomplete();
-      inputRef.value?.blur();
+      inputRef.value?.el?.blur();
       return;
     }
   }
 
   if (event.key === "Enter") {
-    if (inputValue.value.startsWith('"') && inputValue.value.endsWith('"') && inputValue.value.length > 2) {
+    if (
+      inputValue.value.startsWith('"') &&
+      inputValue.value.endsWith('"') &&
+      inputValue.value.length > 2
+    ) {
       query.value = inputValue.value.slice(1, -1);
       page.value = 1;
       fetchData();
       resetAutocomplete();
       return;
     }
-    if (inputValue.value.startsWith("(") && inputValue.value.endsWith(")") && inputValue.value.length > 2) {
+    if (
+      inputValue.value.startsWith("(") &&
+      inputValue.value.endsWith(")") &&
+      inputValue.value.length > 2
+    ) {
       const kw = inputValue.value.slice(1, -1);
       if (!validateKeywords(kw)) return;
       keywords.value = kw;
@@ -503,7 +614,10 @@ const onKeydown = (event: KeyboardEvent) => {
       resetAutocomplete();
       return;
     }
-    const result = parseShorthand(inputValue.value, columns as DataTableColumn<T>[]);
+    const result = parseShorthand(
+      inputValue.value,
+      columns as DataTableColumn<T>[],
+    );
     if (result) {
       addFilter(result.filter);
       resetAutocomplete();
@@ -512,7 +626,7 @@ const onKeydown = (event: KeyboardEvent) => {
 
   if (event.key === "Escape") {
     resetAutocomplete();
-    inputRef.value?.blur();
+    inputRef.value?.el?.blur();
   }
 
   if (event.key === "Backspace") {
@@ -549,7 +663,9 @@ const onKeydown = (event: KeyboardEvent) => {
 
       // Enum — peel off the last value and unravel it
       if (lastFilter.value.type === "enum") {
-        const col = (columns as DataTableColumn<T>[]).find((c) => String(c.key) === lastFilter.field);
+        const col = (columns as DataTableColumn<T>[]).find(
+          (c) => String(c.key) === lastFilter.field,
+        );
         if (col) {
           const values = [...lastFilter.value.value];
           const lastVal = values.pop()!;
@@ -560,7 +676,9 @@ const onKeydown = (event: KeyboardEvent) => {
           );
           // Unravel into input
           lockedField.value = col;
-          lockedSteps.value = [{ label: col.label, value: String(col.key), icon: "filter" }];
+          lockedSteps.value = [
+            { label: col.label, value: String(col.key), icon: "filter" },
+          ];
           inputValue.value = `${col.label}=${lastVal.slice(0, -1)}`;
           return;
         }
@@ -568,7 +686,9 @@ const onKeydown = (event: KeyboardEvent) => {
 
       // Date filter — unravel into input
       if (lastFilter.value.type === "date") {
-        const col = (columns as DataTableColumn<T>[]).find((c) => String(c.key) === lastFilter.field);
+        const col = (columns as DataTableColumn<T>[]).find(
+          (c) => String(c.key) === lastFilter.field,
+        );
         if (col) {
           const op = lastFilter.operator === "before" ? "<" : ">";
           const dateStr = formatDate(lastFilter.value.value);
@@ -577,7 +697,11 @@ const onKeydown = (event: KeyboardEvent) => {
           lockedOperator.value = op;
           lockedSteps.value = [
             { label: col.label, value: String(col.key), icon: "calendar" },
-            { label: op === ">" ? "After" : "Before", value: op, hasChildren: true },
+            {
+              label: op === ">" ? "After" : "Before",
+              value: op,
+              hasChildren: true,
+            },
           ];
           inputValue.value = `${col.label}${op}${dateStr.slice(0, -1)}`;
           return;
@@ -586,7 +710,9 @@ const onKeydown = (event: KeyboardEvent) => {
 
       // Date range filter — unravel the second date
       if (lastFilter.value.type === "date_range") {
-        const col = (columns as DataTableColumn<T>[]).find((c) => String(c.key) === lastFilter.field);
+        const col = (columns as DataTableColumn<T>[]).find(
+          (c) => String(c.key) === lastFilter.field,
+        );
         if (col) {
           const date1 = formatDate(lastFilter.value.value[0]);
           const date2 = formatDate(lastFilter.value.value[1]);
@@ -613,7 +739,10 @@ const onKeydown = (event: KeyboardEvent) => {
       }
 
       // Keywords — unravel (just remove the closing ))
-      if (lastFilter.field === "__keywords" && lastFilter.value.type === "text") {
+      if (
+        lastFilter.field === "__keywords" &&
+        lastFilter.value.type === "text"
+      ) {
         const val = lastFilter.value.value;
         removeFilter(filters.value.length - 1);
         inputValue.value = `(${val}`;
@@ -627,13 +756,15 @@ const onKeydown = (event: KeyboardEvent) => {
 };
 
 const onBlur = () => {
-  window.setTimeout(() => { focused.value = false; }, 150);
+  window.setTimeout(() => {
+    focused.value = false;
+  }, 150);
 };
 
 const keys = useMagicKeys();
 const combo = computed(() => keys["Meta+/"]?.value || keys["Ctrl+/"]?.value);
 whenever(combo, () => {
-  inputRef.value?.focus();
+  inputRef.value?.el?.focus();
 });
 
 const formatDate = (d: Date) => {
@@ -654,13 +785,20 @@ const formatFilter = (filter: TableFilter) => {
   const label = col?.label ?? filter.field;
   const v = filter.value;
   switch (v.type) {
-    case "text": return `${label}=${v.value}`;
-    case "number": return `${label}${filter.operator === "eq" ? "=" : filter.operator === "gt" ? ">" : "<"}${v.value}`;
-    case "number_range": return `${label}><${v.value[0]},${v.value[1]}`;
-    case "date": return `${label}${filter.operator === "before" ? "<" : ">"}${formatDate(v.value)}`;
-    case "date_range": return `${label}><${formatDate(v.value[0])},${formatDate(v.value[1])}`;
-    case "enum": return `${label}=${v.value.join(",")}`;
-    case "boolean": return `${label}=${v.value}`;
+    case "text":
+      return `${label}=${v.value}`;
+    case "number":
+      return `${label}${filter.operator === "eq" ? "=" : filter.operator === "gt" ? ">" : "<"}${v.value}`;
+    case "number_range":
+      return `${label}><${v.value[0]},${v.value[1]}`;
+    case "date":
+      return `${label}${filter.operator === "before" ? "<" : ">"}${formatDate(v.value)}`;
+    case "date_range":
+      return `${label}><${formatDate(v.value[0])},${formatDate(v.value[1])}`;
+    case "enum":
+      return `${label}=${v.value.join(",")}`;
+    case "boolean":
+      return `${label}=${v.value}`;
   }
 };
 
@@ -693,27 +831,64 @@ const helpRows = computed(() => {
 </script>
 
 <template>
-  <Group ref="el" class="f-data-table-filters">
-    <Group class="f-data-table-filters-chips">
-      <Icon alias="sparkle" class="f-data-table-filters-icon" />
+  <Group
+    ref="el"
+    v-bind="rootPT.props"
+    class="f-data-table-filters"
+    v-on="rootPT.handlers"
+  >
+    <Group
+      v-bind="chipsPT.props"
+      class="f-data-table-filters-chips"
+      v-on="chipsPT.handlers"
+    >
+      <Icon
+        v-bind="iconPT.props"
+        class="f-data-table-filters-icon"
+        v-on="iconPT.handlers"
+      />
       <Chip
         v-for="(filter, index) in filters"
         :key="index"
-        :label="formatFilter(filter)"
-        closable
+        v-bind="
+          passthrough(pt?.chip, {
+            props: { label: formatFilter(filter), closable: true },
+            handlers: {},
+          }).props
+        "
         @click="removeFilter(index)"
       />
-      <Group class="f-data-table-filters-input-wrap">
+      <Group
+        v-bind="inputWrapPT.props"
+        class="f-data-table-filters-input-wrap"
+        v-on="inputWrapPT.handlers"
+      >
         <ClientOnly>
-          <Group v-show="closingHint" class="f-data-table-filters-mirror" aria-hidden="true">
-            <Span class="f-data-table-filters-mirror-text">{{ inputValue }}</Span>
-            <Span class="f-data-table-filters-mirror-hint">{{ closingHint }}</Span>
+          <Group
+            v-show="closingHint"
+            v-bind="mirrorWrapPT.props"
+            class="f-data-table-filters-mirror"
+            aria-hidden="true"
+            v-on="mirrorWrapPT.handlers"
+          >
+            <Span
+              v-bind="mirrorTextPT.props"
+              class="f-data-table-filters-mirror-text"
+              v-on="mirrorTextPT.handlers"
+              >{{ inputValue }}</Span
+            >
+            <Span
+              v-bind="mirrorHintPT.props"
+              class="f-data-table-filters-mirror-hint"
+              v-on="mirrorHintPT.handlers"
+              >{{ closingHint }}</Span
+            >
           </Group>
         </ClientOnly>
-        <input
+        <Input
           ref="input"
+          v-bind="inputPT.props"
           :value="inputValue"
-          placeholder="Filter..."
           :class="[
             'f-data-table-filters-input',
             { 'f-data-table-filters-input--ghost': closingHint },
@@ -722,53 +897,132 @@ const helpRows = computed(() => {
           @keydown="onKeydown"
           @focus="focused = true"
           @blur="onBlur"
+        />
+        <Group
+          v-if="panels.length || showEmptyState"
+          v-bind="dropdownPT.props"
+          class="f-data-table-filters-dropdown"
+          v-on="dropdownPT.handlers"
         >
-        <Group v-if="panels.length || showEmptyState" class="f-data-table-filters-dropdown">
           <Group
             v-for="(panel, panelIndex) in panels"
             :key="panelIndex"
+            v-bind="dropdownPanelPT.props"
             class="f-data-table-filters-dropdown-panel"
+            v-on="dropdownPanelPT.handlers"
           >
-            <Scroller>
-              <button
+            <Scroller
+              v-bind="dropdownScrollerPT.props"
+              v-on="dropdownScrollerPT.handlers"
+            >
+              <template #content>
+              <Button
                 v-for="(item, i) in panel"
                 :key="item.value"
-                type="button"
-                :disabled="item.disabled"
+                v-bind="
+                  passthrough(pt?.dropdownItem, {
+                    props: { disabled: item.disabled },
+                    handlers: {},
+                  }).props
+                "
                 :class="[
                   'f-data-table-filters-dropdown-item',
-                  { 'f-data-table-filters-dropdown-item--highlighted': panelIndex === panels.length - 1 && i === highlightIndex },
-                  { 'f-data-table-filters-dropdown-item--locked': panel.length === 1 && panelIndex < panels.length - 1 },
-                  { 'f-data-table-filters-dropdown-item--disabled': item.disabled },
+                  {
+                    'f-data-table-filters-dropdown-item--highlighted':
+                      panelIndex === panels.length - 1 && i === highlightIndex,
+                  },
+                  {
+                    'f-data-table-filters-dropdown-item--locked':
+                      panel.length === 1 && panelIndex < panels.length - 1,
+                  },
+                  {
+                    'f-data-table-filters-dropdown-item--disabled':
+                      item.disabled,
+                  },
                 ]"
-                @mousedown.prevent="panelIndex < panels.length - 1 ? unwindToPanel(panelIndex) : !item.disabled && selectSuggestion(item)"
+                @mousedown.prevent="
+                  panelIndex < panels.length - 1
+                    ? unwindToPanel(panelIndex)
+                    : !item.disabled && selectSuggestion(item)
+                "
               >
-                <Icon v-if="item.icon" :alias="item.icon" class="f-data-table-filters-dropdown-item-icon" />
-                <Span class="f-data-table-filters-dropdown-item-label">{{ item.label }}</Span>
-                <Icon v-if="item.hasChildren" alias="chevron-right" class="f-data-table-filters-dropdown-item-arrow" />
-              </button>
+                <Icon
+                  v-if="item.icon"
+                  v-bind="
+                    passthrough(pt?.dropdownItemIcon, {
+                      props: { alias: item.icon },
+                      handlers: {},
+                    }).props
+                  "
+                  class="f-data-table-filters-dropdown-item-icon"
+                />
+                <Span
+                  v-bind="
+                    passthrough(pt?.dropdownItemLabel, {
+                      props: {},
+                      handlers: {},
+                    }).props
+                  "
+                  class="f-data-table-filters-dropdown-item-label"
+                  >{{ item.label }}</Span
+                >
+                <Icon
+                  v-if="item.hasChildren"
+                  v-bind="
+                    passthrough(pt?.dropdownItemArrow, {
+                      props: { alias: 'chevron-right' as IconAlias },
+                      handlers: {},
+                    }).props
+                  "
+                  class="f-data-table-filters-dropdown-item-arrow"
+                />
+              </Button>
+              </template>
             </Scroller>
           </Group>
-          <Group v-if="showEmptyState" class="f-data-table-filters-dropdown-panel">
-            <Span class="f-data-table-filters-dropdown-empty">No matches</Span>
+          <Group
+            v-if="showEmptyState"
+            v-bind="dropdownPanelPT.props"
+            class="f-data-table-filters-dropdown-panel"
+            v-on="dropdownPanelPT.handlers"
+          >
+            <Span
+              v-bind="dropdownEmptyPT.props"
+              class="f-data-table-filters-dropdown-empty"
+              v-on="dropdownEmptyPT.handlers"
+              >No matches</Span
+            >
           </Group>
         </Group>
       </Group>
-      <Icon alias="info" class="f-data-table-filters-info" @click="helpOpen = true" />
+      <Icon
+        v-bind="infoIconPT.props"
+        class="f-data-table-filters-info"
+        v-on="infoIconPT.handlers"
+        @click="helpOpen = true"
+      />
     </Group>
 
-    <Dialog v-model:open="helpOpen" title="Filter Shortcuts" description="Use these shortcuts in the filter input">
-      <Table>
-        <Thead>
+    <Dialog v-bind="dialogPT.props" v-on="dialogPT.handlers">
+      <Table v-bind="helpTablePT.props" v-on="helpTablePT.handlers">
+        <Thead v-bind="helpTheadPT.props" v-on="helpTheadPT.handlers">
           <Tr>
-            <Th>Syntax</Th>
-            <Th>Description</Th>
+            <Th v-bind="helpThPT.props" v-on="helpThPT.handlers">Syntax</Th>
+            <Th v-bind="helpThPT.props" v-on="helpThPT.handlers"
+              >Description</Th
+            >
           </Tr>
         </Thead>
-        <Tbody>
+        <Tbody v-bind="helpTbodyPT.props" v-on="helpTbodyPT.handlers">
           <Tr v-for="row in helpRows" :key="row.syntax">
-            <Td><Kbd>{{ row.syntax }}</Kbd></Td>
-            <Td>{{ row.description }}</Td>
+            <Td v-bind="helpTdPT.props" v-on="helpTdPT.handlers"
+              ><Kbd v-bind="helpKbdPT.props" v-on="helpKbdPT.handlers">{{
+                row.syntax
+              }}</Kbd></Td
+            >
+            <Td v-bind="helpTdPT.props" v-on="helpTdPT.handlers">{{
+              row.description
+            }}</Td>
           </Tr>
         </Tbody>
       </Table>

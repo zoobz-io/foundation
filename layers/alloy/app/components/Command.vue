@@ -49,14 +49,14 @@ const handleSingleSelect = (value: AcceptableValue) => {
   if (val && typeof val === "string") emit("select", val);
 };
 
-const rootPT = usePassthrough(pt?.root, {
+const rootPT = usePassthrough(pt?.root, () => ({
   props: { modelValue: modelArray.value, disabled, multiple },
   handlers: { "update:modelValue": (v: AcceptableValue | AcceptableValue[]) => { modelArray.value = (Array.isArray(v) ? v : [v]).map(String); handleSingleSelect(v); } },
-});
-const filterPT = usePassthrough(pt?.filter, {
+}));
+const filterPT = usePassthrough(pt?.filter, () => ({
   props: { modelValue: searchTerm.value, autoFocus: true, placeholder },
   handlers: { "update:modelValue": (v: string) => { searchTerm.value = v; } },
-});
+}));
 const inputWrapperPT = usePassthrough(pt?.inputWrapper, { props: {}, handlers: {} });
 const contentPT = usePassthrough(pt?.content, { props: {}, handlers: {} });
 const viewportPT = usePassthrough(pt?.viewport, { props: {}, handlers: {} });
@@ -115,6 +115,7 @@ const ctx = computed(() => ({
       <ListboxContent v-bind="contentPT.props" class="f-command-content" v-on="contentPT.handlers">
         <slot name="viewport" v-bind="ctx">
           <Scroller v-bind="viewportPT.props" class="f-command-viewport" v-on="viewportPT.handlers">
+            <template #content>
             <Group v-if="!hasResults" v-bind="emptyPT.props" class="f-command-empty" v-on="emptyPT.handlers">
               <slot name="empty" v-bind="ctx">No results found</slot>
             </Group>
@@ -149,6 +150,7 @@ const ctx = computed(() => ({
                 </slot>
               </ListboxItem>
             </ListboxGroup>
+            </template>
           </Scroller>
         </slot>
       </ListboxContent>

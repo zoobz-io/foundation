@@ -27,10 +27,10 @@ const handleUpdate = (value: AcceptableValue | AcceptableValue[]) => {
   if (typeof val === "string") model.value = val;
 };
 
-const rootPT = usePassthrough(pt?.root, {
-  props: { modelValue: model.value, type: "single", disabled },
+const rootPT = usePassthrough(pt?.root, () => ({
+  props: { modelValue: model.value, type: "single" as const, disabled },
   handlers: { "update:modelValue": handleUpdate },
-});
+}));
 
 const itemLabelPT = usePassthrough(pt?.itemLabel, { props: {}, handlers: {} });
 

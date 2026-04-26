@@ -1,16 +1,16 @@
 export const usePassthrough = <P, E = {}>(
-  userPT: Passthrough<P, E> | undefined,
-  localPT: Recipe<P, E>,
-) => computed(() => passthrough(userPT, localPT));
+  userPT: MaybeRefOrGetter<Passthrough<P, E> | undefined>,
+  localPT: MaybeRefOrGetter<Recipe<P, E>>,
+) => computed(() => passthrough(toValue(userPT), toValue(localPT)));
 
 export const useItemPassthrough = <T, P, E = {}>(
-  items: T[],
-  userPT: Passthrough<P, E> | undefined,
+  items: MaybeRefOrGetter<T[]>,
+  userPT: MaybeRefOrGetter<Passthrough<P, E> | undefined>,
   localPT: (item: T) => Recipe<P, E>,
 ) =>
   computed(() =>
-    items.map((item) => ({
+    toValue(items).map((item) => ({
       item,
-      pt: passthrough(userPT, localPT(item)),
+      pt: passthrough(toValue(userPT), localPT(item)),
     })),
   );

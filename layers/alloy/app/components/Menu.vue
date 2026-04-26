@@ -33,10 +33,10 @@ const onSelect = (item: MenuItem) => {
   emit("select", item);
 };
 
-const rootPT = usePassthrough(pt?.root, {
+const rootPT = usePassthrough(pt?.root, () => ({
   props: { open: open.value },
   handlers: { "update:open": (v: boolean) => { open.value = v; } },
-});
+}));
 const contentPT = usePassthrough(pt?.content, {
   props: { side, align, sideOffset, alignOffset },
   handlers: {},

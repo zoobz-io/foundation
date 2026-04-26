@@ -118,14 +118,14 @@ const matchOptions: Option[] = [
   { value: "or", label: "OR" },
 ];
 
-const popoverPT = usePassthrough(pt?.popover, {
+const popoverPT = usePassthrough(pt?.popover, () => ({
   props: { open: open.value, align: "end" as const },
   handlers: { "update:open": (v: boolean) => { open.value = v; } },
-});
-const triggerPT = usePassthrough(pt?.trigger, {
+}));
+const triggerPT = usePassthrough(pt?.trigger, () => ({
   props: { icon: "tag" as IconAlias, badge: activeCount.value > 0 ? activeCount.value : undefined },
   handlers: {},
-});
+}));
 const rootPT = usePassthrough(pt?.root, { props: {}, handlers: {} });
 const includePT = usePassthrough(pt?.include, { props: {}, handlers: {} });
 const includeLabelPT = usePassthrough(pt?.includeLabel, { props: {}, handlers: {} });
@@ -133,18 +133,18 @@ const excludePT = usePassthrough(pt?.exclude, { props: {}, handlers: {} });
 const excludeLabelPT = usePassthrough(pt?.excludeLabel, { props: {}, handlers: {} });
 const matchPT = usePassthrough(pt?.match, { props: {}, handlers: {} });
 const matchLabelPT = usePassthrough(pt?.matchLabel, { props: {}, handlers: {} });
-const matchControlPT = usePassthrough(pt?.matchControl, {
+const matchControlPT = usePassthrough(pt?.matchControl, () => ({
   props: { modelValue: mode.value, options: matchOptions },
   handlers: { "update:modelValue": (v: string) => { mode.value = v as "and" | "or"; } },
-});
-const includeInputPT = usePassthrough(pt?.includeInput, {
+}));
+const includeInputPT = usePassthrough(pt?.includeInput, () => ({
   props: { modelValue: includeModel.value, placeholder: "Add keyword...", delimiter: "" },
   handlers: { "update:modelValue": (v: string[]) => { includeModel.value = v; } },
-});
-const excludeInputPT = usePassthrough(pt?.excludeInput, {
+}));
+const excludeInputPT = usePassthrough(pt?.excludeInput, () => ({
   props: { modelValue: excludeModel.value, placeholder: "Exclude keyword...", delimiter: "" },
   handlers: { "update:modelValue": (v: string[]) => { excludeModel.value = v; } },
-});
+}));
 
 const ctx = computed(() => ({
   keywords: keywords.value,
@@ -159,9 +159,11 @@ const ctx = computed(() => ({
 <template>
   <slot name="popover" v-bind="ctx">
     <Popover v-bind="popoverPT.props" v-on="popoverPT.handlers">
-      <slot name="trigger" v-bind="ctx">
-        <Fab v-bind="triggerPT.props" v-on="triggerPT.handlers" />
-      </slot>
+      <template #trigger>
+        <slot name="trigger" v-bind="ctx">
+          <Fab v-bind="triggerPT.props" v-on="triggerPT.handlers" />
+        </slot>
+      </template>
       <template #content>
         <slot name="root" v-bind="ctx">
           <Group ref="el" v-bind="rootPT.props" class="f-keywords" v-on="rootPT.handlers">

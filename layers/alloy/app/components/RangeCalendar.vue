@@ -36,10 +36,10 @@ const model = defineModel<DateRange>();
 const el = useTemplateRef("el");
 defineExpose({ el });
 
-const rootPT = usePassthrough(pt?.root, {
+const rootPT = usePassthrough(pt?.root, () => ({
   props: { modelValue: model.value, minValue, maxValue, locale, numberOfMonths, fixedWeeks, disabled, isDateDisabled, isDateUnavailable },
   handlers: { "update:modelValue": (v: DateRange) => { model.value = v; } },
-});
+}));
 const headerPT = usePassthrough(pt?.header, { props: {}, handlers: {} });
 const headingPT = usePassthrough(pt?.heading, { props: {}, handlers: {} });
 const gridPT = usePassthrough(pt?.grid, { props: {}, handlers: {} });

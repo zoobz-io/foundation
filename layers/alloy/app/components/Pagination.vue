@@ -35,16 +35,16 @@ const pageNumbers = computed(() => Pagination.paginate(page, pageCount));
 const rootPT = usePassthrough(pt?.root, { props: {}, handlers: {} });
 const infoPT = usePassthrough(pt?.info, { props: {}, handlers: {} });
 const pagesPT = usePassthrough(pt?.pages, { props: {}, handlers: {} });
-const firstPT = usePassthrough(pt?.first, { props: { disabled: !hasPrev.value, icon: "chevron-first" }, handlers: { click: first } });
-const prevPT = usePassthrough(pt?.prev, { props: { disabled: !hasPrev.value, icon: "chevron-left" }, handlers: { click: prev } });
-const nextPT = usePassthrough(pt?.next, { props: { disabled: !hasNext.value, icon: "chevron-right" }, handlers: { click: next } });
-const lastPT = usePassthrough(pt?.last, { props: { disabled: !hasNext.value, icon: "chevron-last" }, handlers: { click: last } });
+const firstPT = usePassthrough(pt?.first, () => ({ props: { disabled: !hasPrev.value, icon: "chevron-first" as IconAlias }, handlers: { click: first } }));
+const prevPT = usePassthrough(pt?.prev, () => ({ props: { disabled: !hasPrev.value, icon: "chevron-left" as IconAlias }, handlers: { click: prev } }));
+const nextPT = usePassthrough(pt?.next, () => ({ props: { disabled: !hasNext.value, icon: "chevron-right" as IconAlias }, handlers: { click: next } }));
+const lastPT = usePassthrough(pt?.last, () => ({ props: { disabled: !hasNext.value, icon: "chevron-last" as IconAlias }, handlers: { click: last } }));
 const numbersPT = usePassthrough(pt?.numbers, { props: {}, handlers: {} });
 const numberPT = usePassthrough(pt?.number, { props: { type: "button" as const }, handlers: {} });
-const pageSizePT = usePassthrough(pt?.pageSize, {
+const pageSizePT = usePassthrough(pt?.pageSize, () => ({
   props: { modelValue: pageSizeModel.value, options: pageSizeOptions },
   handlers: { "update:modelValue": (v: string) => { pageSizeModel.value = v; } },
-});
+}));
 
 const ctx = computed(() => ({ page, pageSize, pageCount, total, hasPrev: hasPrev.value, hasNext: hasNext.value, pageNumbers: pageNumbers.value }));
 </script>

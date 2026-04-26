@@ -24,10 +24,10 @@ const open = defineModel<boolean>("open", { default: false });
 const el = useTemplateRef("el");
 defineExpose({ el });
 
-const rootPT = usePassthrough(pt?.root, {
+const rootPT = usePassthrough(pt?.root, () => ({
   props: { open: open.value, defaultOpen, modal },
   handlers: { "update:open": (v: boolean) => { open.value = v; } },
-});
+}));
 const anchorPT = usePassthrough(pt?.anchor, {
   props: { ...(reference ? { reference } : {}) },
   handlers: {},

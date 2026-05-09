@@ -6,6 +6,7 @@ import { defineTheme } from "../src/config";
  * https://ethanschoonover.com/solarized/
  */
 export default defineTheme({
+  label: "Solarized",
   reference: {
     // ===== NEUTRALS (warm cream/teal-gray, base03 through base3) =====
     "ref-slate-50": "#fdf6e3",   // base3 (lightest background)

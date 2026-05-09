@@ -14,7 +14,7 @@
       "#untheme/*": ["./src/*"],
       "#runtime/*": ["./runtime/*"],
       "#themes/*": ["./themes/*"],
-      "#build/untheme.themes.mjs": ["./runtime/stubs/themes.ts"],
+      "#build/untheme.config.mjs": ["./runtime/stubs/config.ts"],
       "#app": ["./node_modules/nuxt/dist/app"],
       "#imports": ["./node_modules/nuxt/dist/app/composables"]
     }

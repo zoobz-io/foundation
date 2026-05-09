@@ -28,8 +28,18 @@ export interface LogEntry {
   source?: "server" | "client";
 }
 
-/** Maps Nuxt hook names to log levels. Unmapped hooks default to debug. */
-export type HookLevelMap = Record<string, LogLevel>;
+/** Extended hook config — level + optional field narrowing. */
+export interface HookConfig {
+  level: LogLevel;
+  /** When set, only these fields are included from hook arg data. */
+  fields?: string[];
+}
+
+/** Hook value — shorthand level string or full config. */
+export type HookEntry = LogLevel | HookConfig;
+
+/** Maps Nuxt hook names to log levels or hook configs. */
+export type HookLevelMap = Record<string, HookEntry>;
 
 /** Config for the crucible module. */
 export interface CrucibleConfig {
@@ -37,4 +47,6 @@ export interface CrucibleConfig {
   level?: LogLevel;
   /** Map Nuxt hook names to log levels. Unmapped hooks default to "debug". */
   hooks?: HookLevelMap;
+  /** Batch client log transmission. Default: false in dev, true in production. */
+  batch?: boolean;
 }

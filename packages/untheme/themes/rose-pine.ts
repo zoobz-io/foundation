@@ -7,6 +7,7 @@ import { defineTheme } from "../src/config";
  * https://rosepinetheme.com
  */
 export default defineTheme({
+  label: "Rose Pine",
   reference: {
     // ===== NEUTRALS (warm purple-gray undertone) =====
     // Rose Pine's distinctive warm neutral scale derived from

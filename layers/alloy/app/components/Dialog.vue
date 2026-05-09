@@ -11,10 +11,10 @@ const emit = defineEmits<DialogEmits>();
 const el = useTemplateRef("el");
 defineExpose({ el });
 
-const rootPT = usePassthrough(pt?.root, {
+const rootPT = usePassthrough(pt?.root, () => ({
   props: { open },
   handlers: { "update:open": (v: boolean) => emit("update:open", v) },
-});
+}));
 const overlayPT = usePassthrough(pt?.overlay, { props: {}, handlers: {} });
 const contentPT = usePassthrough(pt?.content, { props: {}, handlers: {} });
 const titlePT = usePassthrough(pt?.title, { props: {}, handlers: {} });

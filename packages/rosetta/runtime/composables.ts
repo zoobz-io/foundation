@@ -11,12 +11,14 @@ export const useRosetta = () => {
   const locale = useState<string>("rosetta:locale", () => defaultLocale);
   const messages = useState<Record<string, string>>("rosetta:messages", () => ({}));
 
+  const nuxtApp = useNuxtApp();
+
   const setLocale = async (code: string) => {
     const prev = locale.value;
     locale.value = code;
     const route = useRoute().path;
-    await loadChunk(locale.value, route, messages);
-    useNuxtApp().callHook("rosetta:locale", { from: prev, to: code });
+    await loadChunk(locale.value, route, messages, nuxtApp);
+    nuxtApp.callHook("rosetta:locale", { from: prev, to: code });
   };
 
   return {
@@ -48,6 +50,7 @@ export const loadChunk = async (
   locale: string,
   route: string,
   messages: { value: Record<string, string> },
+  nuxtApp: Pick<ReturnType<typeof useNuxtApp>, "callHook">,
 ): Promise<void> => {
   const encodedRoute = encodeURIComponent(route === "/" ? "index" : route.slice(1));
   const [routeChunk, commonChunk] = await Promise.all([
@@ -55,5 +58,5 @@ export const loadChunk = async (
     $fetch<Record<string, string>>(`/api/rosetta/${locale}/__common`).catch(() => ({})),
   ]);
   messages.value = { ...messages.value, ...commonChunk, ...routeChunk };
-  useNuxtApp().callHook("rosetta:chunk", { locale, route });
+  nuxtApp.callHook("rosetta:chunk", { locale, route });
 };

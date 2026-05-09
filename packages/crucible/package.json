@@ -12,7 +12,8 @@
     ".": "./src/config.ts",
     "./module": "./src/module.ts",
     "./types": "./src/types.ts",
-    "./server": "./runtime/server.ts"
+    "./server": "./runtime/server.ts",
+    "./sanitize": "./src/sanitize.ts"
   },
   "imports": {
     "#crucible/*": "./src/*",

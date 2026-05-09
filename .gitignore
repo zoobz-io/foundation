@@ -6,4 +6,6 @@ dist
 node-compile-cache
 .coverage
 .githooks
+.rosetta
+.untheme
 

@@ -6,6 +6,7 @@ import { defineTheme } from "../src/config";
  * https://draculatheme.com
  */
 export default defineTheme({
+  label: "Dracula",
   reference: {
     // ===== NEUTRALS (purple-tinted grays from Dracula background progression) =====
     "ref-slate-50": "#f8f8f2",   // foreground

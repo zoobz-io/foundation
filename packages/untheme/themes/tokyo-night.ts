@@ -7,6 +7,7 @@ import { defineTheme } from "../src/config";
  * https://github.com/enkia/tokyo-night-vscode-theme
  */
 export default defineTheme({
+  label: "Tokyo Night",
   reference: {
     // ===== NEUTRALS (blue-tinted grays from the Tokyo Night palette) =====
     "ref-slate-50": "#d5d6db",   // Day background

@@ -15,9 +15,10 @@ const groups = computed<CommandGroup[]>(() => [
   {
     key: "themes",
     label: "Themes",
-    items: themes.value.map((name) => ({
-      value: name,
-      label: name,
+    items: themes.value.map((entry) => ({
+      value: entry.key,
+      label: entry.label,
+      disabled: entry.key === theme.value,
     })),
   },
 ]);
@@ -31,24 +32,24 @@ const ctx = computed(() => ({ open: open.value, theme: theme.value, themes: them
 </script>
 
 <template>
-  <Group ref="el" v-bind="pt?.root" class="f-app-theme">
-    <slot name="trigger" v-bind="ctx">
-      <Fab
-        v-bind="pt?.trigger"
-        icon="theme"
-        class="f-app-theme-trigger"
-        @click="open = true"
-      />
-    </slot>
+  <Popover
+    ref="el"
+    v-bind="pt?.root"
+    :open="open"
+    class="f-app-theme"
+    @update:open="open = $event"
+  >
+    <template #trigger>
+      <slot name="trigger" v-bind="ctx">
+        <Fab
+          v-bind="pt?.trigger"
+          icon="theme"
+          class="f-app-theme-trigger"
+        />
+      </slot>
+    </template>
 
-    <Dialog
-      v-bind="pt?.dialog"
-      :open="open"
-      title="Theme"
-      description="Choose a theme and mode"
-      class="f-app-theme-dialog"
-      @update:open="open = $event"
-    >
+    <template #content>
       <slot name="command" v-bind="ctx">
         <Command
           v-bind="pt?.command"
@@ -58,6 +59,6 @@ const ctx = computed(() => ({ open: open.value, theme: theme.value, themes: them
           @select="onSelect"
         />
       </slot>
-    </Dialog>
-  </Group>
+    </template>
+  </Popover>
 </template>

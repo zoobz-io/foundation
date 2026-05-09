@@ -16,12 +16,20 @@ vi.stubGlobal("createError", (input: Record<string, unknown>) => {
 vi.stubGlobal("showError", vi.fn());
 const _unthemeMode = ref<"light" | "dark">("dark");
 const _unthemeTheme = ref("cyberdream");
-const _unthemeThemes = computed(() => ["cyberdream", "nord", "dracula"]);
+const _unthemeThemes = computed(() => [
+  { key: "cyberdream", label: "Cyberdream" },
+  { key: "nord", label: "Nord" },
+  { key: "dracula", label: "Dracula" },
+]);
 vi.stubGlobal("useUntheme", () => ({
   mode: _unthemeMode,
   theme: _unthemeTheme,
   themes: _unthemeThemes,
-  setTheme: (name: string) => { _unthemeTheme.value = name; },
+  init: async () => null,
+  load: async () => null,
+  setTheme: async (name: string) => { _unthemeTheme.value = name; },
+  setMode: (value: "light" | "dark") => { _unthemeMode.value = value; },
+  toggleMode: () => { _unthemeMode.value = _unthemeMode.value === "dark" ? "light" : "dark"; },
   themeCSS: computed(() => ""),
 }));
 vi.stubGlobal("clearError", vi.fn());

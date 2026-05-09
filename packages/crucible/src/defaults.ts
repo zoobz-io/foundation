@@ -1,8 +1,8 @@
 import type { HookLevelMap } from "./types";
 
-/** Default log level mapping for Nuxt runtime hooks. */
+/** Default log level and field mapping for Nuxt runtime hooks. */
 export const defaultHookLevels: HookLevelMap = {
-  // App lifecycle — info
+  // App lifecycle
   "app:created": "info",
   "app:beforeMount": "debug",
   "app:mounted": "info",
@@ -10,16 +10,16 @@ export const defaultHookLevels: HookLevelMap = {
   "app:redirected": "info",
   "app:suspense:resolve": "debug",
 
-  // App errors — error
-  "app:error": "error",
+  // App errors
+  "app:error": { level: "error", fields: ["message", "statusCode", "statusMessage", "url"] },
   "app:error:cleared": "warn",
-  "app:chunkError": "error",
+  "app:chunkError": { level: "error", fields: ["message", "statusCode"] },
 
   // Data
   "app:data:refresh": "debug",
   "app:manifest:update": "info",
 
-  // Page navigation — info
+  // Page navigation
   "page:start": "debug",
   "page:finish": "info",
   "page:transition:finish": "debug",
@@ -29,7 +29,7 @@ export const defaultHookLevels: HookLevelMap = {
 
   // Vue internals
   "vue:setup": "debug",
-  "vue:error": "error",
+  "vue:error": { level: "error", fields: ["message", "stack"] },
 
   // Dev
   "dev:ssr-logs": "debug",
@@ -37,12 +37,12 @@ export const defaultHookLevels: HookLevelMap = {
   // Prefetch
   "link:prefetch": "debug",
 
-  // Nitro server hooks
-  "request": "debug",
-  "beforeResponse": "debug",
-  "afterResponse": "debug",
-  "error": "error",
+  // Nitro server hooks — narrow to useful request metadata
+  "request": { level: "debug", fields: ["path", "method"] },
+  "beforeResponse": { level: "debug", fields: ["path", "method"] },
+  "afterResponse": { level: "debug", fields: ["path", "method"] },
+  "error": { level: "error", fields: ["message", "statusCode", "statusMessage", "url"] },
   "close": "info",
   "render:before": "debug",
-  "render:response": "debug",
+  "render:response": { level: "debug", fields: ["statusCode", "statusMessage"] },
 };

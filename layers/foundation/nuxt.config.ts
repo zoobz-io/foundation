@@ -28,15 +28,18 @@ export default defineNuxtConfig({
   ],
   crucible: {
     hooks: {
-      "rampart:login": "info",
+      // rampart
+      "rampart:login": { level: "info", fields: ["userId"] },
       "rampart:logout": "info",
-      "rampart:denied": "warn",
+      "rampart:denied": { level: "warn", fields: ["roles", "scopes"] },
       "rampart:refresh": "debug",
       "rampart:expired": "warn",
-      "rosetta:locale": "info",
-      "rosetta:chunk": "debug",
-      "untheme:theme": "info",
-      "untheme:mode": "info",
+      // rosetta
+      "rosetta:locale": { level: "info", fields: ["from", "to"] },
+      "rosetta:chunk": { level: "debug", fields: ["locale", "route"] },
+      // untheme
+      "untheme:theme": { level: "info", fields: ["from", "to"] },
+      "untheme:mode": { level: "info", fields: ["from", "to"] },
     },
   },
   rampart: {
@@ -62,7 +65,7 @@ export default defineNuxtConfig({
   },
   vite: {
     optimizeDeps: {
-      exclude: ["#build/untheme.themes.mjs", "#build/rosetta.config.mjs", "#build/rampart.config.mjs", "#build/crucible.config.mjs"],
+      exclude: ["#build/untheme.config.mjs", "#build/rosetta.config.mjs", "#build/rampart.config.mjs", "#build/crucible.config.mjs"],
     },
   },
 });

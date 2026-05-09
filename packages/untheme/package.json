@@ -9,7 +9,9 @@
     "url": "https://zoobz.io"
   },
   "exports": {
-    "./*": "./src/*.ts",
+    ".": "./src/config.ts",
+    "./module": "./src/module.ts",
+    "./types": "./src/types.ts",
     "./themes/*": "./themes/*.ts"
   },
   "imports": {
@@ -28,6 +30,7 @@
   "devDependencies": {
     "@nuxt/kit": "catalog:",
     "@nuxt/schema": "catalog:",
+    "h3": "catalog:",
     "nuxt": "catalog:"
   },
   "publishConfig": {

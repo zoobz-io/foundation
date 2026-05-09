@@ -6,6 +6,7 @@ import { defineTheme } from "../src/config";
  * https://github.com/scottmckendry/cyberdream.nvim
  */
 export default defineTheme({
+  label: "Cyberdream",
   reference: {
     // ===== NEUTRALS (cool dark grays) =====
     "ref-slate-50": "#f0f0f2",

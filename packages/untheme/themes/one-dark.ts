@@ -6,6 +6,7 @@ import { defineTheme } from "../src/config";
  * https://github.com/atom/atom/tree/master/packages/one-dark-syntax
  */
 export default defineTheme({
+  label: "One Dark",
   reference: {
     // ===== NEUTRALS (cool slate-blue grays) =====
     "ref-slate-50": "#e8eaed",

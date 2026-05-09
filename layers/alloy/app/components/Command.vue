@@ -28,6 +28,15 @@ const emit = defineEmits<CommandEmits>();
 const el = useTemplateRef("el");
 defineExpose({ el });
 
+// Internal search state when parent doesn't control searchTerm
+const internalSearch = ref(searchTerm ?? "");
+const activeSearch = computed(() => searchTerm ?? internalSearch.value);
+
+const onSearchUpdate = (v: string) => {
+  internalSearch.value = v;
+  emit("update:searchTerm", v);
+};
+
 const modelArray = computed({
   get: () => [...(selected ?? new Set())],
   set: (val: string[]) => { emit("update:selected", new Set(val)); },
@@ -36,7 +45,7 @@ const modelArray = computed({
 const isSelected = (value: string) => (selected ?? new Set()).has(value);
 
 const filteredGroups = computed(() =>
-  Command.filter(groups, searchTerm ?? "", selected ?? new Set(), filtered),
+  Command.filter(groups, activeSearch.value, selected ?? new Set(), filtered),
 );
 
 const hasResults = computed(() => filteredGroups.value.length > 0);
@@ -53,8 +62,8 @@ const rootPT = usePassthrough(pt?.root, () => ({
   handlers: { "update:modelValue": (v: AcceptableValue | AcceptableValue[]) => { modelArray.value = (Array.isArray(v) ? v : [v]).map(String); handleSingleSelect(v); } },
 }));
 const filterPT = usePassthrough(pt?.filter, () => ({
-  props: { modelValue: searchTerm ?? "", autoFocus: true, placeholder },
-  handlers: { "update:modelValue": (v: string) => { emit("update:searchTerm", v); } },
+  props: { modelValue: activeSearch.value, autoFocus: true, placeholder },
+  handlers: { "update:modelValue": onSearchUpdate },
 }));
 const inputWrapperPT = usePassthrough(pt?.inputWrapper, { props: {}, handlers: {} });
 const contentPT = usePassthrough(pt?.content, { props: {}, handlers: {} });
@@ -125,7 +134,7 @@ const ctx = computed(() => ({
               :key="group.key"
               class="f-command-group"
             >
-              <ListboxGroupLabel v-if="group.label" as-child>
+              <ListboxGroupLabel v-if="group.label && groupsPT.length > 1" as-child>
                 <slot name="groupLabel" v-bind="{ ...ctx, group }">
                   <Caption v-bind="groupLabelPT.props" v-on="groupLabelPT.handlers">{{ group.label }}</Caption>
                 </slot>

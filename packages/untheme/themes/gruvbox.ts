@@ -6,6 +6,7 @@ import { defineTheme } from "../src/config";
  * Original by @morhetz: https://github.com/morhetz/gruvbox
  */
 export default defineTheme({
+  label: "Gruvbox",
   reference: {
     // ===== NEUTRALS (Warm gray/brown) =====
     // Using Gruvbox's light/dark background progression

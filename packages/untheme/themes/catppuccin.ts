@@ -7,6 +7,7 @@ import { defineTheme } from "../src/config";
  * https://github.com/catppuccin/catppuccin
  */
 export default defineTheme({
+  label: "Catppuccin",
   reference: {
     // ===== NEUTRALS (Catppuccin base/surface/overlay/text progression) =====
     // 50 = lightest (Latte Base), 950 = darkest (Mocha Crust)

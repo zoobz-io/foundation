@@ -1,43 +1,12 @@
+import type { UserTheme, Theme } from "./types";
 import reference from "./tokens/reference";
 import modes from "./tokens/modes";
-
 import defu from "defu";
 
-export type RefToken = keyof typeof reference;
-export type ModeToken = keyof typeof modes.light;
-
-export type UserTheme = {
-  reference?: {
-    [R in keyof typeof reference]?: string;
-  };
-  modes?: {
-    light?: {
-      [M in ModeToken]?: RefToken;
-    };
-    dark?: {
-      [M in ModeToken]?: RefToken;
-    };
-  };
-};
-
-export type Theme = {
-  reference: {
-    [R in keyof typeof reference]: string;
-  };
-  modes: {
-    light: {
-      [M in ModeToken]: RefToken;
-    };
-    dark: {
-      [M in ModeToken]: RefToken;
-    };
-  };
-};
-
-export type ThemeRegistry = Record<string, Theme>;
+export type { RefToken, ModeToken, UserTheme, Theme, ThemeManifestEntry, ThemeManifest, ThemeRegistry } from "./types";
 
 export const defineTheme = (theme: UserTheme): Theme =>
-  defu(theme, { reference, modes }) as Theme;
+  defu(theme, { label: "", reference, modes }) as Theme;
 
 export const isTheme = (value: unknown): value is Theme =>
   typeof value === "object" && value !== null && "reference" in value && "modes" in value;

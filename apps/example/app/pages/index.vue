@@ -15,6 +15,12 @@ const { chart1, chart2, chart3 } = useFakeCharts();
         <P>A workspace demo with data table and chart widgets.</P>
         <Anchor to="/preview" label="Data Preview →" />
         <Anchor to="/form" label="Data Form →" />
+        <Group class="f-example-bar">
+          <AppTheme />
+          <AppColormode />
+          <AppLocale />
+          <AppAuth />
+        </Group>
       </Header>
     </template>
 

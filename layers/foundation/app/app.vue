@@ -5,6 +5,13 @@ import { ConfigProvider, TooltipProvider } from "reka-ui";
 <script setup lang="ts">
 const useIdFunction = () => useId();
 
+// Initialize theme from cookie + load data — blocks SSR so CSS is ready before first paint
+const { init } = useUntheme();
+const { error } = await useAsyncData("untheme::init", init);
+if (error.value) {
+  log.error("Could not initialize theme", error.value.toJSON());
+}
+
 useHead({
   htmlAttrs: {
     lang: "en",
@@ -13,7 +20,10 @@ useHead({
 
 const toasts = useToasts();
 
-const severityToVariant: Record<Severity, NonNullable<ToastProps["variant"]>> = {
+const severityToVariant: Record<
+  Severity,
+  NonNullable<ToastProps["variant"]>
+> = {
   fatal: "error",
   error: "error",
   warning: "warning",
@@ -21,9 +31,8 @@ const severityToVariant: Record<Severity, NonNullable<ToastProps["variant"]>> = 
 };
 
 const onError = (err: unknown) => {
-  const payload = err instanceof Error && "data" in err
-    ? (err as AppError).data
-    : undefined;
+  const payload =
+    err instanceof Error && "data" in err ? (err as AppError).data : undefined;
 
   if (payload?.severity) {
     toasts.push({

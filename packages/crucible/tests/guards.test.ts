@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { isLogEntry, isLogLevel } from "../src/guards";
+import { isLogEntry, isLogLevel, isHookConfig, hookEntryLevel, hookEntryFields } from "../src/guards";
 
 describe("isLogLevel", () => {
   it("accepts valid levels", () => {
@@ -56,4 +56,52 @@ describe("isLogEntry", () => {
 
   it("rejects null", () => expect(isLogEntry(null)).toBe(false));
   it("rejects string", () => expect(isLogEntry("not an entry")).toBe(false));
+});
+
+describe("isHookConfig", () => {
+  it("accepts object with level", () => {
+    expect(isHookConfig({ level: "info" })).toBe(true);
+  });
+
+  it("accepts object with level and fields", () => {
+    expect(isHookConfig({ level: "warn", fields: ["from", "to"] })).toBe(true);
+  });
+
+  it("rejects string", () => {
+    expect(isHookConfig("info")).toBe(false);
+  });
+
+  it("rejects object with invalid level", () => {
+    expect(isHookConfig({ level: "trace" })).toBe(false);
+  });
+
+  it("rejects null", () => {
+    expect(isHookConfig(null)).toBe(false);
+  });
+});
+
+describe("hookEntryLevel", () => {
+  it("extracts level from shorthand string", () => {
+    expect(hookEntryLevel("debug")).toBe("debug");
+    expect(hookEntryLevel("error")).toBe("error");
+  });
+
+  it("extracts level from config object", () => {
+    expect(hookEntryLevel({ level: "warn" })).toBe("warn");
+    expect(hookEntryLevel({ level: "info", fields: ["a"] })).toBe("info");
+  });
+});
+
+describe("hookEntryFields", () => {
+  it("returns undefined for shorthand string", () => {
+    expect(hookEntryFields("info")).toBeUndefined();
+  });
+
+  it("returns undefined for config without fields", () => {
+    expect(hookEntryFields({ level: "info" })).toBeUndefined();
+  });
+
+  it("returns fields array from config", () => {
+    expect(hookEntryFields({ level: "info", fields: ["from", "to"] })).toEqual(["from", "to"]);
+  });
 });

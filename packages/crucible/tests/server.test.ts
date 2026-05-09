@@ -1,9 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-vi.mock("#build/crucible.config.mjs", () => ({
-  default: { minLevel: "debug", hookLevels: {} },
-}));
-
 vi.mock("nitropack/runtime", () => ({
   useNitroApp: () => ({
     hooks: { afterEach: vi.fn() },
@@ -72,6 +68,69 @@ describe("defineCrucibleHandler", () => {
       const result = await handler(makeEvent());
       expect(result).toEqual({ ok: true });
       expect(mockWrite).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("field narrowing", () => {
+    it("narrows data to configured fields for hook entries", async () => {
+      const narrowWrite = vi.fn();
+      const narrowHandler = defineCrucibleHandler(
+        { write: narrowWrite },
+        { hookLevels: { "test:hook": { level: "info", fields: ["from", "to"] } } },
+      );
+      mockGetHeader.mockReturnValue("application/json");
+      mockReadBody.mockResolvedValue([
+        { level: "info", message: "test:hook", timestamp: 1, hook: "test:hook", data: { from: "a", to: "b", extra: "dropped" } },
+      ]);
+      await narrowHandler(makeEvent());
+      expect(narrowWrite).toHaveBeenCalledTimes(1);
+      expect(narrowWrite.mock.calls[0][0].data).toEqual({ from: "a", to: "b" });
+    });
+
+    it("passes through log:* entry data without narrowing", async () => {
+      mockGetHeader.mockReturnValue("application/json");
+      mockReadBody.mockResolvedValue([
+        { level: "error", message: "oops", timestamp: 1, hook: "log:error", data: { full: "payload", all: "fields" } },
+      ]);
+      await handler(makeEvent());
+      expect(mockWrite).toHaveBeenCalledTimes(1);
+      expect(mockWrite.mock.calls[0][0].data).toEqual({ full: "payload", all: "fields" });
+    });
+
+    it("summarizes data when no fields configured for hook", async () => {
+      mockGetHeader.mockReturnValue("application/json");
+      mockReadBody.mockResolvedValue([
+        { level: "info", message: "test:unknown", timestamp: 1, hook: "test:unknown", data: { a: 1, b: "short" } },
+      ]);
+      await handler(makeEvent());
+      expect(mockWrite).toHaveBeenCalledTimes(1);
+      expect(mockWrite.mock.calls[0][0].data).toEqual({ a: 1, b: "short" });
+    });
+  });
+
+  describe("options", () => {
+    it("accepts minLevel and hookLevels options", async () => {
+      const optWrite = vi.fn();
+      const optHandler = defineCrucibleHandler(
+        { write: optWrite },
+        { minLevel: "warn", hookLevels: { "test:hook": "error" } },
+      );
+      mockGetHeader.mockReturnValue("application/json");
+      mockReadBody.mockResolvedValue([
+        { level: "info", message: "below min", timestamp: 1 },
+      ]);
+      await optHandler(makeEvent());
+      // Entry level "info" is below "warn" minimum but handler still writes client entries
+      // (minLevel filtering is for hook observation, not client batches)
+      expect(optWrite).toHaveBeenCalledTimes(1);
+    });
+
+    it("uses defaults when no options provided", async () => {
+      const noOptHandler = defineCrucibleHandler({ write: vi.fn() });
+      mockGetHeader.mockReturnValue("application/json");
+      mockReadBody.mockResolvedValue([]);
+      const result = await noOptHandler(makeEvent());
+      expect(result).toEqual({ ok: true });
     });
   });
 

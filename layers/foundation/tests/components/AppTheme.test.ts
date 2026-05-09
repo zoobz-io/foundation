@@ -25,12 +25,7 @@ describe("AppTheme", () => {
     expect(wrapper.find(".f-app-theme-trigger").exists()).toBe(true);
   });
 
-  it("renders a Dialog", () => {
-    const wrapper = factory();
-    expect(wrapper.find(".f-app-theme-dialog").exists()).toBe(true);
-  });
-
-  it("renders a Command inside the dialog", () => {
+  it("renders a Command inside the popover", () => {
     const wrapper = factory();
     expect(wrapper.find(".f-app-theme-command").exists()).toBe(true);
   });
@@ -39,14 +34,6 @@ describe("AppTheme", () => {
     const wrapper = factory();
     const command = wrapper.find(".f-app-theme-command");
     expect(command.attributes("placeholder")).toBe("Search themes...");
-  });
-
-  it("opens dialog when trigger is clicked", async () => {
-    const wrapper = factory();
-    const dialog = wrapper.find(".f-app-theme-dialog");
-    expect(dialog.attributes("open")).toBe("false");
-    await wrapper.find(".f-app-theme-trigger").trigger("click");
-    expect(dialog.attributes("open")).toBe("true");
   });
 
   it("renders custom trigger slot", () => {

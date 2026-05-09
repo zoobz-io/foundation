@@ -1,17 +1,44 @@
 import { describe, it, expect } from "vitest";
 import { defaultHookLevels } from "../src/defaults";
+import { hookEntryLevel, hookEntryFields } from "../src/guards";
 
 describe("defaultHookLevels", () => {
-  it("maps app:error to error", () => {
-    expect(defaultHookLevels["app:error"]).toBe("error");
+  it("maps app:error to error with field narrowing", () => {
+    const entry = defaultHookLevels["app:error"];
+    expect(hookEntryLevel(entry)).toBe("error");
+    expect(hookEntryFields(entry)).toEqual(["message", "statusCode", "statusMessage", "url"]);
   });
 
-  it("maps app:chunkError to error", () => {
-    expect(defaultHookLevels["app:chunkError"]).toBe("error");
+  it("maps app:chunkError to error with field narrowing", () => {
+    const entry = defaultHookLevels["app:chunkError"];
+    expect(hookEntryLevel(entry)).toBe("error");
+    expect(hookEntryFields(entry)).toEqual(["message", "statusCode"]);
   });
 
-  it("maps vue:error to error", () => {
-    expect(defaultHookLevels["vue:error"]).toBe("error");
+  it("maps vue:error to error with field narrowing", () => {
+    const entry = defaultHookLevels["vue:error"];
+    expect(hookEntryLevel(entry)).toBe("error");
+    expect(hookEntryFields(entry)).toEqual(["message", "stack"]);
+  });
+
+  it("narrows request hooks to path and method", () => {
+    for (const hook of ["request", "beforeResponse", "afterResponse"]) {
+      const entry = defaultHookLevels[hook];
+      expect(hookEntryLevel(entry)).toBe("debug");
+      expect(hookEntryFields(entry)).toEqual(["path", "method"]);
+    }
+  });
+
+  it("narrows error hook to useful fields", () => {
+    const entry = defaultHookLevels["error"];
+    expect(hookEntryLevel(entry)).toBe("error");
+    expect(hookEntryFields(entry)).toEqual(["message", "statusCode", "statusMessage", "url"]);
+  });
+
+  it("narrows render:response to status fields", () => {
+    const entry = defaultHookLevels["render:response"];
+    expect(hookEntryLevel(entry)).toBe("debug");
+    expect(hookEntryFields(entry)).toEqual(["statusCode", "statusMessage"]);
   });
 
   it("maps app:error:cleared to warn", () => {
@@ -30,8 +57,9 @@ describe("defaultHookLevels", () => {
     expect(defaultHookLevels["page:start"]).toBe("debug");
   });
 
-  it("maps vue:setup to debug", () => {
-    expect(defaultHookLevels["vue:setup"]).toBe("debug");
+  it("shorthand entries have no fields", () => {
+    expect(hookEntryFields("info")).toBeUndefined();
+    expect(hookEntryFields("debug")).toBeUndefined();
   });
 
   it("has entries for all runtime hooks", () => {

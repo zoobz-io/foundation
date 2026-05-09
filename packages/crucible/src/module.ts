@@ -18,14 +18,15 @@ export default defineNuxtModule<CrucibleConfig>({
   setup(options, nuxt) {
     const resolver = createResolver(import.meta.url);
 
-    const level = options.level || (nuxt.options.dev ? "debug" : "info");
+    const level = options.level || process.env.LOG_LEVEL || (nuxt.options.dev ? "debug" : "info");
     const hookLevels = { ...defaultHookLevels, ...options.hooks };
+    const batch = options.batch ?? !nuxt.options.dev;
 
     // Virtual module — serializable config
     addTemplate({
       filename: "crucible.config.mjs",
       write: true,
-      getContents: () => `export default ${JSON.stringify({ minLevel: level, hookLevels }, null, 2)};`,
+      getContents: () => `export default ${JSON.stringify({ minLevel: level, hookLevels, batch }, null, 2)};`,
     });
 
     // Expose hook type augmentations to consumers

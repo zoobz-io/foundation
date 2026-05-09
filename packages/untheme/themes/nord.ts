@@ -6,6 +6,7 @@ import { defineTheme } from "../src/config";
  * https://www.nordtheme.com
  */
 export default defineTheme({
+  label: "Nord",
   reference: {
     // ===== NEUTRALS (blue-tinted polar grays from nord0–nord6) =====
     "ref-slate-50": "#eceff4",   // nord6

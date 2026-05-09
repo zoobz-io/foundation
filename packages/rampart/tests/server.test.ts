@@ -1,13 +1,13 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import type { RampartHandlers, RampartUser, RampartIdentity } from "../src/types";
 
-vi.mock("#build/rampart.config.mjs", () => ({
+const testConfig = {
   basePath: "/auth",
   publicRoutes: ["/", "/about"],
   refreshThreshold: 600000,
   forbiddenRoute: "",
   meCacheTTL: 0, // disable caching in tests so me() is always called
-}));
+};
 
 const mockGetSession = vi.fn();
 const mockSetSession = vi.fn();
@@ -66,7 +66,7 @@ describe("defineAuthHandlers", () => {
   describe("login", () => {
     it("calls handlers.login for /auth/login", async () => {
       const handlers = makeHandlers();
-      const handler = defineAuthHandlers(handlers);
+      const handler = defineAuthHandlers(handlers, testConfig);
       const event = makeEvent("/auth/login");
       await handler(event);
       expect(handlers.login).toHaveBeenCalledWith(event);
@@ -77,7 +77,7 @@ describe("defineAuthHandlers", () => {
   describe("callback", () => {
     it("calls handlers.callback with session helpers for /auth/login/*", async () => {
       const handlers = makeHandlers();
-      const handler = defineAuthHandlers(handlers);
+      const handler = defineAuthHandlers(handlers, testConfig);
       const event = makeEvent("/auth/login/callback");
       await handler(event);
       expect(handlers.callback).toHaveBeenCalledWith(event, { setSession: expect.any(Function) });
@@ -88,7 +88,7 @@ describe("defineAuthHandlers", () => {
   describe("logout", () => {
     it("clears session, calls handler, and redirects", async () => {
       const handlers = makeHandlers();
-      const handler = defineAuthHandlers(handlers);
+      const handler = defineAuthHandlers(handlers, testConfig);
       const event = makeEvent("/auth/logout");
       await handler(event);
       expect(mockClearSession).toHaveBeenCalledWith(event);
@@ -100,21 +100,21 @@ describe("defineAuthHandlers", () => {
   describe("public routes", () => {
     it("skips auth for configured public routes", async () => {
       const handlers = makeHandlers();
-      const handler = defineAuthHandlers(handlers);
+      const handler = defineAuthHandlers(handlers, testConfig);
       await handler(makeEvent("/about"));
       expect(mockGetSession).not.toHaveBeenCalled();
     });
 
     it("skips auth for root", async () => {
       const handlers = makeHandlers();
-      const handler = defineAuthHandlers(handlers);
+      const handler = defineAuthHandlers(handlers, testConfig);
       await handler(makeEvent("/"));
       expect(mockGetSession).not.toHaveBeenCalled();
     });
 
     it("skips /_nuxt/ and /__ paths", async () => {
       const handlers = makeHandlers();
-      const handler = defineAuthHandlers(handlers);
+      const handler = defineAuthHandlers(handlers, testConfig);
       await handler(makeEvent("/_nuxt/chunk.js"));
       await handler(makeEvent("/__nuxt_error"));
       expect(mockGetSession).not.toHaveBeenCalled();
@@ -124,7 +124,7 @@ describe("defineAuthHandlers", () => {
   describe("protected routes", () => {
     it("reads session, calls me with session data, binds context", async () => {
       const handlers = makeHandlers();
-      const handler = defineAuthHandlers(handlers);
+      const handler = defineAuthHandlers(handlers, testConfig);
       const event = makeEvent("/dashboard");
       await handler(event);
       expect(mockGetSession).toHaveBeenCalledWith(event);
@@ -136,7 +136,7 @@ describe("defineAuthHandlers", () => {
     it("redirects to login when no session", async () => {
       mockGetSession.mockResolvedValue(null);
       const handlers = makeHandlers();
-      const handler = defineAuthHandlers(handlers);
+      const handler = defineAuthHandlers(handlers, testConfig);
       const event = makeEvent("/dashboard");
       await handler(event);
       expect(mockRedirect).toHaveBeenCalledWith(event, "/auth/login");
@@ -145,13 +145,13 @@ describe("defineAuthHandlers", () => {
     it("throws 401 for unauthenticated API routes", async () => {
       mockGetSession.mockResolvedValue(null);
       const handlers = makeHandlers();
-      const handler = defineAuthHandlers(handlers);
+      const handler = defineAuthHandlers(handlers, testConfig);
       await expect(handler(makeEvent("/api/data"))).rejects.toMatchObject({ statusCode: 401 });
     });
 
     it("clears session and redirects when me returns null", async () => {
       const handlers = makeHandlers(null);
-      const handler = defineAuthHandlers(handlers);
+      const handler = defineAuthHandlers(handlers, testConfig);
       const event = makeEvent("/dashboard");
       await handler(event);
       expect(mockClearSession).toHaveBeenCalledWith(event);
@@ -168,7 +168,7 @@ describe("defineAuthHandlers", () => {
       mockGetSession.mockResolvedValue(nearExpiry);
       const handlers = makeHandlers(nearExpiry);
       handlers.refresh = vi.fn().mockResolvedValue({ accessToken: "new-tok", expiresAt: Date.now() + 3600000 });
-      const handler = defineAuthHandlers(handlers);
+      const handler = defineAuthHandlers(handlers, testConfig);
       const event = makeEvent("/dashboard");
       await handler(event);
       expect(handlers.refresh).toHaveBeenCalledWith(event);
@@ -178,7 +178,7 @@ describe("defineAuthHandlers", () => {
     it("skips refresh when token is not near expiry", async () => {
       const handlers = makeHandlers();
       handlers.refresh = vi.fn();
-      const handler = defineAuthHandlers(handlers);
+      const handler = defineAuthHandlers(handlers, testConfig);
       const event = makeEvent("/dashboard");
       await handler(event);
       expect(handlers.refresh).not.toHaveBeenCalled();
@@ -192,7 +192,7 @@ describe("defineAuthHandlers", () => {
       mockGetSession.mockResolvedValue(nearExpiry);
       const handlers = makeHandlers(nearExpiry);
       handlers.refresh = vi.fn().mockResolvedValue(null);
-      const handler = defineAuthHandlers(handlers);
+      const handler = defineAuthHandlers(handlers, testConfig);
       const event = makeEvent("/dashboard");
       await handler(event);
       expect(mockRedirect).toHaveBeenCalledWith(event, "/auth/login");
@@ -202,7 +202,7 @@ describe("defineAuthHandlers", () => {
       const noTokens: RampartIdentity = { user: fakeUser };
       mockGetSession.mockResolvedValue(noTokens);
       const handlers = makeHandlers(noTokens);
-      const handler = defineAuthHandlers(handlers);
+      const handler = defineAuthHandlers(handlers, testConfig);
       const event = makeEvent("/dashboard");
       await handler(event);
       expect(event.context.user).toEqual(fakeUser);
@@ -253,7 +253,7 @@ describe("me caching", () => {
   it("skips me() when cache is fresh", async () => {
     mockIsCacheFresh.mockReturnValue(true);
     const handlers = makeHandlers();
-    const handler = defineAuthHandlers(handlers);
+    const handler = defineAuthHandlers(handlers, testConfig);
     const event = makeEvent("/dashboard");
     await handler(event);
     expect(handlers.me).not.toHaveBeenCalled();
@@ -264,7 +264,7 @@ describe("me caching", () => {
   it("calls me() when cache is stale and persists result", async () => {
     mockIsCacheFresh.mockReturnValue(false);
     const handlers = makeHandlers();
-    const handler = defineAuthHandlers(handlers);
+    const handler = defineAuthHandlers(handlers, testConfig);
     const event = makeEvent("/dashboard");
     await handler(event);
     expect(handlers.me).toHaveBeenCalledWith(event, fakeIdentity);

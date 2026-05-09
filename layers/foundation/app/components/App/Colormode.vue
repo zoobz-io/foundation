@@ -8,11 +8,7 @@ const { pt } = defineProps<AppColormodeProps>();
 const el = useTemplateRef("el");
 defineExpose({ el });
 
-const { mode } = useUntheme();
-
-const toggle = () => {
-  mode.value = mode.value === "dark" ? "light" : "dark";
-};
+const { mode, toggleMode } = useUntheme();
 
 const icon = computed(() => mode.value === "dark" ? "dark" : "light");
 
@@ -26,7 +22,7 @@ const ctx = computed(() => ({ mode: mode.value }));
         v-bind="pt?.trigger"
         :icon="icon"
         class="f-app-colormode-trigger"
-        @click="toggle"
+        @click="toggleMode"
       />
     </slot>
   </Group>

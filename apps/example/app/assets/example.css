@@ -18,6 +18,21 @@ body {
   line-height: 1.5;
 }
 
+.f-example-header {
+  display: flex;
+  align-items: center;
+  gap: var(--ref-spacing-sm);
+  flex-wrap: wrap;
+}
+
+.f-example-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--ref-spacing-xs);
+  margin-left: auto;
+  padding: var(--ref-spacing-xs) var(--ref-spacing-sm);
+}
+
 /* Data table fills its workspace slot */
 .f-data-table {
   flex: 1;

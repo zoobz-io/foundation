@@ -1,11 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-vi.mock("nitropack/runtime", () => ({
-  useNitroApp: () => ({
-    hooks: { afterEach: vi.fn() },
-  }),
-}));
-
 const mockWrite = vi.fn();
 const mockReadBody = vi.fn();
 const mockReadRawBody = vi.fn();
@@ -29,8 +23,8 @@ beforeEach(() => {
 });
 
 describe("defineCrucibleHandler", () => {
-  describe("JSON entries", () => {
-    it("calls write for each valid entry", async () => {
+  describe("log entries", () => {
+    it("calls write for each valid log entry", async () => {
       mockGetHeader.mockReturnValue("application/json");
       mockReadBody.mockResolvedValue([
         { level: "info", message: "hello", timestamp: 1 },
@@ -71,58 +65,80 @@ describe("defineCrucibleHandler", () => {
     });
   });
 
-  describe("field narrowing", () => {
-    it("narrows data to configured fields for hook entries", async () => {
-      const narrowWrite = vi.fn();
-      const narrowHandler = defineCrucibleHandler(
-        { write: narrowWrite },
-        { hookLevels: { "test:hook": { level: "info", fields: ["from", "to"] } } },
-      );
+  describe("span entries", () => {
+    it("accepts valid span entries", async () => {
       mockGetHeader.mockReturnValue("application/json");
       mockReadBody.mockResolvedValue([
-        { level: "info", message: "test:hook", timestamp: 1, hook: "test:hook", data: { from: "a", to: "b", extra: "dropped" } },
-      ]);
-      await narrowHandler(makeEvent());
-      expect(narrowWrite).toHaveBeenCalledTimes(1);
-      expect(narrowWrite.mock.calls[0][0].data).toEqual({ from: "a", to: "b" });
-    });
-
-    it("passes through log:* entry data without narrowing", async () => {
-      mockGetHeader.mockReturnValue("application/json");
-      mockReadBody.mockResolvedValue([
-        { level: "error", message: "oops", timestamp: 1, hook: "log:error", data: { full: "payload", all: "fields" } },
+        {
+          kind: "span",
+          traceId: "a".repeat(32),
+          spanId: "b".repeat(16),
+          name: "navigation",
+          startTime: 1000,
+          endTime: 2000,
+          status: "ok",
+        },
       ]);
       await handler(makeEvent());
       expect(mockWrite).toHaveBeenCalledTimes(1);
-      expect(mockWrite.mock.calls[0][0].data).toEqual({ full: "payload", all: "fields" });
+      expect(mockWrite.mock.calls[0][0].kind).toBe("span");
+      expect(mockWrite.mock.calls[0][0].name).toBe("navigation");
+      expect(mockWrite.mock.calls[0][0].source).toBe("client");
     });
+  });
 
-    it("summarizes data when no fields configured for hook", async () => {
+  describe("metric entries", () => {
+    it("accepts valid metric entries", async () => {
       mockGetHeader.mockReturnValue("application/json");
       mockReadBody.mockResolvedValue([
-        { level: "info", message: "test:unknown", timestamp: 1, hook: "test:unknown", data: { a: 1, b: "short" } },
+        {
+          kind: "metric",
+          name: "web_vital.lcp",
+          value: 2500,
+          timestamp: 1000,
+        },
       ]);
       await handler(makeEvent());
       expect(mockWrite).toHaveBeenCalledTimes(1);
-      expect(mockWrite.mock.calls[0][0].data).toEqual({ a: 1, b: "short" });
+      expect(mockWrite.mock.calls[0][0].kind).toBe("metric");
+      expect(mockWrite.mock.calls[0][0].name).toBe("web_vital.lcp");
+      expect(mockWrite.mock.calls[0][0].source).toBe("client");
+    });
+  });
+
+  describe("mixed batches", () => {
+    it("processes logs, spans, and metrics in one batch", async () => {
+      mockGetHeader.mockReturnValue("application/json");
+      mockReadBody.mockResolvedValue([
+        { level: "info", message: "log", timestamp: 1 },
+        { kind: "span", traceId: "a".repeat(32), spanId: "b".repeat(16), name: "nav", startTime: 1, endTime: 2, status: "ok" },
+        { kind: "metric", name: "lcp", value: 100, timestamp: 1 },
+        { kind: "unknown", bad: true },
+      ]);
+      await handler(makeEvent());
+      expect(mockWrite).toHaveBeenCalledTimes(3);
     });
   });
 
   describe("options", () => {
-    it("accepts minLevel and hookLevels options", async () => {
+    it("filters log entries below minLevel but passes spans/metrics", async () => {
       const optWrite = vi.fn();
       const optHandler = defineCrucibleHandler(
         { write: optWrite },
-        { minLevel: "warn", hookLevels: { "test:hook": "error" } },
+        { minLevel: "warn" },
       );
       mockGetHeader.mockReturnValue("application/json");
       mockReadBody.mockResolvedValue([
         { level: "info", message: "below min", timestamp: 1 },
+        { level: "warn", message: "at min", timestamp: 2 },
+        { kind: "span", traceId: "a".repeat(32), spanId: "b".repeat(16), name: "nav", startTime: 1, endTime: 2, status: "ok" },
+        { kind: "metric", name: "lcp", value: 100, timestamp: 1 },
       ]);
       await optHandler(makeEvent());
-      // Entry level "info" is below "warn" minimum but handler still writes client entries
-      // (minLevel filtering is for hook observation, not client batches)
-      expect(optWrite).toHaveBeenCalledTimes(1);
+      expect(optWrite).toHaveBeenCalledTimes(3);
+      expect(optWrite.mock.calls[0][0].message).toBe("at min");
+      expect(optWrite.mock.calls[1][0].kind).toBe("span");
+      expect(optWrite.mock.calls[2][0].kind).toBe("metric");
     });
 
     it("uses defaults when no options provided", async () => {

@@ -13,7 +13,9 @@
     "./module": "./src/module.ts",
     "./types": "./src/types.ts",
     "./server": "./runtime/server.ts",
-    "./sanitize": "./src/sanitize.ts"
+    "./sanitize": "./src/sanitize.ts",
+    "./otlp": "./src/otlp.ts",
+    "./trace-id": "./src/trace-id.ts"
   },
   "imports": {
     "#crucible/*": "./src/*",

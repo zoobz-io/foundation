@@ -26,22 +26,7 @@ export default defineNuxtConfig({
     "@zoobz-io/rampart/module",
     "@zoobz-io/rosetta/module",
   ],
-  crucible: {
-    hooks: {
-      // rampart
-      "rampart:login": { level: "info", fields: ["userId"] },
-      "rampart:logout": "info",
-      "rampart:denied": { level: "warn", fields: ["roles", "scopes"] },
-      "rampart:refresh": "debug",
-      "rampart:expired": "warn",
-      // rosetta
-      "rosetta:locale": { level: "info", fields: ["from", "to"] },
-      "rosetta:chunk": { level: "debug", fields: ["locale", "route"] },
-      // untheme
-      "untheme:theme": { level: "info", fields: ["from", "to"] },
-      "untheme:mode": { level: "info", fields: ["from", "to"] },
-    },
-  },
+  crucible: {},
   rampart: {
     basePath: "/auth",
   },

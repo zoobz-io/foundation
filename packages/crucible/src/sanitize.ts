@@ -1,8 +1,8 @@
-/** Extract data from a hook arg, optionally narrowing to specific fields. JSON-safe. */
-export const extractData = (arg: unknown, fields?: string[]): Record<string, unknown> | undefined => {
-  if (typeof arg !== "object" || arg === null) return undefined;
+/** Sanitize a data payload — makes it JSON-safe. */
+export const sanitizeData = (data: unknown): Record<string, unknown> | undefined => {
+  if (typeof data !== "object" || data === null) return undefined;
   try {
-    const json = JSON.stringify(arg, fields);
+    const json = JSON.stringify(data);
     const parsed: unknown = JSON.parse(json);
     if (typeof parsed !== "object" || parsed === null) return undefined;
     return parsed as Record<string, unknown>;
@@ -10,10 +10,6 @@ export const extractData = (arg: unknown, fields?: string[]): Record<string, unk
     return undefined;
   }
 };
-
-/** Sanitize a data payload — makes it JSON-safe without narrowing fields. */
-export const sanitizeData = (data: unknown): Record<string, unknown> | undefined =>
-  extractData(data);
 
 // --- Display utilities (provider-level only) ---
 

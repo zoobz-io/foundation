@@ -1,7 +1,8 @@
-import type { LogLevel, HookLevelMap } from "../../src/types";
+import type { LogLevel } from "../../src/types";
 
 export default {
   minLevel: "debug" as LogLevel,
-  hookLevels: {} as HookLevelMap,
   batch: false,
+  traces: true,
+  metrics: true,
 };

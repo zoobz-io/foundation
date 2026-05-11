@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { isLogEntry, isLogLevel, isHookConfig, hookEntryLevel, hookEntryFields } from "../src/guards";
+import { isLogEntry, isLogLevel, isSpanEntry, isMetricEntry, isTelemetryEntry } from "../src/guards";
 
 describe("isLogLevel", () => {
   it("accepts valid levels", () => {
@@ -19,12 +19,30 @@ describe("isLogLevel", () => {
 });
 
 describe("isLogEntry", () => {
-  it("accepts a valid entry", () => {
+  it("accepts a valid entry without kind", () => {
     expect(isLogEntry({
       level: "info",
       message: "hello",
       timestamp: Date.now(),
     })).toBe(true);
+  });
+
+  it("accepts a valid entry with kind: log", () => {
+    expect(isLogEntry({
+      kind: "log",
+      level: "info",
+      message: "hello",
+      timestamp: Date.now(),
+    })).toBe(true);
+  });
+
+  it("rejects entry with wrong kind", () => {
+    expect(isLogEntry({
+      kind: "span",
+      level: "info",
+      message: "hello",
+      timestamp: Date.now(),
+    })).toBe(false);
   });
 
   it("accepts entry with optional fields", () => {
@@ -33,7 +51,8 @@ describe("isLogEntry", () => {
       message: "fail",
       timestamp: Date.now(),
       data: { userId: "123" },
-      hook: "app:error",
+      traceId: "a".repeat(32),
+      spanId: "b".repeat(16),
       source: "server",
     })).toBe(true);
   });
@@ -58,50 +77,119 @@ describe("isLogEntry", () => {
   it("rejects string", () => expect(isLogEntry("not an entry")).toBe(false));
 });
 
-describe("isHookConfig", () => {
-  it("accepts object with level", () => {
-    expect(isHookConfig({ level: "info" })).toBe(true);
+describe("isSpanEntry", () => {
+  const validSpan = {
+    kind: "span" as const,
+    traceId: "a".repeat(32),
+    spanId: "b".repeat(16),
+    name: "page:navigation",
+    startTime: Date.now(),
+    status: "ok" as const,
+  };
+
+  it("accepts valid span", () => {
+    expect(isSpanEntry(validSpan)).toBe(true);
   });
 
-  it("accepts object with level and fields", () => {
-    expect(isHookConfig({ level: "warn", fields: ["from", "to"] })).toBe(true);
+  it("accepts span with optional fields", () => {
+    expect(isSpanEntry({
+      ...validSpan,
+      parentSpanId: "c".repeat(16),
+      endTime: Date.now() + 100,
+      attributes: { path: "/home" },
+      source: "client",
+    })).toBe(true);
   });
 
-  it("rejects string", () => {
-    expect(isHookConfig("info")).toBe(false);
+  it("rejects wrong kind", () => {
+    expect(isSpanEntry({ ...validSpan, kind: "log" })).toBe(false);
   });
 
-  it("rejects object with invalid level", () => {
-    expect(isHookConfig({ level: "trace" })).toBe(false);
+  it("rejects wrong traceId length", () => {
+    expect(isSpanEntry({ ...validSpan, traceId: "short" })).toBe(false);
   });
 
-  it("rejects null", () => {
-    expect(isHookConfig(null)).toBe(false);
+  it("rejects wrong spanId length", () => {
+    expect(isSpanEntry({ ...validSpan, spanId: "short" })).toBe(false);
   });
+
+  it("rejects invalid status", () => {
+    expect(isSpanEntry({ ...validSpan, status: "invalid" })).toBe(false);
+  });
+
+  it("rejects missing name", () => {
+    const { name: _, ...noName } = validSpan;
+    expect(isSpanEntry(noName)).toBe(false);
+  });
+
+  it("rejects null", () => expect(isSpanEntry(null)).toBe(false));
 });
 
-describe("hookEntryLevel", () => {
-  it("extracts level from shorthand string", () => {
-    expect(hookEntryLevel("debug")).toBe("debug");
-    expect(hookEntryLevel("error")).toBe("error");
+describe("isMetricEntry", () => {
+  const validMetric = {
+    kind: "metric" as const,
+    name: "web_vital.lcp",
+    value: 2500,
+    timestamp: Date.now(),
+  };
+
+  it("accepts valid metric", () => {
+    expect(isMetricEntry(validMetric)).toBe(true);
   });
 
-  it("extracts level from config object", () => {
-    expect(hookEntryLevel({ level: "warn" })).toBe("warn");
-    expect(hookEntryLevel({ level: "info", fields: ["a"] })).toBe("info");
+  it("accepts metric with optional fields", () => {
+    expect(isMetricEntry({
+      ...validMetric,
+      unit: "ms",
+      attributes: { path: "/home" },
+      source: "client",
+    })).toBe(true);
   });
+
+  it("rejects wrong kind", () => {
+    expect(isMetricEntry({ ...validMetric, kind: "span" })).toBe(false);
+  });
+
+  it("rejects missing value", () => {
+    const { value: _, ...noValue } = validMetric;
+    expect(isMetricEntry(noValue)).toBe(false);
+  });
+
+  it("rejects non-numeric value", () => {
+    expect(isMetricEntry({ ...validMetric, value: "not a number" })).toBe(false);
+  });
+
+  it("rejects null", () => expect(isMetricEntry(null)).toBe(false));
 });
 
-describe("hookEntryFields", () => {
-  it("returns undefined for shorthand string", () => {
-    expect(hookEntryFields("info")).toBeUndefined();
+describe("isTelemetryEntry", () => {
+  it("accepts log entry", () => {
+    expect(isTelemetryEntry({ level: "info", message: "hi", timestamp: 1 })).toBe(true);
   });
 
-  it("returns undefined for config without fields", () => {
-    expect(hookEntryFields({ level: "info" })).toBeUndefined();
+  it("accepts span entry", () => {
+    expect(isTelemetryEntry({
+      kind: "span",
+      traceId: "a".repeat(32),
+      spanId: "b".repeat(16),
+      name: "test",
+      startTime: 1,
+      status: "ok",
+    })).toBe(true);
   });
 
-  it("returns fields array from config", () => {
-    expect(hookEntryFields({ level: "info", fields: ["from", "to"] })).toEqual(["from", "to"]);
+  it("accepts metric entry", () => {
+    expect(isTelemetryEntry({
+      kind: "metric",
+      name: "lcp",
+      value: 100,
+      timestamp: 1,
+    })).toBe(true);
+  });
+
+  it("rejects invalid objects", () => {
+    expect(isTelemetryEntry({ kind: "unknown" })).toBe(false);
+    expect(isTelemetryEntry(null)).toBe(false);
+    expect(isTelemetryEntry("string")).toBe(false);
   });
 });

@@ -11,8 +11,8 @@ const { chart1, chart2, chart3 } = useFakeCharts();
   <Workspace :workspace="workspace">
     <template #header>
       <Header class="f-example-header">
-        <H1>Foundation Example</H1>
-        <P>A workspace demo with data table and chart widgets.</P>
+        <H1>{{ $t("Foundation Example") }}</H1>
+        <P>{{ $t("A workspace demo with data table and chart widgets.") }}</P>
         <Anchor to="/preview" label="Data Preview →" />
         <Anchor to="/form" label="Data Form →" />
         <Group class="f-example-bar">

@@ -36,6 +36,7 @@ const ctx = computed(() => ({ open: open.value, theme: theme.value, themes: them
     ref="el"
     v-bind="pt?.root"
     :open="open"
+    align="end"
     class="f-app-theme"
     @update:open="open = $event"
   >

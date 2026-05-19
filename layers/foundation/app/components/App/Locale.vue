@@ -15,10 +15,14 @@ const groups = computed<CommandGroup[]>(() => [
   {
     key: "locales",
     label: "Language",
-    items: locales.value.map((code) => ({
-      value: code,
-      label: code,
-    })),
+    items: locales.value.map((code) => {
+      const display = new Intl.DisplayNames([code], { type: "language" });
+      return {
+        value: code,
+        label: display.of(code) ?? code,
+        disabled: code === locale.value,
+      };
+    }),
   },
 ]);
 
@@ -31,24 +35,25 @@ const ctx = computed(() => ({ open: open.value, locale: locale.value, locales: l
 </script>
 
 <template>
-  <Group ref="el" v-bind="pt?.root" class="f-app-locale">
-    <slot name="trigger" v-bind="ctx">
-      <Fab
-        v-bind="pt?.trigger"
-        icon="translate"
-        class="f-app-locale-trigger"
-        @click="open = true"
-      />
-    </slot>
+  <Popover
+    ref="el"
+    v-bind="pt?.root"
+    :open="open"
+    align="end"
+    class="f-app-locale"
+    @update:open="open = $event"
+  >
+    <template #trigger>
+      <slot name="trigger" v-bind="ctx">
+        <Fab
+          v-bind="pt?.trigger"
+          icon="translate"
+          class="f-app-locale-trigger"
+        />
+      </slot>
+    </template>
 
-    <Dialog
-      v-bind="pt?.dialog"
-      :open="open"
-      title="Language"
-      description="Choose a language"
-      class="f-app-locale-dialog"
-      @update:open="open = $event"
-    >
+    <template #content>
       <slot name="command" v-bind="ctx">
         <Command
           v-bind="pt?.command"
@@ -58,6 +63,6 @@ const ctx = computed(() => ({ open: open.value, locale: locale.value, locales: l
           @select="onSelect"
         />
       </slot>
-    </Dialog>
-  </Group>
+    </template>
+  </Popover>
 </template>

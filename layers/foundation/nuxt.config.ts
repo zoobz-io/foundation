@@ -32,7 +32,15 @@ export default defineNuxtConfig({
   },
   rosetta: {
     defaultLocale: "en",
-    locales: ["en"],
+    locales: [
+      "en", "es", "fr", "de", "it", "pt", "nl",
+      "ru", "uk", "pl", "cs", "ro", "hu",
+      "zh", "ja", "ko",
+      "ar", "he", "fa",
+      "hi", "bn", "ta",
+      "tr", "vi", "th", "id", "ms",
+      "sv", "da", "nb", "fi",
+    ],
   },
   untheme: {
     defaultTheme: "cyberdream",

@@ -1,7 +1,6 @@
 export interface AppThemePassthrough {
-  root?: Passthrough<GroupProps>;
+  root?: Passthrough<PopoverProps, PopoverEmits>;
   trigger?: Passthrough<FabProps>;
-  dialog?: Passthrough<DialogProps, DialogEmits>;
   command?: Passthrough<CommandProps, CommandEmits>;
 }
 

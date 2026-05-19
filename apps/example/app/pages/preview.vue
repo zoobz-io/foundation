@@ -11,8 +11,8 @@ const { docDeck, noteDeck } = useFakeDecks();
   <Workspace :workspace="workspace">
     <template #header>
       <Header class="f-example-header">
-        <H1>Data Preview</H1>
-        <P>A workspace demo with the data preview widget and data deck feeds.</P>
+        <H1>{{ $t("Data Preview") }}</H1>
+        <P>{{ $t("A workspace demo with the data preview widget and data deck feeds.") }}</P>
         <Anchor to="/" label="← Foundation Example" />
       </Header>
     </template>

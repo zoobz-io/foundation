@@ -8,14 +8,6 @@ export default defineNuxtPlugin({
       log.warn("Access denied", { roles, scopes });
     });
 
-    // rosetta
-    nuxtApp.hook("rosetta:locale", ({ from, to }) => {
-      log.info("Locale changed", { from, to });
-    });
-    nuxtApp.hook("rosetta:chunk", ({ locale, route }) => {
-      log.debug("Translation chunk loaded", { locale, route });
-    });
-
     // untheme
     nuxtApp.hook("untheme:theme", ({ from, to }) => {
       log.info("Theme changed", { from, to });

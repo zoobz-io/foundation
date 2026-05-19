@@ -29,12 +29,7 @@ describe("AppLocale", () => {
     expect(wrapper.find(".f-app-locale-trigger").exists()).toBe(true);
   });
 
-  it("renders a Dialog", () => {
-    const wrapper = factory();
-    expect(wrapper.find(".f-app-locale-dialog").exists()).toBe(true);
-  });
-
-  it("renders a Command inside the dialog", () => {
+  it("renders a Command inside the popover", () => {
     const wrapper = factory();
     expect(wrapper.find(".f-app-locale-command").exists()).toBe(true);
   });
@@ -43,14 +38,6 @@ describe("AppLocale", () => {
     const wrapper = factory();
     const command = wrapper.find(".f-app-locale-command");
     expect(command.attributes("placeholder")).toBe("Search languages...");
-  });
-
-  it("opens dialog when trigger is clicked", async () => {
-    const wrapper = factory();
-    const dialog = wrapper.find(".f-app-locale-dialog");
-    expect(dialog.attributes("open")).toBe("false");
-    await wrapper.find(".f-app-locale-trigger").trigger("click");
-    expect(dialog.attributes("open")).toBe("true");
   });
 
   it("renders custom trigger slot", () => {

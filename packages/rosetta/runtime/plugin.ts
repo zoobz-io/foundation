@@ -7,12 +7,10 @@ export default defineNuxtPlugin({
     const { locale, messages } = useRosetta();
     const router = nuxtApp.$router as { currentRoute: { value: { path: string } } };
 
-    // Load initial route's translations
-    await loadChunk(locale.value, router.currentRoute.value.path, messages, nuxtApp);
+    await loadChunk(locale.value, router.currentRoute.value.path, messages);
 
-    // Load translations on route change
     nuxtApp.hook("page:start", async () => {
-      await loadChunk(locale.value, router.currentRoute.value.path, messages, nuxtApp);
+      await loadChunk(locale.value, router.currentRoute.value.path, messages);
     });
   },
 });

@@ -6,7 +6,6 @@ import {
   addTemplate,
   addPlugin,
   addImports,
-  addTypeTemplate,
   addVitePlugin,
   addServerHandler,
   createResolver,
@@ -29,12 +28,38 @@ export default defineNuxtModule<RosettaConfig>({
     const locales = options.locales || [defaultLocale];
     const provider = options.provider || mockProvider;
 
+    const writeArtifacts = async (ctx: RosettaPluginContext) => {
+      const outputDir = join(nuxt.options.rootDir, ".rosetta");
+      mkdirSync(outputDir, { recursive: true });
+
+      const pageMap = buildPageMap(ctx.fileMap);
+
+      writeFileSync(
+        join(outputDir, "source.json"),
+        JSON.stringify(ctx.sourceMap, null, 2),
+      );
+
+      writeFileSync(
+        join(outputDir, "pages.json"),
+        JSON.stringify(pageMap, null, 2),
+      );
+
+      for (const locale of locales) {
+        const messages = await provider.translate(ctx.sourceMap, locale);
+        writeFileSync(
+          join(outputDir, `${locale}.json`),
+          JSON.stringify(messages, null, 2),
+        );
+      }
+    };
+
     const ctx: RosettaPluginContext = {
       sourceMap: {},
       fileMap: {},
+      writeArtifacts: () => writeArtifacts(ctx),
     };
 
-    // Register vite plugin — always transforms, no dev-mode passthrough
+    // Register vite plugin — transforms source and writes artifacts on buildEnd
     addVitePlugin(rosettaVitePlugin(ctx));
 
     // Virtual module — runtime config
@@ -43,12 +68,6 @@ export default defineNuxtModule<RosettaConfig>({
       write: true,
       getContents: () =>
         `export const defaultLocale = ${JSON.stringify(defaultLocale)};\nexport const locales = ${JSON.stringify(locales)};`,
-    });
-
-    // Expose hook type augmentations to consumers
-    addTypeTemplate({
-      filename: "rosetta.hooks.d.ts",
-      getContents: () => `export {} from "${resolver.resolve("./hooks")}";`,
     });
 
     // Auto-import composable + $t
@@ -64,36 +83,6 @@ export default defineNuxtModule<RosettaConfig>({
     addServerHandler({
       route: "/api/rosetta/:locale/:route",
       handler: resolver.resolve("../runtime/server"),
-    });
-
-    // After build — resolve page map, run provider for each locale, write artifacts
-    nuxt.hook("build:done", async () => {
-      const outputDir = join(nuxt.options.rootDir, ".rosetta");
-      mkdirSync(outputDir, { recursive: true });
-
-      // Pass 2 — walk import trees to build page-level attribution
-      const pageMap = buildPageMap(ctx.fileMap);
-
-      // Write source map (hash → original text)
-      writeFileSync(
-        join(outputDir, "source.json"),
-        JSON.stringify(ctx.sourceMap, null, 2),
-      );
-
-      // Write page map (route → hashes[])
-      writeFileSync(
-        join(outputDir, "pages.json"),
-        JSON.stringify(pageMap, null, 2),
-      );
-
-      // Run provider for each locale to generate corpora
-      for (const locale of locales) {
-        const messages = await provider.translate(ctx.sourceMap, locale);
-        writeFileSync(
-          join(outputDir, `${locale}.json`),
-          JSON.stringify(messages, null, 2),
-        );
-      }
     });
   },
 });
